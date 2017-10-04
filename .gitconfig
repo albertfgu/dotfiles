@@ -1,0 +1,7 @@
+[user]
+	name = Albert Gu
+	email = albertfgu@gmail.com
+[core]
+	editor = vim
+[color]
+	ui = true
