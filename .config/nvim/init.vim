@@ -1,106 +1,91 @@
-"dein Scripts------------------------- Required:
-set runtimepath+=/Users/albertgu/.vim/bundle//repos/github.com/Shougo/dein.vim
 
-" Required:
-if dein#load_state('/Users/albertgu/.vim/bundle/')
-    call dein#begin('/Users/albertgu/.vim/bundle/')
+call plug#begin('~/.local/share/nvim/plugged')
 
-    " Let dein manage dein
-    " Required:
-    call dein#add('/Users/albertgu/.vim/bundle//repos/github.com/Shougo/dein.vim')
+" Add or remove your plugins here:
 
-    " Add or remove your plugins here:
-    
-    " colorschemes
-    " ============================================
-    " xolox/vim-colorscheme-switcher
-    call dein#add('rafi/awesome-vim-colorschemes')
-    call dein#add('flazz/vim-colorschemes')
-    call dein#add('atelierbram/Base2Tone-vim')
-    call dein#add('atelierbram/vim-colors_atelier-schemes')
-    "call dein#add('fcpg/vim-fahrenheit')
-    "call dein#add('frankier/neovim-colors-solarized-truecolor-only')
-    "call dein#add('morhetz/gruvbox')
-    "call dein#add('kristijanhusak/vim-hybrid-material')
-    "call dein#add('rakr/vim-two-firewatch')
-    "call dein#add('romainl/Apprentice')
-    "call dein#add('KeitaNakamura/tex-conceal.vim')
-    "call dein#add('rakr/vim-togglebg')
+" colorschemes
+" ============================================
+" xolox/vim-colorscheme-switcher
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
+Plug 'atelierbram/Base2Tone-vim'
+Plug 'atelierbram/vim-colors_atelier-schemes'
+"Plug 'fcpg/vim-fahrenheit'
+"Plug 'frankier/neovim-colors-solarized-truecolor-only'
+"Plug 'morhetz/gruvbox'
+"Plug 'kristijanhusak/vim-hybrid-material'
+"Plug 'rakr/vim-two-firewatch'
+"Plug 'romainl/Apprentice'
+"Plug 'KeitaNakamura/tex-conceal.vim'
+"Plug 'rakr/vim-togglebg'
 
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-    call dein#add('tpope/vim-commentary')
-    "call dein#add('tpope/vim-surround')
-    call dein#add('machakann/vim-sandwich')
-    "call dein#add('tpope/vim-unimpaired')
-    call dein#add('justinmk/vim-sneak') " https://vimawesome.com/plugin/vim-sneak
-    call dein#add('junegunn/vim-easy-align') " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
-    "https://github.com/majutsushi/tagbar
-    call dein#add('yuttie/comfortable-motion.vim') " https://vimawesome.com/plugin/vim-sneak
-    
-    " neither of these rainbow parens seem to work with vimtex
-    " call dein#add('junegunn/rainbow_parentheses.vim') " doesn't seem to work with latex
-    call dein#add('luochen1990/rainbow')
-    
+Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
+"Plug 'tpope/vim-unimpaired'
+Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
+Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
+"https://github.com/majutsushi/tagbar
+Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
-    " Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-    " call dein#add('godlygeek/tabular') " alternative: https://vimawesome.com/plugin/vim-easy-align
-    call dein#add('nathanaelkane/vim-indent-guides')
-    " call dein#add('yggdroot/indentline')
-    "
-    "xtal8/traces.vim " range and pattern preview for command-line mode
+" neither of these rainbow parens seem to work with vimtex
+" Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
+" Plug 'luochen1990/rainbow'
+" djdt/pyparens.nvim
+" bounceme/poppy.vim
 
-    call dein#add('lervag/vimtex')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
-    "call dein#add('')
-    " fuzzy finder
-    " fzf, denite, LeaderF
-    " https://www.reddit.com/r/vim/comments/5w05yt/best_fuzzy_finder/
+" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" Plug 'godlygeek/tabular' " alternative: https://vimawesome.com/plugin/vim-easy-align
+Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'yggdroot/indentline'
+"
+"xtal8/traces.vim " range and pattern preview for command-line mode
 
-    " Snippet options: ultisnips, neosnippet
-    "call dein#add('Shougo/neosnippet.vim')
-    "call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('SirVer/ultisnips')
-    " call dein#add('honza/snippets')
+Plug 'lervag/vimtex'
 
-    " tag options:
-    " vim-gutentags
-    " vim-tags
-    " vim-autotag, vim-automatic-ctags
+"Plug ''
+" fuzzy finder
+" fzf, denite, LeaderF
+" https://www.reddit.com/r/vim/comments/5w05yt/best_fuzzy_finder/
 
-    " replace operator
+" Snippet options: ultisnips, neosnippet
+"Plug 'Shougo/neosnippet.vim'
+"Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
+" Plug 'honza/snippets'
 
-    " denite?
+" tag options:
+" vim-gutentags
+" vim-tags
+" vim-autotag, vim-automatic-ctags
 
-    " sessions
-    " thaerkh/vim-workspace
-    " vim-obsession
-    " dhruvasagar/vim-prosession
+" replace operator
 
-    " highlight surrounding pairs: djdt/pyparens.nvim
+" denite?
 
-    " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
+" sessions
+" Plug 'thaerkh/vim-workspace'
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
 
-    " You can specify revision/branch/tag.
-    "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
-    " Required:
-    call dein#end()
-    call dein#save_state()
-endif
+" sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
+
 " for option is generally not needed as most plugins for specific file types usually don't have too much code in plugin directory. You might want to examine the output of vim --startuptime before applying the option.
 " - from vim-plug page
-" Required:
-filetype plugin indent on
-syntax enable
-" According to recent version of Neovim, these are not necessary. See :help startup
 
 " If you want to install not installed plugins on startup.
 "if dein#check_install()
 "    call dein#update()
 "endif
 "End dein Scripts-------------------------
+call plug#end()
 
 
 " Colors
@@ -234,6 +219,9 @@ let g:comfortable_motion_air_drag = 1.0
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 
+" fzf
+nnoremap <Leader>ff :FZF<CR>
+
 " snippets
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-]>"
@@ -321,9 +309,11 @@ let g:indent_guides_start_level = 1
 nnoremap <silent> <Leader>tg <Plug>IndentGuidesToggle
 "call togglebg#map("<F5>")
 
-" sessions
+" sessions and views
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
+
+" Auto save and load views
 " set viewoptions-=options
 " set viewoptions=cursor,folds,slash,unix should be same thing
 " augroup autoview
@@ -337,6 +327,8 @@ nnoremap <silent> <Leader>tg <Plug>IndentGuidesToggle
 "     \|  endif
 " augroup END
 " end sessions
+
+" source ~/.vim/restore_view.vim
 
 " set viminfo='100,f1 " marks for up to 100 files, global marks
 
@@ -414,6 +406,7 @@ endfunction
 let g:vimtex_imaps_leader = ';'
 let g:vimtex_imaps_disabled = [';']
 
+call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '^{-1}' })
 call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
 call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
@@ -447,8 +440,6 @@ nnoremap <Leader>fer :so $MYVIMRC<CR>
 nnoremap <Leader>pu :call dein#update()<CR>
 nnoremap <Leader>pr :call dein#recache_runtimepath()<CR>
 
-" Auto save and load views
-source ~/.vim/restore_view.vim
 
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
