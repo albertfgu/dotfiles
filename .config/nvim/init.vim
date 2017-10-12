@@ -106,7 +106,7 @@ set timeoutlen=10000
 
 " Sensible options
 " =====================
-set modelines=0  " ??
+set modelines=1  " ??
 
 set guioptions=M        " supposedly hides some gui options and speeds startup
 
@@ -411,12 +411,13 @@ call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
 call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
-" augroup vimtex_event_1
-"   au!
-"   au User VimtexEventQuit     call vimtex#compiler#clean(0)
-"   " au User VimtexEventInitPost call vimtex#compiler#compile()
-" augroup END
-" nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
+" Compile on initialization, cleanup on quit
+augroup vimtex_event_1
+  autocmd!
+  autocmd User VimtexEventQuit     call vimtex#compiler#clean(0)
+  " autocmd User VimtexEventInitPost call vimtex#compiler#compile()
+augroup END
+nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
 
 let g:vimtex_fold_enabled = 1
 
@@ -444,3 +445,6 @@ nnoremap <Leader>pr :call dein#recache_runtimepath()<CR>
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
 "source ~/.vimrc
+
+
+" vim:foldmethod=marker:foldlevel=0
