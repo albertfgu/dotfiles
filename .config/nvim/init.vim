@@ -1,4 +1,5 @@
 
+" Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Add or remove your plugins here:
@@ -80,45 +81,56 @@ Plug 'dhruvasagar/vim-prosession'
 " for option is generally not needed as most plugins for specific file types usually don't have too much code in plugin directory. You might want to examine the output of vim --startuptime before applying the option.
 " - from vim-plug page
 
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"    call dein#update()
-"endif
-"End dein Scripts-------------------------
 call plug#end()
+" }}}
 
-
-" Colors
+" colors {{{
 " =================
 set termguicolors
 set background=dark
 colorscheme gruvbox
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-" end colors
-
-" Leader
+" }}}
+" leader {{{
 " ===============
 " nnoremap <Space> <nop>
 let mapleader="\<Space>"
 let maplocalleader=","
 set timeoutlen=10000
-" end leader
-
-" Sensible options
-" =====================
-set modelines=1  " ??
-
-set guioptions=M        " supposedly hides some gui options and speeds startup
-
-" syntax on
+" }}}
+" indentation {{{
 " set ts=4 " Don't need this so that hard tabs are preserved to default
 set sw=4
 set sts=4
 set expandtab
 set backspace=indent,eol,start
 set autoindent
+set smarttab
+" }}}
+" line numbers {{{
+set cursorline
+set number
+set relativenumber
+set lazyredraw
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+" When scrolling is slow, some helpful debugging tips:
+" http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
+" e.g. :syntime on and :syntime report
+" }}}
+" sensible options {{{
+" =====================
+set modelines=1  " ??
+set guioptions=M        " supposedly hides some gui options and speeds startup
+
 set ignorecase
 set smartcase
+set inccommand=split    " Live preview for :substitute (neovim only)
+" Are there similar features for: searching for a line :/fat/, highlighting the line it currently matches?
+
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 "set showmode            " Show current mode.
@@ -132,17 +144,10 @@ set mouse=a
 set clipboard=unnamed
 set gdefault " make searches with %s have g by default
 
-
 " some more things from sensible.vim
 " some might be redundant, should check
 set display+=lastline
 " set complete-=i " no idea what this does
-set smarttab
-" Use <C-L> to clear the highlighting of :set hlsearch.
-" My mnemonic: toggle highlight (eventually should re-highlight as well)
-if mapcheck('<Leader>th', 'n') ==# ''
-    nnoremap <silent> <Leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
 set laststatus=2    " apparently this is also good for airline
 set ruler
 set wildmenu
@@ -150,26 +155,24 @@ set wildmode=list:longest,full
 set wildignorecase
 "set statusline+=%F     " Does not work with airline
 
+" Highlight tabs and trailing whitespaces
+" from: http://nerditya.com/code/guide-to-neovim/
+" Tell Vim which characters to show for expanded TABs,
+" trailing whitespace, and end-of-lines. VERY useful!
+if &listchars ==# 'eol:$'
+    set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+"set list                " Show problematic characters.
 
-" numbering
-set cursorline
-set number
-set relativenumber
-set lazyredraw
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
-" When scrolling is slow, some helpful debugging tips:
-" http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
-" e.g. :syntime on and :syntime report
-" end numbering
-
+" Refresh unchanged files
+" http://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
+set autoread
+set sessionoptions-=options
+" }}}
 
 " Plugin configuration
 "===========================================
-" airline configuration
+" airline {{{
 let g:airline_theme = 'gruvbox'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 2
@@ -187,8 +190,8 @@ nmap <leader>b8 <Plug>AirlineSelectTab8
 nmap <leader>b9 <Plug>AirlineSelectTab9
 " nmap <leader>b- <Plug>AirlineSelectPrevTab
 " nmap <leader>b+ <Plug>AirlineSelectNextTab
-
-" vim-sneak
+" }}}
+" vim-sneak {{{
 " 2-character Sneak (default)
 nmap f <Plug>Sneak_s
 nmap F <Plug>Sneak_S
@@ -199,11 +202,11 @@ omap F <Plug>Sneak_S
 nmap \ <Plug>Sneak_,
 "let g:sneak#label = 1
 "nmap t <Plug>Sneak_t
-
-" vim-sandwich
+" }}}
+" vim-sandwich {{{
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
-
-" comfortable-motion
+" }}}
+" comfortable-motion {{{
 let g:comfortable_motion_no_default_key_mappings = 1
 nnoremap <A-j> <C-e>
 nnoremap <A-k> <C-y>
@@ -211,26 +214,25 @@ nnoremap <silent> <C-j> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <C-k> :call comfortable_motion#flick(-100)<CR>
 nnoremap <silent> <C-A-j> :call comfortable_motion#flick(200)<CR>
 nnoremap <silent> <C-A-k> :call comfortable_motion#flick(-200)<CR>
-let g:comfortable_motion_interval = 2000.0 / 60
+let g:comfortable_motion_interval = 1000.0 / 60
 let g:comfortable_motion_friction = 80.0
-let g:comfortable_motion_air_drag = 1.0
-
-" easy-align
+let g:comfortable_motion_air_drag = 2.0
+" }}}
+" easy-align {{{
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
-
-" fzf
+" }}}
+" fzf {{{
 nnoremap <Leader>ff :FZF<CR>
-
-" snippets
+" }}}
+" snippets {{{
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-]>"
 let g:UltiSnipsJumpBackwardTrigger="<C-[>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
-
-" rainbow parentheses
+" }}}
+" rainbow parentheses {{{
 "let g:rainbow#max_level = 16
 "let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 let g:rainbow_conf = {
@@ -255,18 +257,16 @@ let g:rainbow_conf = {
 	\		'css': 0,
 	\	}
 	\}
-" ========================================
-" end plugin
+" }}}
 
 " Keybindings
 "============================================
-" center after searching
+" searching {{{
 nnoremap N Nzz
 nnoremap n nzz
 cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
-
-
-" Movement
+" }}}
+" movement {{{
 " --------------------------------
 " remap arrow keys to screen line navigation instead of file line
 nnoremap <up> gk
@@ -302,14 +302,19 @@ nnoremap <Leader>bb :ls<CR>
 nnoremap <Leader>b] :bnext<CR>
 nnoremap <Leader>b[ :bprevious<CR>
 nnoremap <Leader>bd :bd<CR>
-
-" toggles
+" }}}
+" toggles {{{
 let g:indent_guides_default_mapping = 0
 let g:indent_guides_start_level = 1
 nnoremap <silent> <Leader>tg <Plug>IndentGuidesToggle
 "call togglebg#map("<F5>")
-
-" sessions and views
+" clear the highlighting of :set hlsearch 
+" My mnemonic: toggle highlight (eventually should re-highlight as well)
+if mapcheck('<Leader>th', 'n') ==# ''
+    nnoremap <silent> <Leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+" }}}
+" sessions and views {{{
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
 
@@ -331,31 +336,26 @@ nnoremap <silent> <Leader>tg <Plug>IndentGuidesToggle
 " source ~/.vim/restore_view.vim
 
 " set viminfo='100,f1 " marks for up to 100 files, global marks
-
-" remap vertical cursor scrolling
+" }}}
+" file {{{
+"   editor - dotfile, reload
+nnoremap <Leader>fed :e $MYVIMRC<CR>
+nnoremap <Leader>fer :so $MYVIMRC<CR>
+" }}}
+" package {{{
+" update, reload/recache
+nnoremap <Leader>pu :call dein#update()<CR>
+nnoremap <Leader>pr :call dein#recache_runtimepath()<CR>
+" }}}
+" high/mid/low movement {{{
 nnoremap zg zz " z{t,g,b} do same thing
 " nnoremap zq H
 " nnoremap za M
 " nnoremap zz L
+" }}}
 
 
-
-
-" Highlight tabs and trailing whitespaces
-" from: http://nerditya.com/code/guide-to-neovim/
-" Tell Vim which characters to show for expanded TABs,
-" trailing whitespace, and end-of-lines. VERY useful!
-if &listchars ==# 'eol:$'
-    set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
-"set list                " Show problematic characters.
-
-" Refresh unchanged files
-" http://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
-set autoread
-set sessionoptions-=options
-
-" latex
+" latex {{{
 " ======================================
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
@@ -420,31 +420,10 @@ augroup END
 nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
 
 let g:vimtex_fold_enabled = 1
-
-" snippets
-" Using UltiSnips#Anon
-" inoremap <silent> __ __<c-r>=UltiSnips#Anon('_{$1}$0', '__', '', 'i')<cr>
-" inoremap <silent> ^^ ^^<c-r>=UltiSnips#Anon('^{$1}$0', '^^', '', 'i')<cr>
-" see UltiSnips-autotrigger
-" end latex
-" Neovim beta features
-set inccommand=split    " Live preview for :substitute
-" Are there similar features for: searching for a line :/fat/ and highlighting
-" the line it currently matches?
-
-" file:
-"   editor - dotfile, reload
-nnoremap <Leader>fed :e $MYVIMRC<CR>
-nnoremap <Leader>fer :so $MYVIMRC<CR>
-
-" package: update, reload/recache
-nnoremap <Leader>pu :call dein#update()<CR>
-nnoremap <Leader>pr :call dein#recache_runtimepath()<CR>
+" }}}
 
 
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
-"source ~/.vimrc
-
 
 " vim:foldmethod=marker:foldlevel=0
