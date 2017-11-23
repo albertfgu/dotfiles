@@ -1,6 +1,8 @@
 
+
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
+
 
 " Add or remove your plugins here:
 
@@ -23,14 +25,24 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-Plug 'tpope/vim-commentary'
-"Plug 'tpope/vim-surround'
-Plug 'machakann/vim-sandwich'
-"Plug 'tpope/vim-unimpaired'
-Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
+Plug 'rhysd/clever-f.vim'
+" Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
 Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
-"https://github.com/majutsushi/tagbar
+" Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
 Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
+
+" https://github.com/qpkorr/vim-bufkill
+" Plug 'psolyca/vim-bbye'
+Plug 'mhinz/vim-sayonara'
+Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-repeat'
+Plug 'nelstrom/vim-visual-star-search' " also a bronson/ version
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'xtal8/traces.vim'
+
 
 " neither of these rainbow parens seem to work with vimtex
 " Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
@@ -42,9 +54,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-" Plug 'godlygeek/tabular' " alternative: https://vimawesome.com/plugin/vim-easy-align
-Plug 'nathanaelkane/vim-indent-guides'
-" Plug 'yggdroot/indentline'
+" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 "
 "xtal8/traces.vim " range and pattern preview for command-line mode
 
@@ -61,12 +72,24 @@ Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
 " Plug 'honza/snippets'
 
+" completion
+" maralla/completor.vim
+" lifepillar/vim-mucomplete
+Plug 'roxma/nvim-completion-manager'
+
+" linter
+Plug 'w0rp/ale'
+
 " tag options:
-" vim-gutentags
+Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
+" https://github.com/majutsushi/tagbar
+
 
 " replace operator
+
+" bryphe/oni " full IDE functionality
 
 " denite?
 
@@ -75,6 +98,9 @@ Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
 
+Plug 'justinmk/vim-dirvish'
+
+" sheerun/vim-polyglot " language pack
 
 " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
 
@@ -120,6 +146,11 @@ set lazyredraw
 " When scrolling is slow, some helpful debugging tips:
 " http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
 " e.g. :syntime on and :syntime report
+" }}}
+" folding {{{
+" https://stackoverflow.com/questions/21280457/stop-vim-from-dynamically-updating-folds
+" autocmd InsertLeave,WinEnter * let &l:foldmethod=g:oldfoldmethod
+" autocmd InsertEnter,WinLeave * let g:oldfoldmethod=&l:foldmethod | setlocal foldmethod=manual
 " }}}
 " sensible options {{{
 " =====================
@@ -192,28 +223,38 @@ nmap <leader>b9 <Plug>AirlineSelectTab9
 " nmap <leader>b+ <Plug>AirlineSelectNextTab
 " }}}
 " vim-sneak {{{
-" 2-character Sneak (default)
-nmap f <Plug>Sneak_s
-nmap F <Plug>Sneak_S
-xmap f <Plug>Sneak_s
-xmap F <Plug>Sneak_S
-omap f <Plug>Sneak_s
-omap F <Plug>Sneak_S
-nmap \ <Plug>Sneak_,
-"let g:sneak#label = 1
-"nmap t <Plug>Sneak_t
+"" 2-character Sneak (default)
+"nmap f <Plug>Sneak_s
+"nmap F <Plug>Sneak_S
+"xmap f <Plug>Sneak_s
+"xmap F <Plug>Sneak_S
+"omap f <Plug>Sneak_s
+"omap F <Plug>Sneak_S
+"nmap \ <Plug>Sneak_,
+""let g:sneak#label = 1
+""nmap t <Plug>Sneak_t
+"" }}}
+" clever-f {{{
+let g:clever_f_across_no_line = 0
+let g:clever_f_fix_key_direction = 1
 " }}}
 " vim-sandwich {{{
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+xmap iss <Plug>(textobj-sandwich-auto-i)
+xmap ass <Plug>(textobj-sandwich-auto-a)
+omap iss <Plug>(textobj-sandwich-auto-i)
+omap ass <Plug>(textobj-sandwich-auto-a)
 " }}}
 " comfortable-motion {{{
 let g:comfortable_motion_no_default_key_mappings = 1
 nnoremap <A-j> <C-e>
 nnoremap <A-k> <C-y>
-nnoremap <silent> <C-j> :call comfortable_motion#flick(100)<CR>
-nnoremap <silent> <C-k> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <C-A-j> :call comfortable_motion#flick(200)<CR>
-nnoremap <silent> <C-A-k> :call comfortable_motion#flick(-200)<CR>
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+" nnoremap <silent> <C-j> :call comfortable_motion#flick(100)<CR>
+" nnoremap <silent> <C-k> :call comfortable_motion#flick(-100)<CR>
+nnoremap <silent> <C-A-j> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <C-A-k> :call comfortable_motion#flick(-100)<CR>
 let g:comfortable_motion_interval = 1000.0 / 60
 let g:comfortable_motion_friction = 80.0
 let g:comfortable_motion_air_drag = 2.0
@@ -226,11 +267,35 @@ xmap ga <Plug>(EasyAlign)
 nnoremap <Leader>ff :FZF<CR>
 " }}}
 " snippets {{{
-let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger="<C-]>"
 let g:UltiSnipsJumpBackwardTrigger="<C-[>"
+inoremap <silent> <c-]> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
+" }}}
+" completion {{{
+inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+" inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
+" inoremap <expr> <s-tab> (pumvisible() ? "\<C-n>" : "\<s-tab>")
+augroup my_cm_setup
+    autocmd!
+    autocmd User CmSetup call cm#register_source({
+                \ 'name' : 'vimtex',
+                \ 'priority': 8,
+                \ 'scoping': 1,
+                \ 'scopes': ['tex'],
+                \ 'abbreviation': 'tex',
+                \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+                \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+                \ })
+augroup END
+" }}}
+" linting {{{
+let g:ale_linters = {
+            \ 'latex': ['lacheck', 'proselint', 'write-good', 'redpen']
+            \}
 " }}}
 " rainbow parentheses {{{
 "let g:rainbow#max_level = 16
@@ -257,6 +322,12 @@ let g:rainbow_conf = {
 	\		'css': 0,
 	\	}
 	\}
+" }}}
+" indent lines {{{
+let g:indentLine_char = '┊'
+let g:indentLine_faster = 1
+let g:indentLine_setConceal = 1
+let g:indentLine_fileTypeExclude = ['tex']
 " }}}
 
 " Keybindings
@@ -295,13 +366,16 @@ nnoremap <Leader>wl <C-w>l
 nnoremap <Leader>wc <C-w>c
 nnoremap <Leader>wo <C-w>o
 nnoremap <Leader>ws <C-w>s
+nnoremap <Leader>wn <C-w>n
 nnoremap <Leader>wv <C-w>v
 
 " remap buffer movement
 nnoremap <Leader>bb :ls<CR>
 nnoremap <Leader>b] :bnext<CR>
 nnoremap <Leader>b[ :bprevious<CR>
-nnoremap <Leader>bd :bd<CR>
+" nnoremap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <Leader>bd :Sayonara!<CR>
+nnoremap <Leader>bD :Sayonara<CR>
 " }}}
 " toggles {{{
 let g:indent_guides_default_mapping = 0
@@ -365,8 +439,8 @@ let g:tex_flavor='latex'
 
 let g:tex_subscripts = " "
 " let g:tex_conceal=""
-let g:tex_conceal="abdmg"               " conceal bold and italic, no sub/superscripts: see tex_supersub
-set conceallevel=0
+let g:tex_conceal="abdg"               " conceal bold and italic, no sub/superscripts: see tex_supersub
+set conceallevel=2
 let g:tex_comment_nospell = 1           " No spellcheck inside comments
 " Vimtex options go here
 let g:vimtex_view_method = 'skim'
@@ -403,13 +477,25 @@ endfunction
 " nx map <plug>(vimtex-cmd-create)
 " use vim-sandwich to do the surround commands
 
-let g:vimtex_imaps_leader = ';'
-let g:vimtex_imaps_disabled = [';']
+" let g:vimtex_delim_list = {
+"             \ 'env_math' : {
+"             \   'name' : [
+"             \     ['\(', '\)'],
+"             \     ['\[', '\]'],
+"             \     ['$$', '$$'],
+"             \     ['$', '$'],
+"             \     ['\begin{dmath}', '\end{dmath}'],
+"             \     ['\begin{dmath*}', '\end{dmath*}']
+"             \   ],
+"             \   're' : [
+"             \     ['\\(', '\\)'],
+"             \     ['\\\@<!\\\[', '\\\]'],
+"             \     ['\$\$', '\$\$'],
+"             \     ['\$', '\$'],
+"             \   ],
+"             \ }
+"             \}
 
-call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '^{-1}' })
-call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
-call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
-"call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
 " Compile on initialization, cleanup on quit
 augroup vimtex_event_1
@@ -419,11 +505,57 @@ augroup vimtex_event_1
 augroup END
 nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
 
-let g:vimtex_fold_enabled = 1
+" let g:vimtex_fold_enabled = 1
+
+let g:vimtex_indent_on_ampersands = 0
+
+let g:vimtex_quickfix_latexlog = {
+            \ 'overfull' : 0,
+            \ 'underfull' : 0,
+            \}
+
+" insert maps {{{
+let g:vimtex_imaps_leader = ';'
+let g:vimtex_imaps_disabled = [';']
+
+call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '^{-1}' })
+call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
+call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
+"call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
+
+call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '\mathcal{}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cA', 'rhs' : '\mathcal{A}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cB', 'rhs' : '\mathcal{B}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cC', 'rhs' : '\mathcal{C}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cD', 'rhs' : '\mathcal{D}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cE', 'rhs' : '\mathcal{E}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cF', 'rhs' : '\mathcal{F}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cG', 'rhs' : '\mathcal{G}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cH', 'rhs' : '\mathcal{H}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cI', 'rhs' : '\mathcal{I}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cJ', 'rhs' : '\mathcal{J}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cK', 'rhs' : '\mathcal{K}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cL', 'rhs' : '\mathcal{L}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cM', 'rhs' : '\mathcal{M}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cN', 'rhs' : '\mathcal{N}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cO', 'rhs' : '\mathcal{O}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cP', 'rhs' : '\mathcal{P}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cQ', 'rhs' : '\mathcal{Q}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cR', 'rhs' : '\mathcal{R}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cS', 'rhs' : '\mathcal{S}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cT', 'rhs' : '\mathcal{T}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cU', 'rhs' : '\mathcal{U}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cV', 'rhs' : '\mathcal{V}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cW', 'rhs' : '\mathcal{W}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cX', 'rhs' : '\mathcal{X}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cY', 'rhs' : '\mathcal{Y}', 'leader' : '\' })
+call vimtex#imaps#add_map({ 'lhs' : 'cZ', 'rhs' : '\mathcal{Z}', 'leader' : '\' })
+
 " }}}
 
+" }}}
 
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
 
-" vim:foldmethod=marker:foldlevel=0
+" vim:foldmethod=marker

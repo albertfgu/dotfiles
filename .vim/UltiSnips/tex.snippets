@@ -2,9 +2,20 @@
 snippet doc "document" b
 \documentclass{article}
 \usepackage{/Users/albertgu/Dropbox/Stanford/latex/agu}
-
+$0
 \begin{document}
 \end{document}
+endsnippet
+
+snippet fancy "fancyhdr" b
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\lhead{$1}
+\rhead{$2}
+\cfoot{\thepage}
 endsnippet
 
 # snippet \\begin "\begin{} / \end{}" b
@@ -15,16 +26,66 @@ endsnippet
 # endsnippet
 
 snippet "b(egin)?" "begin{} / end{}" br
-\begin{$1}
+\begin{$1}%
     ${2:${VISUAL}}
 \end{$1}
 endsnippet
 
+snippet thm "theorem" b
+\begin{theorem}%
+endsnippet
+
+snippet proof "proof" b
+\begin{proof}
+endsnippet
+
+snippet defn "definition" b
+\begin{definition}%
+endsnippet
+
+snippet lmm "lemma" b
+\begin{lemma}%
+endsnippet
+
+snippet cor "corollary" b
+\begin{corollary}%
+endsnippet
+
+snippet prop "proposition" b
+\begin{proposition}%
+endsnippet
+
+snippet rmk "remark" b
+\begin{remark}%
+endsnippet
+
+snippet conj "conjecture" b
+\begin{conjecture}%
+endsnippet
+
+snippet question "question" b
+\begin{question}%
+endsnippet
+
+snippet enum "enumerate" b
+\begin{enumerate}
+endsnippet
+
 snippet sec "\section{}" bA
-\section{$1}
+\section{$1}%
+\label{sec:$2}
 
 $0
 endsnippet
+
+snippet sec "\section{}" bA
+\subsection{$1}%
+\label{sec:$2}
+
+$0
+endsnippet
+
+
 
 snippet " "Latex quote"
 \`\`${1:${VISUAL}}''
@@ -33,7 +94,7 @@ endsnippet
 # MATH SNIPPETS
 
 snippet $$ "\( \)" wA
-\( $1 \)
+\($1\)
 endsnippet
 
 snippet \[ "\[ \]" b
@@ -79,7 +140,7 @@ snippet () "()" iA
 endsnippet
 
 snippet ^^ "^{}" iA
-^{$1} 
+^{$1}
 endsnippet
 
 snippet __ "_{}" iA
@@ -90,3 +151,28 @@ endsnippet
 snippet sum "\sum" i
 \sum_{$1}^{$2} 
 endsnippet
+
+
+snippet algorithm "algorithm" b
+% https://en.wikibooks.org/wiki/LaTeX/Algorithms#Typesetting_using_the_algorithmicx_package
+\begin{algorithm}
+\caption{$1}
+\label{algo:$2}
+\begin{algorithmic}[1]
+% \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+% \Require{}
+% \renewcommand{\algorithmicensure}{\textbf{Output:}}
+% \Ensure{}
+% \State $\gets$
+% \Statex % unnumbered
+% \If{}\Comment{}
+	% \State \Return{$\left(\vb[k],\vb[k+1],\dots,\vb[k+t]\right)$}
+% \EndIf
+% \For{}
+% \State \Return{$\left(P^{(k)}_0(X),\dots,P^{(k)}_t(X)\right)$}
+% \Function{<name>}{<params>}
+% \Call{<name>}{<params>}
+\end{algorithmic}
+\end{algorithm}
+endsnippet
+
