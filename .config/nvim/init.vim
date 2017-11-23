@@ -6,7 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " Add or remove your plugins here:
 
-" colorschemes
+" cosmetics
 " ============================================
 " xolox/vim-colorscheme-switcher
 Plug 'rafi/awesome-vim-colorschemes'
@@ -19,16 +19,21 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 "Plug 'kristijanhusak/vim-hybrid-material'
 "Plug 'rakr/vim-two-firewatch'
 "Plug 'romainl/Apprentice'
+"
 "Plug 'KeitaNakamura/tex-conceal.vim'
 "Plug 'rakr/vim-togglebg'
-
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 
+" Movement
+" ========
 Plug 'rhysd/clever-f.vim'
 " Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
 Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
 " Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
+" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
 " https://github.com/qpkorr/vim-bufkill
@@ -40,8 +45,9 @@ Plug 'machakann/vim-sandwich'
 " Plug 'tpope/vim-unimpaired'
 " Plug 'tpope/vim-repeat'
 Plug 'nelstrom/vim-visual-star-search' " also a bronson/ version
-Plug 'michaeljsmith/vim-indent-object'
+Plug 'michaeljsmith/vim-indent-object' " alternative: qstrahl/vim-dentures
 Plug 'xtal8/traces.vim'
+" AndrewRadev/splitjoin.vim
 
 
 " neither of these rainbow parens seem to work with vimtex
@@ -50,13 +56,6 @@ Plug 'xtal8/traces.vim'
 " djdt/pyparens.nvim
 " bounceme/poppy.vim
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-" Plug 'nathanaelkane/vim-indent-guides'
-Plug 'Yggdroot/indentLine'
-"
 "xtal8/traces.vim " range and pattern preview for command-line mode
 
 Plug 'lervag/vimtex'
@@ -71,6 +70,9 @@ Plug 'lervag/vimtex'
 "Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
 " Plug 'honza/snippets'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
 
 " completion
 " maralla/completor.vim
@@ -80,18 +82,18 @@ Plug 'roxma/nvim-completion-manager'
 " linter
 Plug 'w0rp/ale'
 
+" quickfix
+Plug 'romainl/vim-qf'
+
 " tag options:
 Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
 Plug 'majutsushi/tagbar'
 
-
 " replace operator
 
 " bryphe/oni " full IDE functionality
-
-" denite?
 
 " sessions
 " Plug 'thaerkh/vim-workspace'
@@ -148,6 +150,7 @@ set lazyredraw
 " e.g. :syntime on and :syntime report
 " }}}
 " folding {{{
+nnoremap zz za
 " https://stackoverflow.com/questions/21280457/stop-vim-from-dynamically-updating-folds
 " autocmd InsertLeave,WinEnter * let &l:foldmethod=g:oldfoldmethod
 " autocmd InsertEnter,WinLeave * let g:oldfoldmethod=&l:foldmethod | setlocal foldmethod=manual
@@ -263,45 +266,6 @@ let g:comfortable_motion_air_drag = 2.0
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 " }}}
-" fzf {{{
-nnoremap <leader>ff :FZF<CR>
-" }}}
-" snippets {{{
-" let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger="<C-]>"
-let g:UltiSnipsJumpBackwardTrigger="<C-[>"
-inoremap <silent> <c-]> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-" }}}
-" completion {{{
-inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
-" inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
-" inoremap <expr> <s-tab> (pumvisible() ? "\<C-n>" : "\<s-tab>")
-augroup my_cm_setup
-    autocmd!
-    autocmd User CmSetup call cm#register_source({
-                \ 'name' : 'vimtex',
-                \ 'priority': 8,
-                \ 'scoping': 1,
-                \ 'scopes': ['tex'],
-                \ 'abbreviation': 'tex',
-                \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-                \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-                \ })
-augroup END
-" }}}
-" linting {{{
-nmap <silent> <leader>l] <Plug>(ale_next_wrap)
-nmap <silent> <leader>l[ <Plug>(ale_previous_wrap)
-let g:ale_linters = {
-            \ 'latex': ['lacheck', 'proselint', 'write-good', 'redpen']
-            \}
-" }}}
-" tags {{{
-nmap <leader>tt :TagbarToggle<CR>
-" }}}
 " rainbow parentheses {{{
 "let g:rainbow#max_level = 16
 "let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
@@ -335,6 +299,56 @@ let g:indentLine_setConceal = 1
 let g:indentLine_fileTypeExclude = ['tex']
 " }}}
 
+" fzf {{{
+nnoremap <leader>ff :FZF<CR>
+" }}}
+" snippets {{{
+" let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger="<C-]>"
+let g:UltiSnipsJumpBackwardTrigger="<C-[>"
+inoremap <silent> <c-]> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+" If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+" }}}
+" quickfix {{{
+nmap <Leader>q<space> <Plug>qf_qf_switch
+nmap <leader>q] <Plug>qf_loc_next
+nmap <leader>q[ <Plug>qf_loc_previous
+nmap <leader>ql] <Plug>qf_loc_next
+nmap <leader>ql[ <Plug>qf_loc_previous
+nmap <Leader>qt <Plug>qf_qf_stay_toggle
+nmap <Leader>qlt <Plug>qf_loc_stay_toggle
+" }}}
+" completion {{{
+set shortmess+=c
+inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+" inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
+" inoremap <expr> <s-tab> (pumvisible() ? "\<C-n>" : "\<s-tab>")
+augroup vimtex_completion
+    autocmd!
+    autocmd User CmSetup call cm#register_source({
+                \ 'name' : 'vimtex',
+                \ 'priority': 8,
+                \ 'scoping': 1,
+                \ 'scopes': ['tex'],
+                \ 'abbreviation': 'tex',
+                \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+                \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+                \ })
+augroup END
+" }}}
+" linting {{{
+nmap <silent> <leader>l] <Plug>(ale_next_wrap)
+nmap <silent> <leader>l[ <Plug>(ale_previous_wrap)
+let g:ale_linters = {
+            \ 'latex': ['lacheck', 'proselint', 'write-good', 'redpen']
+            \}
+" }}}
+" tags {{{
+nmap <leader>tt :TagbarToggle<CR>
+" }}}
+
 " Keybindings
 "============================================
 " searching {{{
@@ -364,7 +378,7 @@ nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
 " windows, buffers {{{
 
 " remap window movement
-nnoremap <leader>ww <C-w>w
+nnoremap <leader>w<space> <C-w>w
 nnoremap <leader>wr <C-w>r
 nnoremap <leader>wR <C-w>R
 nnoremap <leader>wj <C-w>j
@@ -381,15 +395,16 @@ nnoremap <leader>wv <C-w>v
 nnoremap <leader>bb :ls<CR>
 nnoremap <leader>b] :bnext<CR>
 nnoremap <leader>b[ :bprevious<CR>
+nnoremap <leader>b<space> <C-^>
 " nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-nnoremap <leader>bd :Sayonara!<CR>
-nnoremap <leader>bD :Sayonara<CR>
+nnoremap <silent> <leader>bd :Sayonara!<CR>
+nnoremap <silent> <leader>bD :Sayonara<CR>
 
 " quickfix
-nnoremap <leader>qo :copen<CR>
-nnoremap <leader>qc :cclose<CR>
-nnoremap <leader>q] :cnext<CR>
-nnoremap <leader>q[ :cprev<CR>
+" nnoremap <leader>qo :copen<CR>
+" nnoremap <leader>qc :cclose<CR>
+" nnoremap <leader>q] :cnext<CR>
+" nnoremap <leader>q[ :cprev<CR>
 " }}}
 " toggles {{{
 let g:indent_guides_default_mapping = 0
