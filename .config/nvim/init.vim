@@ -264,7 +264,7 @@ nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 " }}}
 " fzf {{{
-nnoremap <Leader>ff :FZF<CR>
+nnoremap <leader>ff :FZF<CR>
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -293,14 +293,14 @@ augroup my_cm_setup
 augroup END
 " }}}
 " linting {{{
-nmap <silent> <Leader>l] <Plug>(ale_next_wrap)
-nmap <silent> <Leader>l[ <Plug>(ale_previous_wrap)
+nmap <silent> <leader>l] <Plug>(ale_next_wrap)
+nmap <silent> <leader>l[ <Plug>(ale_previous_wrap)
 let g:ale_linters = {
             \ 'latex': ['lacheck', 'proselint', 'write-good', 'redpen']
             \}
 " }}}
 " tags {{{
-nmap <Leader>tt :TagbarToggle<CR>
+nmap <leader>tt :TagbarToggle<CR>
 " }}}
 " rainbow parentheses {{{
 "let g:rainbow#max_level = 16
@@ -364,42 +364,42 @@ nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
 " windows, buffers {{{
 
 " remap window movement
-nnoremap <Leader>ww <C-w>w
-nnoremap <Leader>wr <C-w>r
-nnoremap <Leader>wR <C-w>R
-nnoremap <Leader>wj <C-w>j
-nnoremap <Leader>wk <C-w>k
-nnoremap <Leader>wh <C-w>h
-nnoremap <Leader>wl <C-w>l
-nnoremap <Leader>wc <C-w>c
-nnoremap <Leader>wo <C-w>o
-nnoremap <Leader>ws <C-w>s
-nnoremap <Leader>wn <C-w>n
-nnoremap <Leader>wv <C-w>v
+nnoremap <leader>ww <C-w>w
+nnoremap <leader>wr <C-w>r
+nnoremap <leader>wR <C-w>R
+nnoremap <leader>wj <C-w>j
+nnoremap <leader>wk <C-w>k
+nnoremap <leader>wh <C-w>h
+nnoremap <leader>wl <C-w>l
+nnoremap <leader>wc <C-w>c
+nnoremap <leader>wo <C-w>o
+nnoremap <leader>ws <C-w>s
+nnoremap <leader>wn <C-w>n
+nnoremap <leader>wv <C-w>v
 
 " remap buffer movement
-nnoremap <Leader>bb :ls<CR>
-nnoremap <Leader>b] :bnext<CR>
-nnoremap <Leader>b[ :bprevious<CR>
-" nnoremap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-nnoremap <Leader>bd :Sayonara!<CR>
-nnoremap <Leader>bD :Sayonara<CR>
+nnoremap <leader>bb :ls<CR>
+nnoremap <leader>b] :bnext<CR>
+nnoremap <leader>b[ :bprevious<CR>
+" nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <leader>bd :Sayonara!<CR>
+nnoremap <leader>bD :Sayonara<CR>
 
 " quickfix
-nnoremap <Leader>qo :copen<CR>
-nnoremap <Leader>qc :cclose<CR>
-nnoremap <Leader>q] :cnext<CR>
-nnoremap <Leader>q[ :cprev<CR>
+nnoremap <leader>qo :copen<CR>
+nnoremap <leader>qc :cclose<CR>
+nnoremap <leader>q] :cnext<CR>
+nnoremap <leader>q[ :cprev<CR>
 " }}}
 " toggles {{{
 let g:indent_guides_default_mapping = 0
 let g:indent_guides_start_level = 1
-nmap <silent> <Leader>tg <Plug>IndentGuidesToggle
+nmap <silent> <leader>tg <Plug>IndentGuidesToggle
 "call togglebg#map("<F5>")
 " clear the highlighting of :set hlsearch 
 " My mnemonic: toggle highlight (eventually should re-highlight as well)
-if mapcheck('<Leader>th', 'n') ==# ''
-    nnoremap <silent> <Leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+if mapcheck('<leader>th', 'n') ==# ''
+    nnoremap <silent> <leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 " }}}
 " sessions and views {{{
@@ -427,13 +427,13 @@ endif
 " }}}
 " file {{{
 "   editor - dotfile, reload
-nnoremap <Leader>fed :e $MYVIMRC<CR>
-nnoremap <Leader>fer :so $MYVIMRC<CR>
+nnoremap <leader>fed :e $MYVIMRC<CR>
+nnoremap <leader>fer :so $MYVIMRC<CR>
 " }}}
 " package {{{
 " update, reload/recache
-nnoremap <Leader>pu :call dein#update()<CR>
-nnoremap <Leader>pr :call dein#recache_runtimepath()<CR>
+nnoremap <leader>pu :call dein#update()<CR>
+nnoremap <leader>pr :call dein#recache_runtimepath()<CR>
 " }}}
 " high/mid/low movement {{{
 nnoremap zg zz " z{t,g,b} do same thing
