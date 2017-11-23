@@ -84,7 +84,7 @@ Plug 'w0rp/ale'
 Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
-" https://github.com/majutsushi/tagbar
+Plug 'majutsushi/tagbar'
 
 
 " replace operator
@@ -119,8 +119,8 @@ colorscheme gruvbox
 " }}}
 " leader {{{
 " ===============
-" nnoremap <Space> <nop>
-let mapleader="\<Space>"
+" nnoremap <space> <nop>
+let mapleader="\<space>"
 let maplocalleader=","
 set timeoutlen=10000
 " }}}
@@ -293,9 +293,14 @@ augroup my_cm_setup
 augroup END
 " }}}
 " linting {{{
+nmap <silent> <Leader>l] <Plug>(ale_next_wrap)
+nmap <silent> <Leader>l[ <Plug>(ale_previous_wrap)
 let g:ale_linters = {
             \ 'latex': ['lacheck', 'proselint', 'write-good', 'redpen']
             \}
+" }}}
+" tags {{{
+nmap <Leader>tt :TagbarToggle<CR>
 " }}}
 " rainbow parentheses {{{
 "let g:rainbow#max_level = 16
@@ -355,6 +360,9 @@ nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
 " nnoremap <C-A-j> <C-f>
 " nnoremap <C-A-k> <C-b>
 
+" }}}
+" windows, buffers {{{
+
 " remap window movement
 nnoremap <Leader>ww <C-w>w
 nnoremap <Leader>wr <C-w>r
@@ -376,11 +384,17 @@ nnoremap <Leader>b[ :bprevious<CR>
 " nnoremap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <Leader>bd :Sayonara!<CR>
 nnoremap <Leader>bD :Sayonara<CR>
+
+" quickfix
+nnoremap <Leader>qo :copen<CR>
+nnoremap <Leader>qc :cclose<CR>
+nnoremap <Leader>q] :cnext<CR>
+nnoremap <Leader>q[ :cprev<CR>
 " }}}
 " toggles {{{
 let g:indent_guides_default_mapping = 0
 let g:indent_guides_start_level = 1
-nnoremap <silent> <Leader>tg <Plug>IndentGuidesToggle
+nmap <silent> <Leader>tg <Plug>IndentGuidesToggle
 "call togglebg#map("<F5>")
 " clear the highlighting of :set hlsearch 
 " My mnemonic: toggle highlight (eventually should re-highlight as well)
