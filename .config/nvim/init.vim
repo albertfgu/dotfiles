@@ -1,12 +1,10 @@
-
-
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
 
 
 " Add or remove your plugins here:
 
-" cosmetics
+" cosmetics {{{
 " ============================================
 " xolox/vim-colorscheme-switcher
 Plug 'rafi/awesome-vim-colorschemes'
@@ -19,89 +17,98 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 "Plug 'kristijanhusak/vim-hybrid-material'
 "Plug 'rakr/vim-two-firewatch'
 "Plug 'romainl/Apprentice'
-"
-"Plug 'KeitaNakamura/tex-conceal.vim'
 "Plug 'rakr/vim-togglebg'
+
+"Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Yggdroot/indentLine'
-
-" Movement
-" ========
-Plug 'rhysd/clever-f.vim'
-" Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
-Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
-" Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
-" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
-
-" https://github.com/qpkorr/vim-bufkill
-" Plug 'psolyca/vim-bbye'
-Plug 'mhinz/vim-sayonara'
-Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-surround'
-Plug 'machakann/vim-sandwich'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'tpope/vim-repeat'
-Plug 'nelstrom/vim-visual-star-search' " also a bronson/ version
-Plug 'michaeljsmith/vim-indent-object' " alternative: qstrahl/vim-dentures
+" zhaocai/GoldenView.Vim
+" gcmt/wildfire.vim  " seems to be subsumed by sandwich
 Plug 'xtal8/traces.vim'
-" AndrewRadev/splitjoin.vim
-
+Plug 'machakann/vim-highlightedyank'
+" romainl/vim-cool
 
 " neither of these rainbow parens seem to work with vimtex
 " Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
 " Plug 'luochen1990/rainbow'
 " djdt/pyparens.nvim
 " bounceme/poppy.vim
+" }}}
+" Movement and utilities {{{
+" ========
+Plug 'rhysd/clever-f.vim'
+" Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
+Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
-"xtal8/traces.vim " range and pattern preview for command-line mode
-
-Plug 'lervag/vimtex'
-
-"Plug ''
-" fuzzy finder
+" https://github.com/qpkorr/vim-bufkill
+" Plug 'psolyca/vim-bbye'
+Plug 'mhinz/vim-sayonara'
+Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-repeat'
+" AndrewRadev/splitjoin.vim
+Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
+" Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
+" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" }}}
+" text objects, matching, operators, etc. {{{
+" =======================================
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
+Plug 'nelstrom/vim-visual-star-search' " also a bronson/ version
+Plug 'michaeljsmith/vim-indent-object' " alternative: qstrahl/vim-dentures
+Plug 'tommcdo/vim-ninja-feet'
+" Plug 'wellle/targets.vim'
+" kana/vim-textobj-user
+" https://github.com/vim-scripts/ReplaceWithRegister
+" Plug 'andymass/vim-matchup' " https://www.reddit.com/r/vim/comments/7emayn/favorite_lesserknown_but_useful_vim_plugins/
+" }}}
+" fuzzy finder {{{
 " fzf, denite, LeaderF
 " https://www.reddit.com/r/vim/comments/5w05yt/best_fuzzy_finder/
-
-" Snippet options: ultisnips, neosnippet
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" }}}
+" Snippet options: ultisnips, neosnippet {{{
 "Plug 'Shougo/neosnippet.vim'
 "Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
 " Plug 'honza/snippets'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-
-" completion
+" }}}
+" completion {{{
 " maralla/completor.vim
 " lifepillar/vim-mucomplete
+" prabirshrestha/asyncomplete.vim + prabirshrestha/vim-lsp
 Plug 'roxma/nvim-completion-manager'
-
+" }}}
 " linter
 Plug 'w0rp/ale'
 
 " quickfix
 Plug 'romainl/vim-qf'
-
-" tag options:
+" tags {{{
 Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
 Plug 'majutsushi/tagbar'
-
-" replace operator
-
-" bryphe/oni " full IDE functionality
-
-" sessions
+" }}}
+" sessions {{{
 " Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
+" }}}
 
+" file browser
 Plug 'justinmk/vim-dirvish'
 
+" language specific
+Plug 'lervag/vimtex'
+
+" Misc.
+" =====
+" bryphe/oni " full IDE functionality
 " sheerun/vim-polyglot " language pack
 
 " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
@@ -140,11 +147,19 @@ set cursorline
 set number
 set relativenumber
 set lazyredraw
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
+" from: jeffkreeftmeijer/vim-numbertoggle
+augroup numbertoggle
+  autocmd!
+  " autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+  " autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set number | set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set number | set norelativenumber
+augroup END
+" :augroup numbertoggle
+" :  autocmd!
+" :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+" :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" :augroup END
 " When scrolling is slow, some helpful debugging tips:
 " http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
 " e.g. :syntime on and :syntime report
@@ -177,6 +192,7 @@ set hidden
 set mouse=a
 set clipboard=unnamed
 set gdefault " make searches with %s have g by default
+set undofile " persistent undo
 
 " some more things from sensible.vim
 " some might be redundant, should check
@@ -243,10 +259,20 @@ let g:clever_f_fix_key_direction = 1
 " }}}
 " vim-sandwich {{{
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
-xmap iss <Plug>(textobj-sandwich-auto-i)
-xmap ass <Plug>(textobj-sandwich-auto-a)
-omap iss <Plug>(textobj-sandwich-auto-i)
-omap ass <Plug>(textobj-sandwich-auto-a)
+nmap s <Nop>
+xmap s <Nop>
+xmap ia <Plug>(textobj-sandwich-auto-i)
+xmap aa <Plug>(textobj-sandwich-auto-a)
+omap ia <Plug>(textobj-sandwich-auto-i)
+omap aa <Plug>(textobj-sandwich-auto-a)
+xmap is  <Plug>(textobj-sandwich-query-i)
+xmap as  <Plug>(textobj-sandwich-query-a)
+omap is  <Plug>(textobj-sandwich-query-i)
+omap as  <Plug>(textobj-sandwich-query-a)
+xmap il  <Plug>(textobj-sandwich-literal-query-i)
+xmap al  <Plug>(textobj-sandwich-literal-query-a)
+xmap il  <Plug>(textobj-sandwich-literal-query-i)
+xmap al  <Plug>(textobj-sandwich-literal-query-a)
 " }}}
 " comfortable-motion {{{
 let g:comfortable_motion_no_default_key_mappings = 1
@@ -307,14 +333,14 @@ nnoremap <leader>ff :FZF<CR>
 let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger="<C-]>"
 let g:UltiSnipsJumpBackwardTrigger="<C-[>"
-inoremap <silent> <c-]> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+inoremap <silent> <tab> <C-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
 " }}}
 " quickfix {{{
 nmap <Leader>q<space> <Plug>qf_qf_switch
-nmap <leader>q] <Plug>qf_loc_next
-nmap <leader>q[ <Plug>qf_loc_previous
+nmap <leader>q] <Plug>qf_qf_next
+nmap <leader>q[ <Plug>qf_qf_previous
 nmap <leader>ql] <Plug>qf_loc_next
 nmap <leader>ql[ <Plug>qf_loc_previous
 nmap <Leader>qt <Plug>qf_qf_stay_toggle
@@ -385,6 +411,10 @@ nnoremap <leader>wj <C-w>j
 nnoremap <leader>wk <C-w>k
 nnoremap <leader>wh <C-w>h
 nnoremap <leader>wl <C-w>l
+nnoremap <leader>wJ <C-w>J
+nnoremap <leader>wK <C-w>K
+nnoremap <leader>wH <C-w>H
+nnoremap <leader>wL <C-w>L
 nnoremap <leader>wc <C-w>c
 nnoremap <leader>wo <C-w>o
 nnoremap <leader>ws <C-w>s
