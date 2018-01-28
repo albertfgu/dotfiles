@@ -1,9 +1,5 @@
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
-
-
-" Add or remove your plugins here:
-
 " cosmetics {{{
 " ============================================
 " xolox/vim-colorscheme-switcher
@@ -11,6 +7,7 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'flazz/vim-colorschemes'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'atelierbram/vim-colors_atelier-schemes'
+"arcticicestudio/nord-vim
 "Plug 'fcpg/vim-fahrenheit'
 "Plug 'frankier/neovim-colors-solarized-truecolor-only'
 "Plug 'morhetz/gruvbox'
@@ -22,13 +19,14 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 "Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'nathanaelkane/vim-indent-guides'
-Plug 'Yggdroot/indentLine'
-" zhaocai/GoldenView.Vim
+Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'Yggdroot/indentLine'
 " gcmt/wildfire.vim  " seems to be subsumed by sandwich
-Plug 'xtal8/traces.vim'
+" Plug 'xtal8/traces.vim'
 Plug 'machakann/vim-highlightedyank'
 " romainl/vim-cool
+Plug 'myusuf3/numbers.vim'
+Plug 'simnalamburt/vim-mundo'
 
 " neither of these rainbow parens seem to work with vimtex
 " Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
@@ -36,22 +34,17 @@ Plug 'machakann/vim-highlightedyank'
 " djdt/pyparens.nvim
 " bounceme/poppy.vim
 " }}}
-" Movement and utilities {{{
+" movement, windows, buffers {{{
 " ========
 Plug 'rhysd/clever-f.vim'
 " Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
 Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
+" Windows 
 " https://github.com/qpkorr/vim-bufkill
 " Plug 'psolyca/vim-bbye'
 Plug 'mhinz/vim-sayonara'
-Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'tpope/vim-repeat'
-" AndrewRadev/splitjoin.vim
-Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
-" Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
-" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" zhaocai/GoldenView.Vim
 " }}}
 " text objects, matching, operators, etc. {{{
 " =======================================
@@ -64,6 +57,11 @@ Plug 'tommcdo/vim-ninja-feet'
 " kana/vim-textobj-user
 " https://github.com/vim-scripts/ReplaceWithRegister
 " Plug 'andymass/vim-matchup' " https://www.reddit.com/r/vim/comments/7emayn/favorite_lesserknown_but_useful_vim_plugins/
+
+" alignment operator
+Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comments/2lsr8d/vimeasyalign_the_most_ingenious_plugin_ive/
+" Plug 'godlygeek/tabular' 'tommcdo/vim-lion' " alternatives to easy-align
+" Helpful video here: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 " }}}
 " fuzzy finder {{{
 " fzf, denite, LeaderF
@@ -71,7 +69,7 @@ Plug 'tommcdo/vim-ninja-feet'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " }}}
-" Snippet options: ultisnips, neosnippet {{{
+" snippet options: ultisnips, neosnippet {{{
 "Plug 'Shougo/neosnippet.vim'
 "Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
@@ -83,11 +81,10 @@ Plug 'SirVer/ultisnips'
 " prabirshrestha/asyncomplete.vim + prabirshrestha/vim-lsp
 Plug 'roxma/nvim-completion-manager'
 " }}}
-" linter
+" quickfix, linting {{{
 Plug 'w0rp/ale'
-
-" quickfix
 Plug 'romainl/vim-qf'
+" }}}
 " tags {{{
 Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
@@ -96,26 +93,30 @@ Plug 'majutsushi/tagbar'
 " }}}
 " sessions {{{
 " Plug 'thaerkh/vim-workspace'
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
+" Plug 'tpope/vim-obsession'
+" Plug 'dhruvasagar/vim-prosession'
+" Plug 'kopischke/vim-stay'
 " }}}
-
-" file browser
+" file browser {{{
 Plug 'justinmk/vim-dirvish'
-
-" language specific
+" tpope/vinegar
+" }}}
+" language tools {{{
 Plug 'lervag/vimtex'
-
-" Misc.
-" =====
-" bryphe/oni " full IDE functionality
 " sheerun/vim-polyglot " language pack
-
-" sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
-
 " for option is generally not needed as most plugins for specific file types usually don't have too much code in plugin directory. You might want to examine the output of vim --startuptime before applying the option.
 " - from vim-plug page
+" }}}
+" misc. {{{
+" =====
+Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-repeat'
+" AndrewRadev/splitjoin.vim
 
+" sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
+" bryphe/oni " full IDE functionality
+" }}}
 call plug#end()
 " }}}
 
@@ -148,18 +149,15 @@ set number
 set relativenumber
 set lazyredraw
 " from: jeffkreeftmeijer/vim-numbertoggle
-augroup numbertoggle
-  autocmd!
-  " autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
-  " autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set number | set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set number | set norelativenumber
-augroup END
-" :augroup numbertoggle
-" :  autocmd!
-" :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-" :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-" :augroup END
+" augroup numbertoggle
+"   autocmd!
+"   " autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+"   " autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+"   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set number | set relativenumber
+"   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set number | set norelativenumber
+" augroup END
+
+" using plugin for now
 " When scrolling is slow, some helpful debugging tips:
 " http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
 " e.g. :syntime on and :syntime report
@@ -192,12 +190,10 @@ set hidden
 set mouse=a
 set clipboard=unnamed
 set gdefault " make searches with %s have g by default
-set undofile " persistent undo
 
 " some more things from sensible.vim
 " some might be redundant, should check
 set display+=lastline
-" set complete-=i " no idea what this does
 set laststatus=2    " apparently this is also good for airline
 set ruler
 set wildmenu
@@ -265,14 +261,37 @@ xmap ia <Plug>(textobj-sandwich-auto-i)
 xmap aa <Plug>(textobj-sandwich-auto-a)
 omap ia <Plug>(textobj-sandwich-auto-i)
 omap aa <Plug>(textobj-sandwich-auto-a)
-xmap is  <Plug>(textobj-sandwich-query-i)
-xmap as  <Plug>(textobj-sandwich-query-a)
-omap is  <Plug>(textobj-sandwich-query-i)
-omap as  <Plug>(textobj-sandwich-query-a)
+xmap i  <Plug>(textobj-sandwich-query-i)
+xmap a  <Plug>(textobj-sandwich-query-a)
+omap i  <Plug>(textobj-sandwich-query-i)
+omap a  <Plug>(textobj-sandwich-query-a)
 xmap il  <Plug>(textobj-sandwich-literal-query-i)
 xmap al  <Plug>(textobj-sandwich-literal-query-a)
 xmap il  <Plug>(textobj-sandwich-literal-query-i)
 xmap al  <Plug>(textobj-sandwich-literal-query-a)
+let g:textobj#sandwich#recipes = [
+            \   {'external': ['iw', 'aw'], 'noremap': 1, 'input': ['w']},
+            \   {'external': ['iW', 'aW'], 'noremap': 1, 'input': ['W']},
+            \   {'external': ['is', 'as'], 'noremap': 1, 'input': ['s']},
+            \   {'external': ['iS', 'aS'], 'noremap': 1, 'input': ['S']},
+            \   {'external': ['ip', 'ap'], 'noremap': 1, 'input': ['p']},
+            \   {'external': ['iP', 'aP'], 'noremap': 1, 'input': ['P']},
+            \   {'external': ['i`', 'a`'], 'noremap': 1, 'input': ['`']},
+            \ ]
+            " \   {'external': ['i[', 'a['], 'noremap': 1, 'input': ['[']},
+            " \   {'external': ['i(', 'a('], 'noremap': 1, 'input': ['(']},
+            " \   {'external': ['i<', 'a<'], 'noremap': 1, 'input': ['<']},
+            " \   {'external': ['i{', 'a{'], 'noremap': 1, 'input': ['{']},
+            " \   {'external': ['i"', 'a"'], 'noremap': 1, 'input': ['"']},
+            " \   {'external': ["i'", "a'"], 'noremap': 1, 'input': ['''']},
+            " \   {'external': ['i]', 'a]'], 'noremap': 0, 'input': [']']},
+            " \   {'external': ['i)', 'a)'], 'noremap': 0, 'input': [')']},
+            " \   {'external': ['ib', 'ab'], 'noremap': 0, 'input': ['b']},
+            " \   {'external': ['i>', 'a>'], 'noremap': 0, 'input': ['>']},
+            " \   {'external': ['it', 'at'], 'noremap': 0, 'input': ['t']},
+            " \   {'external': ['i}', 'a}'], 'noremap': 0, 'input': ['}']},
+            " \   {'external': ['iB', 'aB'], 'noremap': 0, 'input': ['B']},
+
 " }}}
 " comfortable-motion {{{
 let g:comfortable_motion_no_default_key_mappings = 1
@@ -324,16 +343,36 @@ let g:indentLine_faster = 1
 let g:indentLine_setConceal = 1
 let g:indentLine_fileTypeExclude = ['tex']
 " }}}
+" indent guides {{{
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_default_mapping = 0
+let g:indent_guides_start_level = 2
+nmap <silent> <leader>tg <Plug>IndentGuidesToggle
+" }}}
+" highlightedyank {{{
+let g:highlightedyank_timeout = 50
+" }}}
+" undotree {{{
+set undofile " persistent undo
+nnoremap <leader>ut :MundoToggle<CR>
+" }}}
 
 " fzf {{{
 nnoremap <leader>ff :FZF<CR>
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger="<C-]>"
-let g:UltiSnipsJumpBackwardTrigger="<C-[>"
-inoremap <silent> <tab> <C-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+imap <C-h> <nop>
+imap <C-l> <nop>
+" let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)" "there is a bug with this when forward trigger and expand trigger on same key;
+" it will expand before jumping (can probably define mappings calling UltiSnips#ExpandSnippetOrJump() to manually get right behavior)
+" inoremap <silent> <C-l> <C-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
+let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+" can define normal map, something like ':nmap <ultisnips jump trigger> i<ultisnips jump trigger>'
+" idea from: https://github.com/SirVer/ultisnips/issues/526
+
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
 " }}}
@@ -348,9 +387,13 @@ nmap <Leader>qlt <Plug>qf_loc_stay_toggle
 " }}}
 " completion {{{
 set shortmess+=c
+set complete-=i " don't complete from all included files
 inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
-" inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
-" inoremap <expr> <s-tab> (pumvisible() ? "\<C-n>" : "\<s-tab>")
+inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
+inoremap <expr> <S-tab> (pumvisible() ? "\<C-p>" : "\<S-tab>")
+" let g:cm_sources_override = {
+"             \ 'cm-tags': {'enable':0}
+"             \ }
 augroup vimtex_completion
     autocmd!
     autocmd User CmSetup call cm#register_source({
@@ -378,8 +421,13 @@ nmap <leader>tt :TagbarToggle<CR>
 " Keybindings
 "============================================
 " searching {{{
-nnoremap N Nzz
-nnoremap n nzz
+" fix search direction
+" from: https://www.reddit.com/r/vim/comments/7l5pei/tips_and_tricks_for_the_intermediate_vimmer_aka/
+nnoremap <expr> n  'Nn'[v:searchforward] . 'zz'
+nnoremap <expr> N  'nN'[v:searchforward] . 'zz'
+" center after searching
+" nnoremap N Nzz
+" nnoremap n nzz
 cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
 " }}}
 " movement {{{
@@ -437,9 +485,6 @@ nnoremap <silent> <leader>bD :Sayonara<CR>
 " nnoremap <leader>q[ :cprev<CR>
 " }}}
 " toggles {{{
-let g:indent_guides_default_mapping = 0
-let g:indent_guides_start_level = 1
-nmap <silent> <leader>tg <Plug>IndentGuidesToggle
 "call togglebg#map("<F5>")
 " clear the highlighting of :set hlsearch 
 " My mnemonic: toggle highlight (eventually should re-highlight as well)
@@ -488,18 +533,19 @@ nnoremap zg zz " z{t,g,b} do same thing
 " }}}
 
 
+let g:tex_flavor='latex'
 " latex {{{
 " ======================================
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
 
 
 let g:tex_subscripts = " "
 " let g:tex_conceal=""
 let g:tex_conceal="abdg"               " conceal bold and italic, no sub/superscripts: see tex_supersub
 set conceallevel=2
+" hi Conceal guibg=bg guifg=fg
 let g:tex_comment_nospell = 1           " No spellcheck inside comments
 " Vimtex options go here
 let g:vimtex_view_method = 'skim'
@@ -557,14 +603,13 @@ endfunction
 
 
 " Compile on initialization, cleanup on quit
-augroup vimtex_event_1
-  autocmd!
+augroup vimtex_event_1 autocmd!
   autocmd User VimtexEventQuit     call vimtex#compiler#clean(0)
   " autocmd User VimtexEventInitPost call vimtex#compiler#compile()
 augroup END
-nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
+" nnoremap <localleader>la <plug>(vimtex-compile-ss) " maybe needs @ buffer local
 
-" let g:vimtex_fold_enabled = 1
+" " let g:vimtex_fold_enabled = 1
 
 let g:vimtex_indent_on_ampersands = 0
 
@@ -582,33 +627,33 @@ call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
 call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
-call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '\mathcal{}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cA', 'rhs' : '\mathcal{A}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cB', 'rhs' : '\mathcal{B}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cC', 'rhs' : '\mathcal{C}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cD', 'rhs' : '\mathcal{D}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cE', 'rhs' : '\mathcal{E}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cF', 'rhs' : '\mathcal{F}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cG', 'rhs' : '\mathcal{G}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cH', 'rhs' : '\mathcal{H}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cI', 'rhs' : '\mathcal{I}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cJ', 'rhs' : '\mathcal{J}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cK', 'rhs' : '\mathcal{K}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cL', 'rhs' : '\mathcal{L}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cM', 'rhs' : '\mathcal{M}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cN', 'rhs' : '\mathcal{N}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cO', 'rhs' : '\mathcal{O}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cP', 'rhs' : '\mathcal{P}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cQ', 'rhs' : '\mathcal{Q}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cR', 'rhs' : '\mathcal{R}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cS', 'rhs' : '\mathcal{S}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cT', 'rhs' : '\mathcal{T}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cU', 'rhs' : '\mathcal{U}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cV', 'rhs' : '\mathcal{V}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cW', 'rhs' : '\mathcal{W}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cX', 'rhs' : '\mathcal{X}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cY', 'rhs' : '\mathcal{Y}', 'leader' : '\' })
-call vimtex#imaps#add_map({ 'lhs' : 'cZ', 'rhs' : '\mathcal{Z}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '\mathcal{}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cA', 'rhs' : '\mathcal{A}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cB', 'rhs' : '\mathcal{B}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cC', 'rhs' : '\mathcal{C}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cD', 'rhs' : '\mathcal{D}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cE', 'rhs' : '\mathcal{E}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cF', 'rhs' : '\mathcal{F}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cG', 'rhs' : '\mathcal{G}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cH', 'rhs' : '\mathcal{H}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cI', 'rhs' : '\mathcal{I}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cJ', 'rhs' : '\mathcal{J}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cK', 'rhs' : '\mathcal{K}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cL', 'rhs' : '\mathcal{L}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cM', 'rhs' : '\mathcal{M}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cN', 'rhs' : '\mathcal{N}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cO', 'rhs' : '\mathcal{O}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cP', 'rhs' : '\mathcal{P}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cQ', 'rhs' : '\mathcal{Q}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cR', 'rhs' : '\mathcal{R}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cS', 'rhs' : '\mathcal{S}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cT', 'rhs' : '\mathcal{T}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cU', 'rhs' : '\mathcal{U}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cV', 'rhs' : '\mathcal{V}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cW', 'rhs' : '\mathcal{W}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cX', 'rhs' : '\mathcal{X}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cY', 'rhs' : '\mathcal{Y}', 'leader' : '\' })
+" call vimtex#imaps#add_map({ 'lhs' : 'cZ', 'rhs' : '\mathcal{Z}', 'leader' : '\' })
 
 " }}}
 

@@ -2,6 +2,6 @@
 	name = Albert Gu
 	email = albertfgu@gmail.com
 [core]
-	editor = vim
+	editor = nvim
 [color]
 	ui = true
