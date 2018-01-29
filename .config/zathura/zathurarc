@@ -1,0 +1,8 @@
+map <C--> zoom out
+map <C-=> zoom in
+
+map <C-j> scroll half-down
+map <C-k> scroll half-up
+
+set window-height 800
+set window-width 1600
