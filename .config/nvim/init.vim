@@ -548,9 +548,17 @@ set conceallevel=2
 " hi Conceal guibg=bg guifg=fg
 let g:tex_comment_nospell = 1           " No spellcheck inside comments
 " Vimtex options go here
-let g:vimtex_view_method = 'skim'
+
+let g:vimtex_view_method = 'zathura'
+" from: https://www.reddit.com/r/vim/comments/7c7wd9/vim_vimtex_zathura_on_macos/
+" let g:vimtex_view_zathura_hook_callback = 'ZathuraCallbackHook'
+" function! ZathuraCallbackHook() dict
+"   call self.xwin_send_keys('R')
+" endfunction
+
 let g:vimtex_compiler_progname = 'nvr'
 " from: https://github.com/lervag/vimtex/issues/383
+let g:vimtex_view_use_temp_files=0
 
 " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 " let g:vimtex_view_general_options = '-r @line @pdf @tex'    " @tex doesn't seem to be necessary right now

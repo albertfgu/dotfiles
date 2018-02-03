@@ -116,21 +116,21 @@ snippet align "align*" b
 endsnippet
 
 snippet eq "equation" b
-\begin{equation}
+\begin{equation}%
 	${1:${VISUAL}}
 \end{equation}
 endsnippet
 
 # }}}
 # sections {{{
-snippet sec "\section{}" b
+snippet S "\section{}" b
 \section{$1}%
 \label{sec:$2}
 
 $0
 endsnippet
 
-snippet subsec "\section{}" b
+snippet SS "\section{}" b
 \subsection{$1}%
 \label{sec:$2}
 
@@ -262,4 +262,13 @@ snippet algorithm "algorithm" b
 \end{algorithm}
 endsnippet
 
+
+snippet thebib "thebibliography" b
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+Michel Goossens, Frank Mittelbach, and Alexander Samarin. 
+\textit{The \LaTeX\ Companion}. 
+Addison-Wesley, Reading, Massachusetts, 1993.
+\end{thebibliography}
+endsnippet
 # vim:foldmethod=marker:foldlevelstart=0
