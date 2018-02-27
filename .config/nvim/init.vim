@@ -428,7 +428,7 @@ nnoremap <expr> N  'nN'[v:searchforward] . 'zz'
 " center after searching
 " nnoremap N Nzz
 " nnoremap n nzz
-cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
+" cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
 " }}}
 " movement {{{
 " --------------------------------

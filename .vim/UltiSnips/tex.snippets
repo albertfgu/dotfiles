@@ -271,4 +271,12 @@ Michel Goossens, Frank Mittelbach, and Alexander Samarin.
 Addison-Wesley, Reading, Massachusetts, 1993.
 \end{thebibliography}
 endsnippet
+
+snippet toggle "toggle" b
+\newtoggle{todo}
+\toggletrue{todo}
+% \togglefalse{todo}
+\newcommand\remark[1]{\iftoggle{todo}{\textcolor{red}{#1}}{}}
+endsnippet
+
 # vim:foldmethod=marker:foldlevelstart=0
