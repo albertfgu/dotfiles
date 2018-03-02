@@ -1,0 +1,11 @@
+--exclude=.git
+--exclude=.svn
+--exclude=.hg
+--exclude=\*.swp
+--exclude=\*.bak
+--exclude=\*.pyc
+--exclude=tags
+--exclude=cscope.\*
+--exclude=\*.tar.\*
+
+--sort=no
