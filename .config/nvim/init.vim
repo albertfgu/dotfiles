@@ -417,6 +417,8 @@ let g:ale_linters = {
 " tags {{{
 nmap <leader>tt :TagbarToggle<CR>
 " }}}
+let g:gutentags_ctags_tagfile = ".tags"
+let g:gutentags_ctags_exclude = ["*.swp", "*.bak", "*.pyc", ".git"]
 
 " Keybindings
 "============================================
@@ -632,6 +634,7 @@ let g:vimtex_imaps_disabled = [';']
 
 call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '^{-1}' })
 call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
+call vimtex#imaps#add_map({ 'lhs' : '^', 'rhs' : '\land' })
 call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
