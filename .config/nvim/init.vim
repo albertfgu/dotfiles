@@ -362,14 +362,14 @@ nnoremap <leader>ff :FZF<CR>
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
-imap <C-h> <nop>
-imap <C-l> <nop>
+imap <C-b> <nop>
+imap <C-f> <nop>
 " let g:UltiSnipsExpandTrigger="<Plug>(ultisnips_expand)" "there is a bug with this when forward trigger and expand trigger on same key;
 " it will expand before jumping (can probably define mappings calling UltiSnips#ExpandSnippetOrJump() to manually get right behavior)
 " inoremap <silent> <C-l> <C-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
-let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-h>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsExpandTrigger="<C-f>"
+let g:UltiSnipsJumpBackwardTrigger="<C-b>"
+let g:UltiSnipsJumpForwardTrigger="<C-f>"
 " can define normal map, something like ':nmap <ultisnips jump trigger> i<ultisnips jump trigger>'
 " idea from: https://github.com/SirVer/ultisnips/issues/526
 
