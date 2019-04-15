@@ -33,7 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(markdown
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -49,24 +49,31 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
+                      ;; Don't disable smartparents in snippets
+                      :packages (not smartparens)
                       )
      ;; better-defaults
      emacs-lisp
-     ;; git
+     git
      ;; markdown
      neotree
      org
      osx
      (python :variables python-sort-imports-on-save t)
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
+     ess
+     (shell :variables
+            shell-default-height 40
+            shell-default-full-span nil
+            shell-default-position 'left)
+     (spell-checking :variables spell-checking-enable-by-default nil)
      ;; syntax-checking
      ;; version-control
      (latex :variables
-            latex-enable-auto-fill t
+            latex-build-command "LatexMk"
+            latex-enable-auto-fill nil
             latex-enable-folding t)
+     pdf
+     ;; docker
      themes-megapack
      )
 
@@ -83,7 +90,10 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(
+     evil-escape
+     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -216,9 +226,11 @@ It should only modify the values of Spacemacs settings."
                                ;; "Monaco"
                                ;; "Hack"
                                ;; "Code New Roman"
-                               "Monoid"
-                               :size 16
-                               :weight light
+                               ;; "Monoid Retina"
+                               "Monoisome"
+                               ;; "SF Mono"
+                               :size 14
+                               :weight normal
                                :width normal)
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -251,7 +263,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-distinguish-gui-tab nil
 
    ;; If non-nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
+   dotspacemacs-remap-Y-to-y$ t
 
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
@@ -388,7 +400,10 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers 'relative
+   ;; dotspacemacs-line-numbers 'relative
+   dotspacemacs-line-numbers '(:relative t
+                                         :disabled-for-modes doc-view-mode
+                                         pdf-view-mode)
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -465,7 +480,23 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq LaTeX-math-abbrev-prefix ";")
+  (setq-default TeX-master nil)
+  (spacemacs|use-package-add-hook tex
+    :post-config
+    (progn
+      ;; add "PDF Tools" to the list of possible PDF tools
+      (unless (assoc "PDF Tools" TeX-view-program-list)
+        (add-to-list 'TeX-view-program-list
+                     '("PDF Tools" TeX-pdf-tools-sync-view)))
+      )
   )
+  (spacemacs|use-package-add-hook pdf-tools
+    :post-config
+    (evil-define-key 'evilified pdf-view-mode-map (kbd "'") 'pdf-view-jump-to-register))
+  ;; (setq exec-path-from-shell-debug t)
+  (setq exec-path-from-shell-check-startup-files nil)
+)
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -473,7 +504,184 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (defun my-setup-indent (n)
+    ;; java/c/c++
+    (setq c-basic-offset n)
+    ;; web development
+    (setq coffee-tab-width n) ; coffeescript
+    (setq javascript-indent-level n) ; javascript-mode
+    (setq js-indent-level n) ; js-mode
+    (setq js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+    (setq web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+    (setq web-mode-css-indent-offset n) ; web-mode, css in html file
+    (setq web-mode-code-indent-offset n) ; web-mode, js code in html file
+    (setq css-indent-offset n) ; css-mode
+    )
+  (setq-default c-basic-offset 4)
+  (defconst my-cc-style
+    '("cc-mode"
+      (c-offsets-alist . ((innamespace . [0])))))
+
+  (c-add-style "my-cc-mode" my-cc-style)
+  (c-set-offset 'innamespace 0)
+  (add-hook 'c++-mode-hook (lambda () (c-set-style "my-cc-style") ))
+  ;; (my-setup-indent 4) ;
+
+
+
+  (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
+  (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "C-S-j") 'evil-scroll-line-down)
+  (define-key evil-normal-state-map (kbd "C-S-k") 'evil-scroll-line-up)
+  ;; TODO figure out these keybindings
+  ;; (define-key evil-normal-state-local-map (kbd "M-m b \[") 'previous-buffer)
+  ;; (define-key evil-normal-state-local-map (kbd "M-m b \]") 'next-buffer)
+  (spacemacs/set-leader-keys
+    "b \[" 'previous-buffer
+    "b \]" 'next-buffer)
+
+  ;; org-mode
+  ;; https://gitlab.com/frstrikerman/spacemacs-orgmode-tutorial/blob/master/org-basics.org
+  (spacemacs/toggle-truncate-lines)
+  (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+  (use-package org
+    :config
+    (setq org-startup-indented t))
+
+  ;; smartparen
+  (define-key evil-insert-state-map (kbd "C-f") (lambda () (interactive) (expand-abbrev) (sp-up-sexp)))
+  (define-key evil-insert-state-map (kbd "C-b") (lambda () (interactive) (expand-abbrev) (sp-down-sexp)))
+  ;; (define-key evil-visual-state-map (kbd "s") (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "(")))
+
+  (setq python-shell-interpreter "ipython")
+  (setq python-shell-interpreter "/dfs/scratch1/albertgu/anaconda3/bin/ipython")
+  ;; (setq python-shell-interpreter "/dfs/scratch1/albertgu/anaconda3/envs/cuda9/bin/ipython")
+
+  (setq paradox-github-token "88a37dd6424ec3c90155e402d19f53c37f097228")
+  ;; completion
   (global-company-mode)
+  ;; tramp
+  (setq tramp-use-ssh-controlmaster-options nil)
+  ;; tramp's inline compression has some issue, giving error "gzip: (stdin): unexpected end of file"
+  ;; So we set the compression threshold higher.
+  (setq tramp-inline-compress-start-size 10000000)
+  ;; abbrev mode
+  ;; (setq-default abbrev-mode t)
+
+  ;; LaTeX
+  (setq-default TeX-master nil)
+  (setq LaTeX-item-indent 0)
+  (setq TeX-newline-function 'reindent-then-newline-and-indent) ;; or newline-and-indent
+  ;; (setq TeX-newline-function 'newline-and-indent)
+  ;; (add-hook 'LaTeX-mode-hook
+  ;;           (lambda () (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)))
+
+  ;; Use pdf-tools to open PDF files
+  ;; source: https://emacs.stackexchange.com/questions/19472/how-to-let-auctex-open-pdf-with-pdf-tools
+  ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+  ;;       TeX-source-correlate-start-server t)
+  ;; (setq TeX-view-program-selection '((output-pdf "open")))
+  ;; (unless (assoc "PDF Tools" TeX-view-program-list)
+  ;;   (add-to-list 'TeX-view-program-list
+  ;;                '("PDF Tools" TeX-pdf-tools-sync-view)))
+  ;; Use pdf-tools to open PDF files
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+
+  ;; Update PDF buffers after successful LaTeX runs
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer)
+
+  ;; (setq LaTeX-math-abbrev-prefix ";")
+  (setq LaTeX-math-list '(
+    ;; TODO let <enter> insert the ; itself
+    ;; (?v (lambda () (interactive "*") (insert ",")))
+    ;; (?\; "colon")
+    ;; (?\@ "circ")
+    (?q "theta")
+    (?Q "Theta")
+    (?j "chi")
+    (?6 "partial")
+    (?8 "infty")
+    ;; (?= "equiv")
+    ("." "cdot")
+    ("; ." "dots")
+    ;; (?\C-u "cup")
+    ;; (", C-u" "bigcup")
+    ;; (?\C-i "cap")
+    ;; (", C-i" "bigcap")
+    ("; v" "vdots")
+    ;; (", c" "centernot")
+    ("<" "preceq")
+    (">" "succeq")
+    ("; <", "langle")
+    (?- "overline")
+    (?_ "underline")
+    ;; (", =" "approx")
+    ;; (?o "log")
+    (?1 (lambda () (interactive "*") (insert "^{-1}")))  ;; for easy inverse
+    (?T (lambda () (interactive "*") (insert "^\\top")))  ;; for easy transpose
+    ;; (?\s (lambda () (interactive "*") (expand-abbrev) (insert "; ")))    ;; ,<SPC> turns to , so we can type , as a punctuation
+    (?\s (lambda () (interactive "*") (insert "; ")))    ;; ,<SPC> turns to , so we can type , as a punctuation
+    (?\/ (lambda () (interactive "*") (yas-expand-snippet "\\frac{$1}{$2}")))
+    (?2 (lambda () (interactive "*") (yas-expand-snippet "\\sqrt{$0}")))
+    (?~ (lambda () (interactive "*") (yas-expand-snippet "\\widetilde{$0}")))
+    ;; For preview-latex
+    ("; ;" (lambda () (interactive "*") (fill-paragraph) (preview-at-point) ))
+    ))
+
+  ;; magit
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
+  (setq vc-handled-backends nil)
+  (setq vc-handled-backends (delq 'Git vc-handled-backends))
+
+
+  ;; utilities
+  (defun revert-all-buffers ()
+    "Iterate through the list of buffers and revert them, e.g. after a
+    new branch has been checked out."
+    (interactive)
+    (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
+      (let ((frm1 (selected-frame)))
+        (make-frame)
+        (let ((frm2 (next-frame frm1)))
+          (select-frame frm2)
+          (make-frame-invisible)
+          (dolist (x (buffer-list))
+            (let ((test-buffer (buffer-name x)))
+              (when (not (string-match "\*" test-buffer))
+                (when (not (file-exists-p (buffer-file-name x)))
+                  (select-frame frm1)
+                  (when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
+                    (kill-buffer (buffer-name x)))
+                  (select-frame frm2))
+                (when (file-exists-p (buffer-file-name x))
+                  (switch-to-buffer (buffer-name x))
+                  (revert-buffer t t t)))))
+          (select-frame frm1)
+          (delete-frame frm2)))))
+  (defun modi/revert-all-file-buffers ()
+    "Refresh all open file buffers without confirmation.
+Buffers in modified (not yet saved) state in emacs will not be reverted. They
+will be reverted though if they were modified outside emacs.
+Buffers visiting files which do not exist any more or are no longer readable
+will be killed."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (let ((filename (buffer-file-name buf)))
+        ;; Revert only buffers containing files, which are not modified;
+        ;; do not try to revert non-file buffers like *Messages*.
+        (when (and filename
+                   (not (buffer-modified-p buf)))
+          (if (file-readable-p filename)
+              ;; If the file exists and is readable, revert the buffer.
+              (with-current-buffer buf
+                (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+            ;; Otherwise, kill the buffer.
+            (let (kill-buffer-query-functions) ; No query done when killing buffer
+              (kill-buffer buf)
+              (message "Killed non-existing/unreadable file buffer: %s" filename))))))
+    (message "Finished reverting buffers containing unmodified files."))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -488,37 +696,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#515151" t)
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-quickhelp pos-tip company-auctex company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete auctex-latexmk zenburn-theme zen-and-art-theme yapfify ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme reveal-in-osx-finder restart-emacs request rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pbcopy password-generator paradox overseer osx-trash osx-dictionary organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme nameless mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gandalf-theme font-lock+ flx-ido flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme elisp-slime-nav editorconfig dumb-jump dracula-theme django-theme diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile auctex apropospriate-theme anti-zenburn-theme anaconda-mode ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line)))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#f2777a")
-     (40 . "#f99157")
-     (60 . "#ffcc66")
-     (80 . "#99cc99")
-     (100 . "#66cccc")
-     (120 . "#6699cc")
-     (140 . "#cc99cc")
-     (160 . "#f2777a")
-     (180 . "#f99157")
-     (200 . "#ffcc66")
-     (220 . "#99cc99")
-     (240 . "#66cccc")
-     (260 . "#6699cc")
-     (280 . "#cc99cc")
-     (300 . "#f2777a")
-     (320 . "#f99157")
-     (340 . "#ffcc66")
-     (360 . "#99cc99"))))
- '(vc-annotate-very-old-color nil))
+    (pyvenv osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme nameless mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic epc concurrent deferred hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose window-purpose imenu-list helm-projectile helm-mode-manager helm-make helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gandalf-theme fuzzy flx-ido flx flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit transient git-commit with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu ess-R-data-view ctable ess julia-mode espresso-theme eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dracula-theme json-mode magit-popup json-snatcher json-reformat django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile projectile counsel swiper ivy company-statistics company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile packed auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line avy ac-ispell auto-complete helm helm-core popup markdown-mode pkg-info epl tablist pythonic f spaceline s powerline all-the-icons memoize dash yasnippet org-plus-contrib exec-path-from-shell evil goto-chg diminish bind-map hydra lv bind-key zenburn-theme zen-and-art-theme yasnippet-snippets yapfify xterm-color ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle shell-pop seti-theme reverse-theme reveal-in-osx-finder restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pdf-tools pcre2el pbcopy password-generator paradox overseer mmm-mode markdown-toc gh-md font-lock+ flyspell-correct-helm evil-unimpaired auto-dictionary async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
