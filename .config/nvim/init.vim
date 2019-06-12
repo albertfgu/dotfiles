@@ -8,6 +8,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'atelierbram/vim-colors_atelier-schemes'
 "arcticicestudio/nord-vim
+" Plug 'aonemd/kurio'
 "Plug 'fcpg/vim-fahrenheit'
 "Plug 'frankier/neovim-colors-solarized-truecolor-only'
 "Plug 'morhetz/gruvbox'
@@ -79,7 +80,11 @@ Plug 'SirVer/ultisnips'
 " maralla/completor.vim
 " lifepillar/vim-mucomplete
 " prabirshrestha/asyncomplete.vim + prabirshrestha/vim-lsp
-Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
 " }}}
 " quickfix, linting {{{
 Plug 'w0rp/ale'
@@ -465,7 +470,7 @@ nnoremap <leader>wJ <C-w>J
 nnoremap <leader>wK <C-w>K
 nnoremap <leader>wH <C-w>H
 nnoremap <leader>wL <C-w>L
-nnoremap <leader>wc <C-w>c
+nnoremap <leader>wd <C-w>c
 nnoremap <leader>wo <C-w>o
 nnoremap <leader>ws <C-w>s
 nnoremap <leader>wn <C-w>n
@@ -475,6 +480,8 @@ nnoremap <leader>wv <C-w>v
 nnoremap <leader>bb :ls<CR>
 nnoremap <leader>b] :bnext<CR>
 nnoremap <leader>b[ :bprevious<CR>
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
 nnoremap <leader>b<space> <C-^>
 " nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <silent> <leader>bd :Sayonara!<CR>
@@ -518,6 +525,7 @@ endif
 " set viminfo='100,f1 " marks for up to 100 files, global marks
 " }}}
 " file {{{
+nnoremap <leader>fs :w<CR>
 "   editor - dotfile, reload
 nnoremap <leader>fed :e $MYVIMRC<CR>
 nnoremap <leader>fer :so $MYVIMRC<CR>
@@ -636,6 +644,7 @@ call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '^{-1}' })
 call vimtex#imaps#add_map({ 'lhs' : '2', 'rhs' : '\sqrt' })
 call vimtex#imaps#add_map({ 'lhs' : '^', 'rhs' : '\land' })
 call vimtex#imaps#add_map({ 'lhs' : 't', 'rhs' : '^\top', 'leader' : '`' })
+call vimtex#imaps#add_map({ 'lhs' : 'N', 'rhs' : '\nabla'})
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
 " call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '\mathcal{}', 'leader' : '\' })
