@@ -3,11 +3,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 " cosmetics {{{
 " ============================================
 " xolox/vim-colorscheme-switcher
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'flazz/vim-colorschemes'
-Plug 'atelierbram/Base2Tone-vim'
-Plug 'atelierbram/vim-colors_atelier-schemes'
-"arcticicestudio/nord-vim
+" Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
+" Plug 'atelierbram/Base2Tone-vim'
+" Plug 'atelierbram/vim-colors_atelier-schemes'
+Plug 'arcticicestudio/nord-vim'
 " Plug 'aonemd/kurio'
 "Plug 'fcpg/vim-fahrenheit'
 "Plug 'frankier/neovim-colors-solarized-truecolor-only'
@@ -18,16 +18,17 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 "Plug 'rakr/vim-togglebg'
 
 "Plug 'KeitaNakamura/tex-conceal.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+" Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'Yggdroot/indentLine'
 " gcmt/wildfire.vim  " seems to be subsumed by sandwich
 " Plug 'xtal8/traces.vim'
 Plug 'machakann/vim-highlightedyank'
 " romainl/vim-cool
 Plug 'myusuf3/numbers.vim'
-Plug 'simnalamburt/vim-mundo'
+" Plug 'simnalamburt/vim-mundo'
 
 " neither of these rainbow parens seem to work with vimtex
 " Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
@@ -39,12 +40,12 @@ Plug 'simnalamburt/vim-mundo'
 " ========
 Plug 'rhysd/clever-f.vim'
 " Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
-Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
+" Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
 " Windows 
 " https://github.com/qpkorr/vim-bufkill
 " Plug 'psolyca/vim-bbye'
-Plug 'mhinz/vim-sayonara'
+" Plug 'mhinz/vim-sayonara'
 " zhaocai/GoldenView.Vim
 " }}}
 " text objects, matching, operators, etc. {{{
@@ -81,10 +82,10 @@ Plug 'SirVer/ultisnips'
 " lifepillar/vim-mucomplete
 " prabirshrestha/asyncomplete.vim + prabirshrestha/vim-lsp
 " Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
 " }}}
 " quickfix, linting {{{
 Plug 'w0rp/ale'
@@ -94,7 +95,7 @@ Plug 'romainl/vim-qf'
 Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 " }}}
 " sessions {{{
 " Plug 'thaerkh/vim-workspace'
@@ -103,7 +104,7 @@ Plug 'majutsushi/tagbar'
 " Plug 'kopischke/vim-stay'
 " }}}
 " file browser {{{
-Plug 'justinmk/vim-dirvish'
+" Plug 'justinmk/vim-dirvish'
 " tpope/vinegar
 " }}}
 " language tools {{{
@@ -129,7 +130,7 @@ call plug#end()
 " =================
 set termguicolors
 set background=dark
-colorscheme gruvbox
+colorscheme nord
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " }}}
 " leader {{{
@@ -299,18 +300,18 @@ let g:textobj#sandwich#recipes = [
 
 " }}}
 " comfortable-motion {{{
-let g:comfortable_motion_no_default_key_mappings = 1
-nnoremap <A-j> <C-e>
-nnoremap <A-k> <C-y>
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
-" nnoremap <silent> <C-j> :call comfortable_motion#flick(100)<CR>
-" nnoremap <silent> <C-k> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <C-A-j> :call comfortable_motion#flick(100)<CR>
-nnoremap <silent> <C-A-k> :call comfortable_motion#flick(-100)<CR>
-let g:comfortable_motion_interval = 1000.0 / 60
-let g:comfortable_motion_friction = 80.0
-let g:comfortable_motion_air_drag = 2.0
+" let g:comfortable_motion_no_default_key_mappings = 1
+" nnoremap <A-j> <C-e>
+" nnoremap <A-k> <C-y>
+" nnoremap <C-j> <C-d>
+" nnoremap <C-k> <C-u>
+" " nnoremap <silent> <C-j> :call comfortable_motion#flick(100)<CR>
+" " nnoremap <silent> <C-k> :call comfortable_motion#flick(-100)<CR>
+" nnoremap <silent> <C-A-j> :call comfortable_motion#flick(100)<CR>
+" nnoremap <silent> <C-A-k> :call comfortable_motion#flick(-100)<CR>
+" let g:comfortable_motion_interval = 1000.0 / 60
+" let g:comfortable_motion_friction = 80.0
+" let g:comfortable_motion_air_drag = 2.0
 " }}}
 " easy-align {{{
 nmap ga <Plug>(EasyAlign)
@@ -448,10 +449,10 @@ inoremap <down> <C-o><down>
 nnoremap <A-[> <C-o>
 nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
 " more sensible screen movement (REPLACED BY COMFORTABLE-MOTION)
-" nnoremap <A-j> <C-e>
-" nnoremap <A-k> <C-y>
-" nnoremap <C-j> <C-d>
-" nnoremap <C-k> <C-u>
+nnoremap <A-j> <C-e>
+nnoremap <A-k> <C-y>
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
 " nnoremap <C-A-j> <C-f>
 " nnoremap <C-A-k> <C-b>
 
