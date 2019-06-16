@@ -1,0 +1,62 @@
+export PATH=~/bin:/dfs/scratch1/albertgu/anaconda3/bin:/lfs/1/albertgu/anaconda3/bin:/dfs/scratch1/albertgu/ffmpeg:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# eval $(ssh-agent)
+# ssh-add
+#
+alias h=history
+export SAVEHIST=100000
+export HISTSIZE=100000
+export HISTFILE=~/.zsh_history
+# http://zsh.sourceforge.net/Doc/Release/Options.html#History
+setopt inc_append_history
+setopt share_history
+# setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt hist_reduce_blanks
+setopt no_hist_beep hist_no_store
+
+
+# export MKL_NUM_THREADS=1
+
+alias nvim=/dfs/scratch1/albertgu/nvim.appimage
+alias vim=nvim
+alias l=ls
+export EDITOR=/dfs/scratch1/albertgu/nvim.appimage
+export GIT_EDITOR=/dfs/scratch1/albertgu/nvim.appimage
+
+
+bindkey -v
+export KEYTIMEOUT=1
+bindkey -M viins "^P" history-substring-search-up
+bindkey -M viins "^N" history-substring-search-down
+
+# function zle-line-init zle-keymap-select {
+#     VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+#     RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+#     zle reset-prompt
+# }
+# 
+# zle -N zle-line-init
+# zle -N zle-keymap-select
+
+source /afs/cs.stanford.edu/u/albertgu/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /afs/cs.stanford.edu/u/albertgu/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+# julia stuff
+# https://stackoverflow.com/questions/36398629/change-package-directory-in-julia
+# https://docs.julialang.org/en/stable/manual/packages/<Paste>
+export JULIA_PKGDIR=/dfs/scratch1/albertgu/julia_pkg
+
+
+[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+. /dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh
+conda activate
+
+export CUDA_HOME="/usr/local/cuda"
+export PATH="$CUDA_HOME/bin:${PATH}"
+export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+export CUDA_CACHE_PATH=/dfs/scratch1/albertgu/.nv/ComputeCache
