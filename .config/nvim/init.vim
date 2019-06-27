@@ -123,6 +123,9 @@ Plug 'tpope/vim-commentary'
 " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
 " bryphe/oni " full IDE functionality
 " }}}
+Plug 'vimwiki/vimwiki'
+Plug 'liuchengxu/vim-which-key'
+Plug 'Konfekt/FastFold'
 call plug#end()
 " }}}
 
@@ -225,21 +228,25 @@ set sessionoptions-=options
 " Plugin configuration
 "===========================================
 " airline {{{
-let g:airline_theme = 'gruvbox'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 2
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
 
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>b1 <Plug>AirlineSelectTab1
-nmap <leader>b2 <Plug>AirlineSelectTab2
-nmap <leader>b3 <Plug>AirlineSelectTab3
-nmap <leader>b4 <Plug>AirlineSelectTab4
-nmap <leader>b5 <Plug>AirlineSelectTab5
-nmap <leader>b6 <Plug>AirlineSelectTab6
-nmap <leader>b7 <Plug>AirlineSelectTab7
-nmap <leader>b8 <Plug>AirlineSelectTab8
-nmap <leader>b9 <Plug>AirlineSelectTab9
+" let g:airline_theme = 'gruvbox'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#tab_nr_type = 2
+" let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
+" nmap <leader>b1 <Plug>AirlineSelectTab1
+" nmap <leader>b2 <Plug>AirlineSelectTab2
+" nmap <leader>b3 <Plug>AirlineSelectTab3
+" nmap <leader>b4 <Plug>AirlineSelectTab4
+" nmap <leader>b5 <Plug>AirlineSelectTab5
+" nmap <leader>b6 <Plug>AirlineSelectTab6
+" nmap <leader>b7 <Plug>AirlineSelectTab7
+" nmap <leader>b8 <Plug>AirlineSelectTab8
+" nmap <leader>b9 <Plug>AirlineSelectTab9
 " nmap <leader>b- <Plug>AirlineSelectPrevTab
 " nmap <leader>b+ <Plug>AirlineSelectNextTab
 " }}}
@@ -364,7 +371,23 @@ nnoremap <leader>ut :MundoToggle<CR>
 " }}}
 
 " fzf {{{
+" default split is C-x
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split', 
+  \ 'ctrl-v': 'vsplit' }
 nnoremap <leader>ff :FZF<CR>
+nnoremap <leader>bb :History<CR>
+nnoremap <leader>sf :Files<CR>
+nnoremap <leader>sb :Buffers<CR>
+nnoremap <leader>sw :Windows<CR>
+nnoremap <leader>sl :Lines<CR>
+nnoremap <leader>sm :Maps<CR>
+nnoremap <leader>ss :Snippets<CR>
+" Mapping selecting mappings
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -422,9 +445,55 @@ let g:ale_linters = {
 " }}}
 " tags {{{
 nmap <leader>tt :TagbarToggle<CR>
-" }}}
 let g:gutentags_ctags_tagfile = ".tags"
 let g:gutentags_ctags_exclude = ["*.swp", "*.bak", "*.pyc", ".git"]
+" }}}
+
+" wiki {{{
+let g:vimwiki_list = [{'path': '~/vimwiki'}]
+nmap <leader>vw <Plug>VimwikiIndex
+nmap <leader>vt <Plug>VimwikiTabIndex
+nmap <leader>vs <Plug>VimwikiUISelect
+nmap <leader>vdi <Plug>VimwikiDiaryIndex
+nmap <leader>vdn <Plug>VimwikiMakeDiaryNote
+nmap <leader>vdt <Plug>VimwikiTabMakeDiaryNote
+nmap <leader>vdy <Plug>VimwikiMakeYesterdayDiaryNote
+nmap <leader>vdm <Plug>VimwikiMakeTomorrowDiaryNote
+nmap <leader>vc <Plug>Vimwiki2HTML
+nmap <leader>vv <Plug>Vimwiki2HTMLBrowse
+nmap <leader>v<Leader>i <Plug>VimwikiDiaryGenerateLinks
+nmap <leader>vx <Plug>VimwikiDeleteLink
+nmap <leader>vr <Plug>VimwikiRenameLink
+
+" :map > <Plug>VimwikiIncreaseLvlSingleItem
+" :map <A->> <Plug>VimwikiIncreaseLvlWholeItem
+" :map < <Plug>VimwikiDecreaseLvlSingleItem
+" :map <A-<> <Plug>VimwikiDecreaseLvlWholeItem
+map <A-l> <Plug>VimwikiIncreaseLvlSingleItem
+map <A-L> <Plug>VimwikiIncreaseLvlWholeItem
+map <A-h> <Plug>VimwikiDecreaseLvlSingleItem
+map <A-H> <Plug>VimwikiDecreaseLvlWholeItem
+imap <A-l> <Plug>VimwikiIncreaseLvlSingleItem
+" imap <A-L> <Plug>VimwikiIncreaseLvlWholeItem
+imap <A-h> <Plug>VimwikiDecreaseLvlSingleItem
+" imap <A-H> <Plug>VimwikiDecreaseLvlWholeItem
+let g:vimwiki_folding = 'list:quick'
+" }}}
+" {{{ which-key
+let g:mapleader = "\<space>"
+let g:maplocalleader = ','
+nnoremap <silent> <leader>      :<c-u>WhichKey '<space>'<CR>
+nnoremap <leader>      :<c-u>WhichKey '<space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+" }}}
+" {{{ FastFold
+nmap zuz <Plug>(FastFoldUpdate)
+let g:fastfold_savehook = 1
+let g:fastfold_force = 1 " prevent all fold methods (not just expr and syntax) from recomputing on every buffer change
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+let g:fastfold_fold_command_suffixes = ['x','X','a','A','o','O','c','C','r','R','m','M']
+" }}}
 
 " Keybindings
 "============================================
@@ -453,6 +522,8 @@ nnoremap <A-j> <C-e>
 nnoremap <A-k> <C-y>
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
+vnoremap <C-j> <C-d>
+vnoremap <C-k> <C-u>
 " nnoremap <C-A-j> <C-f>
 " nnoremap <C-A-k> <C-b>
 
@@ -478,15 +549,16 @@ nnoremap <leader>wn <C-w>n
 nnoremap <leader>wv <C-w>v
 
 " remap buffer movement
-nnoremap <leader>bb :ls<CR>
+" nnoremap <leader>bb :ls<CR> " replaced by fzf
 nnoremap <leader>b] :bnext<CR>
 nnoremap <leader>b[ :bprevious<CR>
-nnoremap [b :bprevious<CR>
-nnoremap ]b :bnext<CR>
+" nnoremap [b :bprevious<CR>
+" nnoremap ]b :bnext<CR>
 nnoremap <leader>b<space> <C-^>
 " nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-nnoremap <silent> <leader>bd :Sayonara!<CR>
-nnoremap <silent> <leader>bD :Sayonara<CR>
+" nnoremap <silent> <leader>bd :Sayonara!<CR>
+" nnoremap <silent> <leader>bD :Sayonara<CR>
+nnoremap <leader>bd :bdelete<cr>
 
 " quickfix
 " nnoremap <leader>qo :copen<CR>
@@ -533,11 +605,14 @@ nnoremap <leader>fer :so $MYVIMRC<CR>
 " }}}
 " package {{{
 " update, reload/recache
-nnoremap <leader>pu :call dein#update()<CR>
-nnoremap <leader>pr :call dein#recache_runtimepath()<CR>
+" nnoremap <leader>pu :call dein#update()<CR>
+" nnoremap <leader>pr :call dein#recache_runtimepath()<CR>
 " }}}
-" high/mid/low movement {{{
-nnoremap zg zz " z{t,g,b} do same thing
+" folds and scrolling {{{
+" nnoremap zg zz " z{t,g,b} do same thing
+nnoremap z<cr> zz " z{t,g,b} do same thing
+nnoremap zh zc
+nnoremap zl zo
 " nnoremap zq H
 " nnoremap za M
 " nnoremap zz L
@@ -682,5 +757,12 @@ call vimtex#imaps#add_map({ 'lhs' : 'N', 'rhs' : '\nabla'})
 
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
+
+" for chromeos:
+" https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported
+" https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.vim
+source ~/osc52.vim
+vmap "+y :!xclip -f -sel clip
+map "+p :r!xclip -o -sel clip
 
 " vim:foldmethod=marker
