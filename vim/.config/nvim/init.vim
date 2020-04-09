@@ -45,6 +45,7 @@ Plug 'rhysd/clever-f.vim'
 " Windows 
 " https://github.com/qpkorr/vim-bufkill
 " Plug 'psolyca/vim-bbye'
+Plug 'moll/vim-bbye'
 " Plug 'mhinz/vim-sayonara'
 " zhaocai/GoldenView.Vim
 " }}}
@@ -86,16 +87,18 @@ Plug 'SirVer/ultisnips'
 " Plug 'ncm2/ncm2'
 " Plug 'ncm2/ncm2-bufword'
 " Plug 'ncm2/ncm2-path'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " }}}
 " quickfix, linting {{{
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'romainl/vim-qf'
 " }}}
 " tags {{{
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 " vim-tags
 " vim-autotag, vim-automatic-ctags
 " Plug 'majutsushi/tagbar'
+" Plug 'liuchengxu/vista.vim'
 " }}}
 " sessions {{{
 " Plug 'thaerkh/vim-workspace'
@@ -122,10 +125,12 @@ Plug 'tpope/vim-commentary'
 
 " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
 " bryphe/oni " full IDE functionality
-" }}}
-Plug 'vimwiki/vimwiki'
-Plug 'liuchengxu/vim-which-key'
+" Plug 'liuchengxu/vim-which-key'
+Plug 'kalekundert/vim-coiled-snake'
 Plug 'Konfekt/FastFold'
+Plug 'junegunn/vim-peekaboo'
+" }}}
+" Plug 'vimwiki/vimwiki'
 call plug#end()
 " }}}
 
@@ -227,9 +232,20 @@ set sessionoptions-=options
 
 " Plugin configuration
 "===========================================
-" airline {{{
+" statusline {{{
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ }
+" Below settings taken from vista README
 let g:lightline = {
       \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+      \ },
+      \ 'component_function': {
+      \   'method': 'NearestMethodOrFunction'
+      \ },
       \ }
 
 " let g:airline_theme = 'gruvbox'
@@ -377,11 +393,11 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split', 
   \ 'ctrl-v': 'vsplit' }
 nnoremap <leader>ff :FZF<CR>
-nnoremap <leader>bb :History<CR>
+nnoremap <leader>sb :History<CR>
 nnoremap <leader>sf :Files<CR>
-nnoremap <leader>sb :Buffers<CR>
+nnoremap <leader>bb :Buffers<CR>
 nnoremap <leader>sw :Windows<CR>
-nnoremap <leader>sl :Lines<CR>
+nnoremap <leader>sl :BLines<CR>
 nnoremap <leader>sm :Maps<CR>
 nnoremap <leader>ss :Snippets<CR>
 " Mapping selecting mappings
@@ -415,26 +431,151 @@ nmap <Leader>qt <Plug>qf_qf_stay_toggle
 nmap <Leader>qlt <Plug>qf_loc_stay_toggle
 " }}}
 " completion {{{
+" Some servers have issues with backup files, see coc.nvim#649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
 set shortmess+=c
 set complete-=i " don't complete from all included files
-inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
-inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
-inoremap <expr> <S-tab> (pumvisible() ? "\<C-p>" : "\<S-tab>")
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>g] <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>gn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>gf  <Plug>(coc-format-selected)
+nmap <leader>gf  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>ga  <Plug>(coc-codeaction-selected)
+nmap <leader>ga  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>gac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>gqf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>ca  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR><Paste>
+
+" " ncm settings?
+" inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+" inoremap <expr> <tab> (pumvisible() ? "\<C-n>" : "\<tab>")
+" inoremap <expr> <S-tab> (pumvisible() ? "\<C-p>" : "\<S-tab>")
 " let g:cm_sources_override = {
 "             \ 'cm-tags': {'enable':0}
 "             \ }
-augroup vimtex_completion
-    autocmd!
-    autocmd User CmSetup call cm#register_source({
-                \ 'name' : 'vimtex',
-                \ 'priority': 8,
-                \ 'scoping': 1,
-                \ 'scopes': ['tex'],
-                \ 'abbreviation': 'tex',
-                \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-                \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-                \ })
-augroup END
+"
+" augroup vimtex_completion
+"     autocmd!
+"     autocmd User CmSetup call cm#register_source({
+"                 \ 'name' : 'vimtex',
+"                 \ 'priority': 8,
+"                 \ 'scoping': 1,
+"                 \ 'scopes': ['tex'],
+"                 \ 'abbreviation': 'tex',
+"                 \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+"                 \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+"                 \ })
+" augroup END
 " }}}
 " linting {{{
 nmap <silent> <leader>l] <Plug>(ale_next_wrap)
@@ -444,10 +585,54 @@ let g:ale_linters = {
             \}
 " }}}
 " tags {{{
-nmap <leader>tt :TagbarToggle<CR>
-let g:gutentags_ctags_tagfile = ".tags"
-let g:gutentags_ctags_exclude = ["*.swp", "*.bak", "*.pyc", ".git"]
+" nmap <leader>tt :TagbarToggle<CR>
+" let g:gutentags_ctags_tagfile = ".tags"
+" let g:gutentags_ctags_exclude = ["*.swp", "*.bak", "*.pyc", ".git"]
+" Vista settings
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc 
+" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works the LSP executives, doesn't work for `:Vista ctags`.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'coc'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+  \ 'python': 'coc',
+  \ 'cpp': 'nvim_lsp',
+  \ }
 " }}}
+" {{{ misc
+vnoremap gy ygv<Plug>Commentary " is x mode more appropriate? (just visual no select)
+" nnoremap <leader><leader>dw :g/^\s\+$/normal<space>d$
+nnoremap <leader><leader>dw :%s/\s\+$//e<cr>
+" }}}
+"
+" " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+" let g:vista#renderer#icons = {
+" \   "function": "\uf794",
+" \   "variable": "\uf71b",
+" \  }
 
 " wiki {{{
 let g:vimwiki_list = [{'path': '~/vimwiki'}]
@@ -547,6 +732,7 @@ nnoremap <leader>wo <C-w>o
 nnoremap <leader>ws <C-w>s
 nnoremap <leader>wn <C-w>n
 nnoremap <leader>wv <C-w>v
+nnoremap <leader>w= <C-w>=
 
 " remap buffer movement
 " nnoremap <leader>bb :ls<CR> " replaced by fzf
@@ -558,7 +744,8 @@ nnoremap <leader>b<space> <C-^>
 " nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 " nnoremap <silent> <leader>bd :Sayonara!<CR>
 " nnoremap <silent> <leader>bD :Sayonara<CR>
-nnoremap <leader>bd :bdelete<cr>
+" nnoremap <leader>bd :bdelete<cr>
+nnoremap <leader>bd :Bdelete<cr>
 
 " quickfix
 " nnoremap <leader>qo :copen<CR>
@@ -599,6 +786,9 @@ endif
 " }}}
 " file {{{
 nnoremap <leader>fs :w<CR>
+nnoremap <leader>fr :e<CR>
+nnoremap <leader>fS :bufdo w<CR>
+nnoremap <leader>fR :bufdo e<CR>
 "   editor - dotfile, reload
 nnoremap <leader>fed :e $MYVIMRC<CR>
 nnoremap <leader>fer :so $MYVIMRC<CR>
@@ -626,6 +816,10 @@ let g:tex_flavor='latex'
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 
+" nnoremap <leader>tc :set conceallevel=0<CR>
+" nnoremap <leader>tc :set conceallevel=0<CR>
+nnoremap <leader>tc :setlocal conceallevel=<C-r>=&conceallevel == 0 ? '2' : '0'<cr><cr>
+
 
 let g:tex_subscripts = " "
 " let g:tex_conceal=""
@@ -635,7 +829,7 @@ set conceallevel=2
 let g:tex_comment_nospell = 1           " No spellcheck inside comments
 " Vimtex options go here
 
-let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_method = 'skim'
 " from: https://www.reddit.com/r/vim/comments/7c7wd9/vim_vimtex_zathura_on_macos/
 " let g:vimtex_view_zathura_hook_callback = 'ZathuraCallbackHook'
 " function! ZathuraCallbackHook() dict
@@ -643,6 +837,16 @@ let g:vimtex_view_method = 'zathura'
 " endfunction
 
 let g:vimtex_compiler_progname = 'nvr'
+let g:vimtex_compiler_latexmk = {
+        \ 'options' : [
+        \   '-pdf',
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \   '-shell-escape',
+        \ ],
+        \}
 " from: https://github.com/lervag/vimtex/issues/383
 let g:vimtex_view_use_temp_files=0
 
@@ -650,23 +854,23 @@ let g:vimtex_view_use_temp_files=0
 " let g:vimtex_view_general_options = '-r @line @pdf @tex'    " @tex doesn't seem to be necessary right now
 " let g:vimtex_view_general_options_latexmk = '-r -g @begin'     " leaving out -g because autofocus is annoying, reminding me to quit skim
 " let g:vimtex_compiler_callback_hooks = ['UpdateSkim'] " let g:vimtex_view_general_callback = 'UpdateSkim'?
-function! UpdateSkim(status)
-    if !a:status | return | endif
-    let cmd = [g:vimtex_view_general_viewer, "-r"]
-    if !empty(system("pgrep Skim"))
-        call extend(cmd, ["-g"])
-    endif
-    let out = b:vimtex.out()
-    let l:tex = expand('%:p')
-    call jobstart(cmd + [line('.'), out])
-    "if has('nvim')
-    "  call jobstart(cmd + [line('.'), out])
-    "elseif has('job')
-    "  call job_start(cmd + [line('.'), out])
-    "else
-    "  call system(join(cmd + [line('.'), shellescape(out)], ' '))
-    "endif
-endfunction
+"function! UpdateSkim(status)
+"    if !a:status | return | endif
+"    let cmd = [g:vimtex_view_general_viewer, "-r"]
+"    if !empty(system("pgrep Skim"))
+"        call extend(cmd, ["-g"])
+"    endif
+"    let out = b:vimtex.out()
+"    let l:tex = expand('%:p')
+"    call jobstart(cmd + [line('.'), out])
+"    "if has('nvim')
+"    "  call jobstart(cmd + [line('.'), out])
+"    "elseif has('job')
+"    "  call job_start(cmd + [line('.'), out])
+"    "else
+"    "  call system(join(cmd + [line('.'), shellescape(out)], ' '))
+"    "endif
+"endfunction
 
 " g:vimtex_complete_close_braces
 " g:vimtex_delim_toggle_mod_list " e.g. \left\right, \mleft\mright
@@ -707,10 +911,17 @@ augroup END
 
 let g:vimtex_indent_on_ampersands = 0
 
+" Disable overfull/underfull \hbox and all package warnings
 let g:vimtex_quickfix_latexlog = {
-            \ 'overfull' : 0,
-            \ 'underfull' : 0,
-            \}
+      \ 'references' : 0,
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'packages' : {
+      \   'default' : 0,
+      \ },
+      \}
+
+let g:vimtex_quickfix_mode=2
 
 " insert maps {{{
 let g:vimtex_imaps_leader = ';'
@@ -724,35 +935,106 @@ call vimtex#imaps#add_map({ 'lhs' : 'N', 'rhs' : '\nabla'})
 "call vimtex#imaps#add_map({ 'lhs' : ' ', 'rhs' : '; ' })
 
 " call vimtex#imaps#add_map({ 'lhs' : '1', 'rhs' : '\mathcal{}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cA', 'rhs' : '\mathcal{A}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cB', 'rhs' : '\mathcal{B}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cC', 'rhs' : '\mathcal{C}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cD', 'rhs' : '\mathcal{D}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cE', 'rhs' : '\mathcal{E}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cF', 'rhs' : '\mathcal{F}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cG', 'rhs' : '\mathcal{G}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cH', 'rhs' : '\mathcal{H}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cI', 'rhs' : '\mathcal{I}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cJ', 'rhs' : '\mathcal{J}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cK', 'rhs' : '\mathcal{K}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cL', 'rhs' : '\mathcal{L}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cM', 'rhs' : '\mathcal{M}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cN', 'rhs' : '\mathcal{N}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cO', 'rhs' : '\mathcal{O}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cP', 'rhs' : '\mathcal{P}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cQ', 'rhs' : '\mathcal{Q}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cR', 'rhs' : '\mathcal{R}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cS', 'rhs' : '\mathcal{S}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cT', 'rhs' : '\mathcal{T}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cU', 'rhs' : '\mathcal{U}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cV', 'rhs' : '\mathcal{V}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cW', 'rhs' : '\mathcal{W}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cX', 'rhs' : '\mathcal{X}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cY', 'rhs' : '\mathcal{Y}', 'leader' : '\' })
-" call vimtex#imaps#add_map({ 'lhs' : 'cZ', 'rhs' : '\mathcal{Z}', 'leader' : '\' })
+let g:vimtex_imaps_disabled = ['c']
+call vimtex#imaps#add_map({ 'lhs' : 'j', 'rhs' : '\xi' })
+call vimtex#imaps#add_map({ 'lhs' : 'x', 'rhs' : '\chi' })
+call vimtex#imaps#add_map({ 'lhs' : ';jh', 'rhs' : '\leftarrow' })
+call vimtex#imaps#add_map({ 'lhs' : ';jj', 'rhs' : '\downarrow' })
+call vimtex#imaps#add_map({ 'lhs' : ';jk', 'rhs' : '\uparrow' })
+call vimtex#imaps#add_map({ 'lhs' : ';jl', 'rhs' : '\rightarrow' })
+
+call vimtex#imaps#add_map({ 'lhs' : 'cA', 'rhs' : '\mathcal{A}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cB', 'rhs' : '\mathcal{B}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cC', 'rhs' : '\mathcal{C}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cD', 'rhs' : '\mathcal{D}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cE', 'rhs' : '\mathcal{E}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cF', 'rhs' : '\mathcal{F}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cG', 'rhs' : '\mathcal{G}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cH', 'rhs' : '\mathcal{H}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cI', 'rhs' : '\mathcal{I}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cJ', 'rhs' : '\mathcal{J}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cK', 'rhs' : '\mathcal{K}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cL', 'rhs' : '\mathcal{L}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cM', 'rhs' : '\mathcal{M}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cN', 'rhs' : '\mathcal{N}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cO', 'rhs' : '\mathcal{O}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cP', 'rhs' : '\mathcal{P}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cQ', 'rhs' : '\mathcal{Q}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cR', 'rhs' : '\mathcal{R}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cS', 'rhs' : '\mathcal{S}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cT', 'rhs' : '\mathcal{T}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cU', 'rhs' : '\mathcal{U}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cV', 'rhs' : '\mathcal{V}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cW', 'rhs' : '\mathcal{W}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cX', 'rhs' : '\mathcal{X}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cY', 'rhs' : '\mathcal{Y}' })
+call vimtex#imaps#add_map({ 'lhs' : 'cZ', 'rhs' : '\mathcal{Z}' })
+
+" TODO figure out how to turn this into a macro
+call vimtex#imaps#add_map({ 'lhs' : 'va', 'rhs' : '\mathbf{a}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vb', 'rhs' : '\mathbf{b}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vc', 'rhs' : '\mathbf{c}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vd', 'rhs' : '\mathbf{d}' })
+call vimtex#imaps#add_map({ 'lhs' : 've', 'rhs' : '\mathbf{e}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vf', 'rhs' : '\mathbf{f}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vg', 'rhs' : '\mathbf{g}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vh', 'rhs' : '\mathbf{h}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vi', 'rhs' : '\mathbf{i}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vj', 'rhs' : '\mathbf{j}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vk', 'rhs' : '\mathbf{k}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vl', 'rhs' : '\mathbf{l}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vm', 'rhs' : '\mathbf{m}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vn', 'rhs' : '\mathbf{n}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vo', 'rhs' : '\mathbf{o}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vp', 'rhs' : '\mathbf{p}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vq', 'rhs' : '\mathbf{q}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vr', 'rhs' : '\mathbf{r}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vs', 'rhs' : '\mathbf{s}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vt', 'rhs' : '\mathbf{t}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vu', 'rhs' : '\mathbf{u}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vv', 'rhs' : '\mathbf{v}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vw', 'rhs' : '\mathbf{w}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vx', 'rhs' : '\mathbf{x}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vy', 'rhs' : '\mathbf{y}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vz', 'rhs' : '\mathbf{z}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vA', 'rhs' : '\mathbf{A}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vB', 'rhs' : '\mathbf{B}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vC', 'rhs' : '\mathbf{C}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vD', 'rhs' : '\mathbf{D}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vE', 'rhs' : '\mathbf{E}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vF', 'rhs' : '\mathbf{F}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vG', 'rhs' : '\mathbf{G}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vH', 'rhs' : '\mathbf{H}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vI', 'rhs' : '\mathbf{I}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vJ', 'rhs' : '\mathbf{J}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vK', 'rhs' : '\mathbf{K}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vL', 'rhs' : '\mathbf{L}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vM', 'rhs' : '\mathbf{M}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vN', 'rhs' : '\mathbf{N}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vO', 'rhs' : '\mathbf{O}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vP', 'rhs' : '\mathbf{P}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vQ', 'rhs' : '\mathbf{Q}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vR', 'rhs' : '\mathbf{R}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vS', 'rhs' : '\mathbf{S}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vT', 'rhs' : '\mathbf{T}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vU', 'rhs' : '\mathbf{U}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vV', 'rhs' : '\mathbf{V}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vW', 'rhs' : '\mathbf{W}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vX', 'rhs' : '\mathbf{X}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vY', 'rhs' : '\mathbf{Y}' })
+call vimtex#imaps#add_map({ 'lhs' : 'vZ', 'rhs' : '\mathbf{Z}' })
+call vimtex#imaps#add_map({ 'lhs' : 'v1', 'rhs' : '\mathbf{1}' })
+
+call vimtex#imaps#add_map({ 'lhs' : ';bE', 'rhs' : '\mathbb{E}' })
+call vimtex#imaps#add_map({ 'lhs' : ';bI', 'rhs' : '\mathbb{I}' })
+call vimtex#imaps#add_map({ 'lhs' : ';bR', 'rhs' : '\mathbb{R}' })
+call vimtex#imaps#add_map({ 'lhs' : ';bC', 'rhs' : '\mathbb{C}' })
+call vimtex#imaps#add_map({ 'lhs' : ';bV', 'rhs' : '\mathbb{V}' })
 
 " }}}
 
+" integrations
+nnoremap <localleader>ff :call vimtex#fzf#run()<cr>
 " }}}
 
 set runtimepath+=~/.vim,~/.vim/after
@@ -761,8 +1043,9 @@ set packpath+=~/.vim
 " for chromeos:
 " https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/FAQ.md#Is-OSC-52-aka-clipboard-operations_supported
 " https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.vim
-source ~/osc52.vim
-vmap "+y :!xclip -f -sel clip
-map "+p :r!xclip -o -sel clip
+" source ~/osc52.vim
+" vmap "+y :!xclip -f -sel clip
+" map "+p :r!xclip -o -sel clip
+" source ~/.gvimrc " Google vimrc
 
 " vim:foldmethod=marker

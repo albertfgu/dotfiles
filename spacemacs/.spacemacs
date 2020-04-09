@@ -587,6 +587,7 @@ before packages are loaded."
   (use-package org
     :config
     (setq org-startup-indented t))
+  (global-set-key (kbd "C-=")  'helm-org-in-buffer-headings)  ;; Outline search.
 
   ;; smartparen
   (define-key evil-insert-state-map (kbd "C-f") (lambda () (interactive) (expand-abbrev) (sp-up-sexp)))
