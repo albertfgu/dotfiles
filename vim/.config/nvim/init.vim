@@ -69,7 +69,8 @@ Plug 'junegunn/vim-easy-align' " some tips: https://www.reddit.com/r/vim/comment
 " fuzzy finder {{{
 " fzf, denite, LeaderF
 " https://www.reddit.com/r/vim/comments/5w05yt/best_fuzzy_finder/
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " }}}
 " snippet options: ultisnips, neosnippet {{{

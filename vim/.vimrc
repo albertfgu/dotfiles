@@ -1,4 +1,4 @@
-execute pathogen#infect()
+" execute pathogen#infect()
 
 if has('autocmd')
     filetype indent plugin on
@@ -65,7 +65,7 @@ inoremap <down> <C-o><down>
 set background=dark
 " TODO make command for toggling background from light to dark
 colorscheme desert
-call togglebg#map("<F6>") " <F5> taken by vim-latex I think
+" call togglebg#map("<F6>") " <F5> taken by vim-latex I think
 
 
 " Highlight tabs and trailing whitespaces
