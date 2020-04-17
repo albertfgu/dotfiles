@@ -1,3 +1,6 @@
+export HOME=/dfs/scratch1/albertgu
+export AFS=/afs/cs.stanford.edu/u/albertgu
+
 export PATH=~/bin:/dfs/scratch1/albertgu/anaconda3/bin:/lfs/1/albertgu/anaconda3/bin:/dfs/scratch1/albertgu/ffmpeg:$PATH
 
 # eval $(ssh-agent)

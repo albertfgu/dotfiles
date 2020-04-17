@@ -41,13 +41,14 @@ zinit light-mode for \
 ##################
 # Plugins        #
 ##################
-# CD
-zinit ice wait"0b" lucid
+
+# cd
+zinit ice wait"0a" lucid
 zinit light b4b4r07/enhancd
 export ENHANCD_FILTER=fzf
 # zinit load changyuheng/zsh-interactive-cd
 
-# Bookmarks
+# bookmarks
 # zplug "urbainvaes/fzf-marks"
 zinit load wfxr/formarks
 
@@ -55,53 +56,44 @@ zinit load wfxr/formarks
 zinit ice wait lucid
 zinit load 'wfxr/forgit'
 
-zinit ice wait"2" lucid as"program" pick"bin/git-dsf"
+zinit ice wait"0" lucid as"program" pick"bin/git-dsf"
 zinit light zdharma/zsh-diff-so-fancy
+
+### terminal utils
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
+zinit light sharkdp/bat
 
 # fzf
 zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 
-zinit ice wait"1" lucid
+zinit ice wait"0" lucid
 zinit light Aloxaf/fzf-tab
-
-### terminal utils
-zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
-zinit light sharkdp/bat
 
 # rg
 zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
 zinit light BurntSushi/ripgrep
 
 # exa
-zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit ice wait"0" lucid from"gh-r" as"program" mv"exa* -> exa"
 zinit light ogham/exa
 zinit ice wait blockf atpull'zinit creinstall -q .'
 
+
 # HISTORY SUBSTRING SEARCHING
-zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
-zinit light zsh-users/zsh-history-substring-search
+zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down' # what does this do?
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -M viins "^P" history-substring-search-up
 bindkey -M viins "^N" history-substring-search-down
+zinit ice wait"0" lucid
+zinit light zsh-users/zsh-history-substring-search
 
-# # Autosuggestions & fast-syntax-highlighting
-# zinit ice wait lucid atinit"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay"
-# zinit light zdharma/fast-syntax-highlighting
-# zinit ice wait lucid atload"!_zsh_autosuggest_start"
-# zinit load zsh-users/zsh-autosuggestions
-# # Completions
-# zinit ice blockf
-# zinit light zsh-users/zsh-completions
-
-# Syntax highlighting
-# Autosuggestions
-# Completions
+# Syntax highlighting, Autosuggestions, Completions
 # From example http://zdharma.org/zinit/wiki/Example-Minimal-Setup/
-zinit wait lucid light-mode for \
+zinit wait"0b" lucid light-mode for \
   atinit"zicompinit; zicdreplay" \
       zdharma/fast-syntax-highlighting \
   atload"_zsh_autosuggest_start" \
@@ -110,6 +102,8 @@ zinit wait lucid light-mode for \
       zsh-users/zsh-completions
 
 zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+
+
 
 
 ##################
@@ -122,7 +116,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # FZF
 # commenting this out because it sets environment variables
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 # Auto-completion
 # ---------------
 [[ $- == *i* ]] && source "/Users/albertgu/.fzf/shell/completion.zsh" 2> /dev/null
@@ -318,6 +312,7 @@ alias opfd='open -a Finder ./'
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
 
