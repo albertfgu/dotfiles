@@ -5,19 +5,103 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+# Plugin manager
 
-# Source Prezto.
-# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-#   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-# fi
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
 
-# Customize to your needs...
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-bin-gem-node
+
+
+##################
+# Plugins        #
+##################
+# CD
+zinit ice wait"0b" lucid
+zinit light b4b4r07/enhancd
+export ENHANCD_FILTER=fzf
+# zinit load changyuheng/zsh-interactive-cd
+
+# Bookmarks
+# zplug "urbainvaes/fzf-marks"
+zinit load wfxr/formarks
+
+# git
+zinit ice wait lucid
+zinit load 'wfxr/forgit'
+
+zinit ice wait"2" lucid as"program" pick"bin/git-dsf"
+zinit light zdharma/zsh-diff-so-fancy
+
+# fzf
+zinit ice lucid wait'0b' from"gh-r" as"program"
+zinit light junegunn/fzf-bin
+
+zinit ice wait"1" lucid
+zinit light Aloxaf/fzf-tab
+
+# terminal utils
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
+zinit light sharkdp/bat
+
+zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+zinit light BurntSushi/ripgrep
+
+# HISTORY SUBSTRING SEARCHING
+zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
+zinit light zsh-users/zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+bindkey -M viins "^P" history-substring-search-up
+bindkey -M viins "^N" history-substring-search-down
+
+# # Autosuggestions & fast-syntax-highlighting
+# zinit ice wait lucid atinit"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay"
+# zinit light zdharma/fast-syntax-highlighting
+# zinit ice wait lucid atload"!_zsh_autosuggest_start"
+# zinit load zsh-users/zsh-autosuggestions
+# # Completions
+# zinit ice blockf
+# zinit light zsh-users/zsh-completions
+
+# Syntax highlighting
+# Autosuggestions
+# Completions
+# From example http://zdharma.org/zinit/wiki/Example-Minimal-Setup/
+zinit wait lucid light-mode for \
+  atinit"zicompinit; zicdreplay" \
+      zdharma/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+      zsh-users/zsh-completions
+
+##################
+# Prompt         #
+##################
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zplug "BrandonRoehl/zsh-clean"
+
+
 
 # FZF
 # commenting this out because it sets environment variables
@@ -30,6 +114,10 @@ fi
 # ------------
 source "/Users/albertgu/.fzf/shell/key-bindings.zsh"
 
+# fzf-git
+# source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
+# source "${ZDOTDIR:-$HOME}/fzfgit-key-binding.zsh"
+
 
 # ripgrep
 # --files: List files that would be searched but do not search
@@ -41,38 +129,9 @@ source "/Users/albertgu/.fzf/shell/key-bindings.zsh"
 
 
 
-# Python3
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
-
-# Disable annoying autocorrect prompt for mosh
-alias mosh='nocorrect mosh'
-alias vim=nvim # shorter and for completion
-# alias jr="fasd_cd -i"
-# alias j=jump
-
-# exa https://github.com/DarrinTisdale/zsh-aliases-exa
-# alias l=exa
-alias ll='exa -lhF --git' # -g for group info
-alias ll='exa -DlhF --git' # directories only
-alias la="exa -a"
-alias lla="exa -alhF --git"
-alias llm='exa -lbhF --git --sort=modified' # long list, modified date sort
-alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
-alias lt='exa --tree --level=2'                                         # tree
-
-alias pd=popd # TODO: make this a function taking a number argument
-
-# from: https://realjenius.com/2017/08/28/prezto/
-# .. will already work as 'cd ..' in prezto ZSH
-alias ..='cd ..'
-# Go up two directories
-alias ...='cd ../..'
-# Go up three directories
-alias ....='cd ../../..'
-# Go up four directories
-alias .....='cd ../../../..'
-
+##################
+# setopt         #
+##################
 # from: http://joshsymonds.com/blog/2014/06/12/shell-awesomeness-with-prezto/
 # This makes cd=pushd
 setopt AUTO_PUSHD
@@ -96,21 +155,40 @@ setopt PUSHD_IGNORE_DUPS
 # 10 second wait if you do something that will delete everything.  I wish I'd had this before...
 setopt RM_STAR_WAIT
 
+### History
+# http://zsh.sourceforge.net/Doc/Release/Options.html#History
 # Appends every command to the history file once it is executed
 # setopt inc_append_history
 # Reloads the history whenever you use it
 # setopt share_history
-export SAVEHIST=100000
-export HISTSIZE=100000
-# http://zsh.sourceforge.net/Doc/Release/Options.html#History
-# setopt inc_append_history
-# setopt share_history
+SAVEHIST=100000
+HISTSIZE=100000
 setopt inc_append_history extended_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt no_hist_beep hist_no_store
+setopt hist_verify            # show command with history expansion to user before running it
+setopt completealiases        # complete aliases
+setopt nocorrect              # spelling correction for commands
 
+
+##################
+# aliases        #
+##################
+export EDITOR=nvim
+export VISUAL=$EDITOR
+
+
+##################
+# aliases        #
+##################
+source $HOME/.zsh_aliases
+
+
+##################
+# keybindings    #
+##################
 
 bindkey -v
 
@@ -168,6 +246,13 @@ zstyle ':completion:*:*:open:*' file-patterns '^*.(tex|synctex.gz):source-files'
 # bindkey -M viins '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 # bindkey -M viins '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
 
+
+
+##################
+# Misc           #
+##################
+
+
 # cdf - cd into the directory of the selected file
 jf() {
    local file
@@ -212,62 +297,8 @@ cdfd() {
 alias opfd='open -a Finder ./'
 
 
-# fzf-git
-# source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
-# source "${ZDOTDIR:-$HOME}/fzfgit-key-binding.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
-
-# Plugin manager
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-bin-gem-node
-
-# # Autosuggestions & fast-syntax-highlighting
-# zinit ice wait lucid atinit"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay"
-# zinit light zdharma/fast-syntax-highlighting
-# zinit ice wait lucid atload"!_zsh_autosuggest_start"
-# zinit load zsh-users/zsh-autosuggestions
-# # Completions
-# zinit ice blockf
-# zinit light zsh-users/zsh-completions
-
-# From example
-# http://zdharma.org/zinit/wiki/Example-Minimal-Setup/
-zinit wait lucid light-mode for \
-  atinit"zicompinit; zicdreplay" \
-      zdharma/fast-syntax-highlighting \
-  atload"_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-      zsh-users/zsh-completions
-
-# Prompt
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-zinit load changyuheng/zsh-interactive-cd
-# zplug "urbainvaes/fzf-marks"
-zinit load wfxr/formarks
-# zplug "BrandonRoehl/zsh-clean"
-### End of Zinit's installer chunk

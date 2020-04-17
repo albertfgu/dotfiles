@@ -5,6 +5,8 @@
     editor = nvim
 [color]
     ui = true
+[pager]
+    diff = diff-so-fancy | less --tabs=4 -RFXS --pattern '^(Date|added|deleted|modified): '
 [alias]
     lg    = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     hist  = log --pretty=format:'%h %ad | %s%d [%an]' --graph -    -date=short

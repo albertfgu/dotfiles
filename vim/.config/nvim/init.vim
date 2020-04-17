@@ -623,7 +623,7 @@ let g:vista_executive_for = {
 " {{{ misc
 vnoremap gy ygv<Plug>Commentary " is x mode more appropriate? (just visual no select)
 " nnoremap <leader><leader>dw :g/^\s\+$/normal<space>d$
-nnoremap <leader><leader>dw :%s/\s\+$//e<cr>
+nnoremap <leader><leader>dtw :%s/\s\+$//e<cr> " delete trailing whitespace
 " }}}
 "
 " " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
