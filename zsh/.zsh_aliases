@@ -22,7 +22,7 @@ alias vim=nvim # shorter and for completion
 # exa https://github.com/DarrinTisdale/zsh-aliases-exa
 # alias l=exa
 alias ll='exa -lhF --git' # -g for group info
-alias ll='exa -DlhF --git' # directories only
+alias lld='exa -DlhF --git' # directories only
 alias la="exa -a"
 alias lla="exa -alhF --git"
 alias llm='exa -lbhF --git --sort=modified' # long list, modified date sort
