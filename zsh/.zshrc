@@ -67,8 +67,9 @@ zinit light sharkdp/bat
 zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 
-zinit ice wait"0" lucid
-zinit light Aloxaf/fzf-tab
+# see https://www.reddit.com/r/zsh/comments/efi857/use_fzf_as_zshs_completion_selection_menu/
+# zinit ice wait"0" lucid
+# zinit light Aloxaf/fzf-tab
 
 # rg
 zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
