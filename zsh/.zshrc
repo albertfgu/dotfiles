@@ -102,6 +102,9 @@ zinit wait"0b" lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
       zsh-users/zsh-completions
 
+# from: https://unix.stackexchange.com/questions/230742/bash-zsh-tab-autocomplete-given-initial-command-ignore-certain-files-in-direct
+zstyle ':completion:*:*:nvim:*' file-patterns '^*.(pdf|synctex.gz):source-files' '*:all-files'
+zstyle ':completion:*:*:open:*' file-patterns '^*.(tex|synctex.gz):source-files' '*:all-files'
 zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
 
 
@@ -114,30 +117,6 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zplug "BrandonRoehl/zsh-clean"
 
 
-
-# FZF
-# commenting this out because it sets environment variables
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-# Auto-completion
-# ---------------
-[[ $- == *i* ]] && source "/Users/albertgu/.fzf/shell/completion.zsh" 2> /dev/null
-
-# Key bindings
-# ------------
-source "$HOME/.fzf/shell/key-bindings.zsh"
-
-# fzf-git
-# source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
-# source "${ZDOTDIR:-$HOME}/fzfgit-key-binding.zsh"
-
-
-# ripgrep
-# --files: List files that would be searched but do not search
-# --no-ignore: Do not respect .gitignore, etc...
-# --hidden: Search hidden files and folders
-# --follow: Follow symlinks
-# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 
 
@@ -188,7 +167,7 @@ setopt nocorrect              # spelling correction for commands
 
 
 ##################
-# aliases        #
+# env vars       #
 ##################
 export EDITOR=nvim
 export VISUAL=$EDITOR
@@ -252,13 +231,31 @@ bindkey '^w' backward-kill-word
 zle -N edit-command-line
 bindkey -M vicmd ! edit-command-line
 
-# from: https://unix.stackexchange.com/questions/230742/bash-zsh-tab-autocomplete-given-initial-command-ignore-certain-files-in-direct
-zstyle ':completion:*:*:nvim:*' file-patterns '^*.(pdf|synctex.gz):source-files' '*:all-files'
-zstyle ':completion:*:*:open:*' file-patterns '^*.(tex|synctex.gz):source-files' '*:all-files'
 
 # bindkey -M viins '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
 # bindkey -M viins '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 # bindkey -M viins '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
+
+#
+##################
+# FZF settings   #
+##################
+# FZF
+# note that this sets environment variables
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+# fzf-git
+# source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
+# source "${ZDOTDIR:-$HOME}/fzfgit-key-binding.zsh"
+
+
+# ripgrep
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 
 
@@ -315,5 +312,4 @@ alias opfd='open -a Finder ./'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
-
 
