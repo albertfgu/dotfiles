@@ -8,6 +8,13 @@ fi
 # Plugin manager
 
 ### Added by Zinit's installer
+# if [[ ! -f "${ZINIT_HOME:-$HOME/.zinit}/bin/zinit.zsh" ]]; then
+#     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+#     command mkdir -p "${ZINIT_HOME:-$HOME/.zinit}" && command chmod g-rwX "${ZINIT_HOME:-$HOME/.zinit}"
+#     command git clone https://github.com/zdharma/zinit "${ZINIT_HOME:-$HOME/.zinit}/bin" && \
+#         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+#         print -P "%F{160}▓▒░ The clone has failed.%f%b"
+# fi
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
@@ -17,6 +24,7 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
 fi
 
 
+# source "${ZINIT_HOME:-$HOME/.zinit}/bin/zinit.zsh"
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -57,12 +65,18 @@ zinit light junegunn/fzf-bin
 zinit ice wait"1" lucid
 zinit light Aloxaf/fzf-tab
 
-# terminal utils
+### terminal utils
 zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
 zinit light sharkdp/bat
 
+# rg
 zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
 zinit light BurntSushi/ripgrep
+
+# exa
+zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit light ogham/exa
+zinit ice wait blockf atpull'zinit creinstall -q .'
 
 # HISTORY SUBSTRING SEARCHING
 zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
@@ -95,6 +109,9 @@ zinit wait lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
       zsh-users/zsh-completions
 
+zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+
+
 ##################
 # Prompt         #
 ##################
@@ -112,7 +129,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Key bindings
 # ------------
-source "/Users/albertgu/.fzf/shell/key-bindings.zsh"
+source "$HOME/.fzf/shell/key-bindings.zsh"
 
 # fzf-git
 # source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
@@ -156,6 +173,8 @@ setopt PUSHD_IGNORE_DUPS
 setopt RM_STAR_WAIT
 
 ### History
+# alias h=history
+# export HISTFILE=~/.zsh_history
 # http://zsh.sourceforge.net/Doc/Release/Options.html#History
 # Appends every command to the history file once it is executed
 # setopt inc_append_history
