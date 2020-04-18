@@ -44,9 +44,9 @@ zinit light-mode for \
 
 # cd
 zinit ice wait"0a" lucid
-zinit light b4b4r07/enhancd
-export ENHANCD_FILTER=fzf
-# zinit load changyuheng/zsh-interactive-cd
+# zinit light b4b4r07/enhancd
+# export ENHANCD_FILTER=fzf
+zinit load changyuheng/zsh-interactive-cd
 
 # bookmarks
 # zplug "urbainvaes/fzf-marks"

@@ -15,6 +15,7 @@ export HISTFILE=~/.zsh_history
 alias nvim=/dfs/scratch1/albertgu/nvim.appimage
 alias vim=nvim
 # export GIT_EDITOR='/dfs/scratch1/albertgu/nvim.appimage'
+alias python=python3
 
 
 
@@ -27,6 +28,7 @@ export JULIA_PKGDIR=/dfs/scratch1/albertgu/julia_pkg
 # [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
 . /dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh
 conda activate
+# alias python=python3
 
 export CUDA_HOME="/usr/local/cuda"
 export PATH="$CUDA_HOME/bin:${PATH}"
