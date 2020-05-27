@@ -59,8 +59,10 @@ zinit load 'wfxr/forgit'
 zinit ice wait"0" lucid as"program" pick"bin/git-dsf"
 zinit light zdharma/zsh-diff-so-fancy
 
+# jonas/tig
+
 ### terminal utils
-zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat -p"
 zinit light sharkdp/bat
 
 # fzf
@@ -68,8 +70,8 @@ zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 
 # see https://www.reddit.com/r/zsh/comments/efi857/use_fzf_as_zshs_completion_selection_menu/
-# zinit ice wait"0" lucid
-# zinit light Aloxaf/fzf-tab
+zinit ice wait"0" lucid
+zinit light Aloxaf/fzf-tab
 
 # rg
 zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
@@ -80,6 +82,14 @@ zinit ice wait"0" lucid from"gh-r" as"program" mv"exa* -> exa"
 zinit light ogham/exa
 zinit ice wait blockf atpull'zinit creinstall -q .'
 
+# lf
+zinit ice from"gh-r" as"program" mv"lf* -> lf"
+zinit light gokcehan/lf
+zinit snippet 'https://raw.githubusercontent.com/gokcehan/lf/master/etc/lfcd.sh'
+
+# fd
+zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+zinit light sharkdp/fd
 
 # HISTORY SUBSTRING SEARCHING
 zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down' # what does this do?
@@ -313,3 +323,5 @@ alias opfd='open -a Finder ./'
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
+
+source /Users/albertgu/Library/Preferences/org.dystroy.broot/launcher/bash/br

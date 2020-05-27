@@ -25,7 +25,7 @@ Plug 'itchyny/lightline.vim'
 " Plug 'Yggdroot/indentLine'
 " gcmt/wildfire.vim  " seems to be subsumed by sandwich
 " Plug 'xtal8/traces.vim'
-Plug 'machakann/vim-highlightedyank'
+" Plug 'machakann/vim-highlightedyank'
 " romainl/vim-cool
 Plug 'myusuf3/numbers.vim'
 " Plug 'simnalamburt/vim-mundo'
@@ -116,6 +116,9 @@ Plug 'lervag/vimtex'
 " sheerun/vim-polyglot " language pack
 " for option is generally not needed as most plugins for specific file types usually don't have too much code in plugin directory. You might want to examine the output of vim --startuptime before applying the option.
 " - from vim-plug page
+"
+" Plug 'sillybun/vim-repl'
+Plug 'jpalardy/vim-slime'
 " }}}
 " misc. {{{
 " =====
@@ -123,6 +126,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-unimpaired'
 " Plug 'tpope/vim-repeat'
 " AndrewRadev/splitjoin.vim
+" Plug 'roxma/vim-tmux-clipboard'
 
 " sunaku/vim-shortcut: discoverable shortcut system, inspired by Spacemacs, powered by fzf.vim
 " bryphe/oni " full IDE functionality
@@ -238,16 +242,28 @@ set sessionoptions-=options
 "       \ 'colorscheme': 'wombat',
 "       \ }
 " Below settings taken from vista README
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \ },
+"       \ }
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-      \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-      \ }
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status'
+            \ },
+            \ }
+
+" Use auocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " let g:airline_theme = 'gruvbox'
 " let g:airline#extensions#tabline#enabled = 1
@@ -380,7 +396,12 @@ let g:indent_guides_start_level = 2
 nmap <silent> <leader>tg <Plug>IndentGuidesToggle
 " }}}
 " highlightedyank {{{
-let g:highlightedyank_timeout = 50
+" let g:highlightedyank_timeout = 50
+" https://www.reddit.com/r/neovim/comments/gofplz/neovim_has_added_the_ability_to_highlight_yanked/
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 100)
+augroup END
 " }}}
 " undotree {{{
 set undofile " persistent undo
@@ -620,6 +641,10 @@ let g:vista_executive_for = {
   \ 'cpp': 'nvim_lsp',
   \ }
 " }}}
+" repl {{{
+let g:slime_target = "neovim"
+let g:slime_python_ipython = 1
+" }}}
 " {{{ misc
 vnoremap gy ygv<Plug>Commentary " is x mode more appropriate? (just visual no select)
 " nnoremap <leader><leader>dw :g/^\s\+$/normal<space>d$
@@ -635,36 +660,36 @@ let g:vista#renderer#enable_icon = 1
 " \   "variable": "\uf71b",
 " \  }
 
-" wiki {{{
-let g:vimwiki_list = [{'path': '~/vimwiki'}]
-nmap <leader>vw <Plug>VimwikiIndex
-nmap <leader>vt <Plug>VimwikiTabIndex
-nmap <leader>vs <Plug>VimwikiUISelect
-nmap <leader>vdi <Plug>VimwikiDiaryIndex
-nmap <leader>vdn <Plug>VimwikiMakeDiaryNote
-nmap <leader>vdt <Plug>VimwikiTabMakeDiaryNote
-nmap <leader>vdy <Plug>VimwikiMakeYesterdayDiaryNote
-nmap <leader>vdm <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <leader>vc <Plug>Vimwiki2HTML
-nmap <leader>vv <Plug>Vimwiki2HTMLBrowse
-nmap <leader>v<Leader>i <Plug>VimwikiDiaryGenerateLinks
-nmap <leader>vx <Plug>VimwikiDeleteLink
-nmap <leader>vr <Plug>VimwikiRenameLink
+" " wiki {{{
+" let g:vimwiki_list = [{'path': '~/vimwiki'}]
+" nmap <leader>vw <Plug>VimwikiIndex
+" nmap <leader>vt <Plug>VimwikiTabIndex
+" nmap <leader>vs <Plug>VimwikiUISelect
+" nmap <leader>vdi <Plug>VimwikiDiaryIndex
+" nmap <leader>vdn <Plug>VimwikiMakeDiaryNote
+" nmap <leader>vdt <Plug>VimwikiTabMakeDiaryNote
+" nmap <leader>vdy <Plug>VimwikiMakeYesterdayDiaryNote
+" nmap <leader>vdm <Plug>VimwikiMakeTomorrowDiaryNote
+" nmap <leader>vc <Plug>Vimwiki2HTML
+" nmap <leader>vv <Plug>Vimwiki2HTMLBrowse
+" nmap <leader>v<Leader>i <Plug>VimwikiDiaryGenerateLinks
+" nmap <leader>vx <Plug>VimwikiDeleteLink
+" nmap <leader>vr <Plug>VimwikiRenameLink
 
-" :map > <Plug>VimwikiIncreaseLvlSingleItem
-" :map <A->> <Plug>VimwikiIncreaseLvlWholeItem
-" :map < <Plug>VimwikiDecreaseLvlSingleItem
-" :map <A-<> <Plug>VimwikiDecreaseLvlWholeItem
-map <A-l> <Plug>VimwikiIncreaseLvlSingleItem
-map <A-L> <Plug>VimwikiIncreaseLvlWholeItem
-map <A-h> <Plug>VimwikiDecreaseLvlSingleItem
-map <A-H> <Plug>VimwikiDecreaseLvlWholeItem
-imap <A-l> <Plug>VimwikiIncreaseLvlSingleItem
-" imap <A-L> <Plug>VimwikiIncreaseLvlWholeItem
-imap <A-h> <Plug>VimwikiDecreaseLvlSingleItem
-" imap <A-H> <Plug>VimwikiDecreaseLvlWholeItem
-let g:vimwiki_folding = 'list:quick'
-" }}}
+" " :map > <Plug>VimwikiIncreaseLvlSingleItem
+" " :map <A->> <Plug>VimwikiIncreaseLvlWholeItem
+" " :map < <Plug>VimwikiDecreaseLvlSingleItem
+" " :map <A-<> <Plug>VimwikiDecreaseLvlWholeItem
+" map <A-l> <Plug>VimwikiIncreaseLvlSingleItem
+" map <A-L> <Plug>VimwikiIncreaseLvlWholeItem
+" map <A-h> <Plug>VimwikiDecreaseLvlSingleItem
+" map <A-H> <Plug>VimwikiDecreaseLvlWholeItem
+" imap <A-l> <Plug>VimwikiIncreaseLvlSingleItem
+" " imap <A-L> <Plug>VimwikiIncreaseLvlWholeItem
+" imap <A-h> <Plug>VimwikiDecreaseLvlSingleItem
+" " imap <A-H> <Plug>VimwikiDecreaseLvlWholeItem
+" let g:vimwiki_folding = 'list:quick'
+" " }}}
 " {{{ which-key
 let g:mapleader = "\<space>"
 let g:maplocalleader = ','
@@ -754,6 +779,28 @@ nnoremap <leader>bd :Bdelete<cr>
 " nnoremap <leader>q] :cnext<CR>
 " nnoremap <leader>q[ :cprev<CR>
 " }}}
+
+" terminal {{{
+" tnoremap <leader>wj <C-\><C-n><C-w>j
+" tnoremap <leader>wk <C-\><C-n><C-w>k
+" tnoremap <leader>wh <C-\><C-n><C-w>h
+" tnoremap <leader>wl <C-\><C-n><C-w>l
+" tnoremap <leader>ws <C-\><C-n><C-w>s:term<CR>
+" tnoremap <leader>wv <C-\><C-n><C-w>v:term<CR>
+inoremap <A-j> <C-w>j
+inoremap <A-k> <C-w>k
+inoremap <A-h> <C-w>h
+inoremap <A-l> <C-w>l
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-l> <C-\><C-n><C-w>l
+" }}}
+"
 " toggles {{{
 "call togglebg#map("<F5>")
 " clear the highlighting of :set hlsearch 
