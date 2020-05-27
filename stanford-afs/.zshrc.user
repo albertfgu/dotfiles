@@ -14,7 +14,7 @@ export HISTFILE=~/.zsh_history
 
 alias nvim=/dfs/scratch1/albertgu/nvim.appimage
 alias vim=nvim
-# export GIT_EDITOR='/dfs/scratch1/albertgu/nvim.appimage'
+export GIT_EDITOR='/dfs/scratch1/albertgu/nvim.appimage'
 alias python=python3
 
 
