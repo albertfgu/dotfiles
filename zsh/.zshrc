@@ -323,5 +323,3 @@ alias opfd='open -a Finder ./'
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
-
-source /Users/albertgu/Library/Preferences/org.dystroy.broot/launcher/bash/br
