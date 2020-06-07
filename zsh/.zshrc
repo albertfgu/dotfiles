@@ -42,10 +42,15 @@ zinit light-mode for \
 # Plugins        #
 ##################
 
+# TODO maybe only install some of these programs if not already installed by package manager
 
 # neovim
 zinit ice from"gh-r" as"program" mv"nvim* -> nvim" pick"nvim/bin/nvim"
 zinit light neovim/neovim
+
+# tmux
+zinit ice from"gh-r" as"program" mv"tmux* -> tmux"
+zinit light tmux/tmux
 
 # cd
 zinit ice wait"0a" lucid
