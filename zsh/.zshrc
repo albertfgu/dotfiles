@@ -67,7 +67,7 @@ zinit light zdharma/zsh-diff-so-fancy
 # jonas/tig
 
 ### terminal utils
-zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat -p"
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat='bat -p'"
 zinit light sharkdp/bat
 
 # fzf
@@ -95,6 +95,11 @@ zinit snippet 'https://raw.githubusercontent.com/gokcehan/lf/master/etc/lfcd.sh'
 # fd
 zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
+
+# omz history
+zplugin snippet OMZ::lib/history.zsh
+
+
 
 # HISTORY SUBSTRING SEARCHING
 zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down' # what does this do?
@@ -171,11 +176,13 @@ setopt RM_STAR_WAIT
 # setopt share_history
 SAVEHIST=100000
 HISTSIZE=100000
-setopt inc_append_history extended_history
+# setopt inc_append_history
+setopt extended_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
-setopt no_hist_beep hist_no_store
+setopt no_hist_beep
+# setopt hist_no_store
 setopt hist_verify            # show command with history expansion to user before running it
 setopt completealiases        # complete aliases
 setopt nocorrect              # spelling correction for commands

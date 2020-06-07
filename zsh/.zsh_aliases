@@ -30,3 +30,8 @@ alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + e
 alias lt='exa --tree --level=2'                                         # tree
 
 alias pd=popd # TODO: make this a function taking a number argument
+
+
+# https://www.reddit.com/r/neovim/comments/gwr422/i_love_the_man_command_so_much_particularly_in/
+export MANPAGER="nvim +Man! -c ':set signcolumn='"
+
