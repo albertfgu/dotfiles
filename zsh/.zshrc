@@ -42,6 +42,11 @@ zinit light-mode for \
 # Plugins        #
 ##################
 
+
+# neovim
+zinit ice from"gh-r" as"program" mv"nvim* -> nvim" pick"nvim/bin/nvim"
+zinit light neovim/neovim
+
 # cd
 zinit ice wait"0a" lucid
 # zinit light b4b4r07/enhancd
@@ -70,8 +75,8 @@ zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 
 # see https://www.reddit.com/r/zsh/comments/efi857/use_fzf_as_zshs_completion_selection_menu/
-zinit ice wait"0" lucid
-zinit light Aloxaf/fzf-tab
+# zinit ice wait"0" lucid
+# zinit light Aloxaf/fzf-tab
 
 # rg
 zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
