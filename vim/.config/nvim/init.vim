@@ -167,6 +167,7 @@ set cursorline
 set number
 set relativenumber
 set lazyredraw
+nnoremap <leader>tn :set invnumber invrelativenumber<cr>
 " from: jeffkreeftmeijer/vim-numbertoggle
 " augroup numbertoggle
 "   autocmd!
