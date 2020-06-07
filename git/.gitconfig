@@ -18,6 +18,8 @@
     ca    = commit -a -m
     amend = commit --amend
     pr    = pull --rebase
+    rc    = rebase --continue
+    ra    = rebase --abort
     # https://dev.to/committedsw/useful-git-alias-47in
     la    = "!git config -l | grep alias | cut -c 7-"
     sts   = "!git status -s | cat -n"
