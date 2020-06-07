@@ -384,6 +384,9 @@ let g:rainbow_conf = {
 	\	}
 	\}
 " }}}
+" peekaboo {{{
+let g:peekaboo_delay = 200
+" }}}
 " indent lines {{{
 let g:indentLine_char = '┊'
 let g:indentLine_faster = 1
@@ -641,6 +644,15 @@ let g:vista_executive_for = {
   \ 'python': 'coc',
   \ 'cpp': 'nvim_lsp',
   \ }
+
+" " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+" let g:vista#renderer#icons = {
+" \   "function": "\uf794",
+" \   "variable": "\uf71b",
+" \  }
 " }}}
 " repl {{{
 let g:slime_target = "neovim"
@@ -651,15 +663,6 @@ vnoremap gy ygv<Plug>Commentary " is x mode more appropriate? (just visual no se
 " nnoremap <leader><leader>dw :g/^\s\+$/normal<space>d$
 nnoremap <leader><leader>dtw :%s/\s\+$//e<cr> " delete trailing whitespace
 " }}}
-"
-" " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-let g:vista#renderer#enable_icon = 1
-
-" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
-" let g:vista#renderer#icons = {
-" \   "function": "\uf794",
-" \   "variable": "\uf71b",
-" \  }
 
 " " wiki {{{
 " let g:vimwiki_list = [{'path': '~/vimwiki'}]

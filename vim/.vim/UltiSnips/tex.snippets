@@ -151,9 +151,9 @@ endsnippet
 
 
 snippet "\\\[" "\[ \]" brA
-\[
+\begin{align*}
 	${1:${VISUAL}}
-\]
+\end{align*}
 $0
 endsnippet
 
@@ -279,6 +279,45 @@ snippet toggle "toggle" b
 \toggletrue{todo}
 % \togglefalse{todo}
 \newcommand\remark[1]{\iftoggle{todo}{\textcolor{red}{#1}}{}}
+endsnippet
+
+snippet figure "figure" b
+\begin{figure}[!ht]
+\begin{minipage}{.5\linewidth}%
+    \centering
+    \includegraphics[width=\linewidth]{}
+\end{minipage}
+\caption{ }
+\label{fig:}
+\end{figure}
+endsnippet
+
+snippet table "table" b
+\begin{table}
+    \caption{}
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \midrule
+        \bottomrule
+    \end{tabular}
+    \label{tab:}
+\end{table}
+endsnippet
+
+snippet minipage "minipage" b
+\begin{minipage}{.5\linewidth}
+\begin{equation}%
+  \label{eq:architecture}
+  \begin{aligned}
+  \end{aligned}
+\end{equation}
+\end{minipage}
+endsnippet
+
+snippet multicolumn "multicolumn"
+\multicolumn{3}{c}{text}
+\multirow{3}{*}{text}
 endsnippet
 
 # vim:foldmethod=marker:foldlevelstart=0
