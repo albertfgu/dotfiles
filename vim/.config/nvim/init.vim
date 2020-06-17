@@ -120,6 +120,9 @@ Plug 'lervag/vimtex'
 " Plug 'sillybun/vim-repl'
 Plug 'jpalardy/vim-slime'
 " }}}
+" version control {{{
+Plug 'airblade/vim-gitgutter'
+" }}}
 " misc. {{{
 " =====
 Plug 'tpope/vim-commentary'
@@ -660,6 +663,31 @@ let g:vista#renderer#enable_icon = 1
 " repl {{{
 let g:slime_target = "neovim"
 let g:slime_python_ipython = 1
+" }}}
+" gitgutter {{{
+set updatetime=100
+nnoremap <leader>tgg :GitGutterToggle<cr>
+nnoremap <leader>tgb :GitGutterBufferToggle<cr>
+nnoremap <leader>tgs :GitGutterSignsToggle<cr>
+nnoremap <leader>tgh :GitGutterLineHighlightsToggle :GitGutterLineNrHighlightsToggle<cr>
+
+nnoremap <leader>tgq :GitGutterQuickFix<cr>
+
+" remap c(hange) to h(unk)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+" }}}
+" firenvim {{{
+let fc = g:firenvim_config['localSettings']
+" let fc['.*'] = { 'takeover': 'never' } " always, empty, nonempty, never, once
+
+au BufEnter github.com_*.txt set filetype=markdown
+au BufEnter overleaf.com_*.txt set filetype=tex
 " }}}
 " {{{ misc
 vnoremap gy ygv<Plug>Commentary " is x mode more appropriate? (just visual no select)
