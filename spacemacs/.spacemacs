@@ -208,7 +208,24 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         ;; light thtmes
+                         leuven
+                         adwaita
+                         flatui
+                         sanityinc-tomorrow-day
+                         twilight-bright
+                         gandalf
+                         whiteboard
+                         anti-zenburn
+                         ample-light
+                         moe-light
+                         poet ;; https://github.com/kunalb/poet https://www.reddit.com/r/emacs/comments/abc3ea/making_poet_an_emacs_theme/
+                         ;; lenlen ;; error on install
+                         ;; dark themes
                          apropospriate-dark
+                         doom-nord
+                         doom-nova
+                         solarized-zenburn
                          gruvbox-dark-medium
                          jazz
                          wilson
@@ -239,12 +256,12 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font '(
                                ;; "Input Mono Narrow"
                                ;; "Iosevka Type"
+                               ;; "Monoid Retina"
+                               "Monoisome"
                                ;; "Fira Code"
                                ;; "Monaco"
                                ;; "Hack"
                                ;; "Code New Roman"
-                               ;; "Monoid Retina"
-                               "Monoisome"
                                ;; "SF Mono"
                                ;; :size 11
                                :weight normal
@@ -513,6 +530,8 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq LaTeX-math-abbrev-prefix ";")
   (setq-default TeX-master nil)
+  ;; 20-06-09 these tex hooks are giving me a startup error "Error in dotspacemacs/user-init: Symbol’s value as variable is void: use-package-inject-hooks"
+  (setq-default use-package-inject-hooks t) ;; to make the hooks work
   (spacemacs|use-package-add-hook tex
     :post-config
     (progn
@@ -524,8 +543,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
   (spacemacs|use-package-add-hook pdf-tools
     :post-config
-    (evil-define-key 'evilified pdf-view-mode-map (kbd "'") 'pdf-view-jump-to-register))
-  ;; (setq exec-path-from-shell-debug t)
+    (evil-define-key 'evilified pdf-view-mode-map (kbd "'") 'pdf-view-jump-to-register)
+  )
+  (setq exec-path-from-shell-debug t)
   (setq exec-path-from-shell-check-startup-files nil)
 )
 
@@ -721,6 +741,8 @@ will be killed."
               (kill-buffer buf)
               (message "Killed non-existing/unreadable file buffer: %s" filename))))))
     (message "Finished reverting buffers containing unmodified files."))
+
+  ;; (org-reload)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
