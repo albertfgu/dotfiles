@@ -143,6 +143,8 @@ Plug 'tpope/vim-commentary'
 Plug 'kalekundert/vim-coiled-snake'
 Plug 'Konfekt/FastFold'
 Plug 'junegunn/vim-peekaboo'
+
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 " }}}
 " Plug 'vimwiki/vimwiki'
 call plug#end()
@@ -734,8 +736,23 @@ command! LFern Fern . -reveal=%
 
 " }}}
 " firenvim {{{
+" always treat alt key as pressed when holding it. by default, it is ignored if pressed with non-alphanumeric characters
+let g:firenvim_config = { 
+    \ 'globalSettings': {
+        \ 'alt': 'all',
+    \  },
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'cmdline': 'neovim',
+            \ 'priority': 0,
+            \ 'selector': 'textarea',
+            \ 'takeover': 'always',
+        \ },
+    \ }
+\ }
+
 let fc = g:firenvim_config['localSettings']
-" let fc['.*'] = { 'takeover': 'never' } " always, empty, nonempty, never, once
+let fc['.*'] = { 'takeover': 'never' } " always, empty, nonempty, never, once
 
 au BufEnter github.com_*.txt set filetype=markdown
 au BufEnter overleaf.com_*.txt set filetype=tex
