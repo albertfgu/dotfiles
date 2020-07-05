@@ -249,6 +249,9 @@ set autoread
 set sessionoptions-=options
 
 " }}}
+" searching {{{
+set grepprg=rg\ --vimgrep
+" }}}
 
 " Plugin configuration
 "===========================================
@@ -311,8 +314,11 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 ""nmap t <Plug>Sneak_t
 "" }}}
 " clever-f {{{
-let g:clever_f_across_no_line = 0
-let g:clever_f_fix_key_direction = 1
+let g:clever_f_across_no_line = 1 " don't search across multiple lines
+let g:clever_f_fix_key_direction = 1 " f always forward, F always backward
+let g:clever_f_smart_case = 1
+map f<space> <Plug>(clever-f-repeat-forward)
+map F<space> <Plug>(clever-f-repeat-back)
 " }}}
 " vim-sandwich {{{
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
@@ -433,17 +439,19 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split', 
   \ 'ctrl-v': 'vsplit' }
 nnoremap <leader>ff :FZF<CR>
+nnoremap <leader>bb :Buffers<CR>
 nnoremap <leader>sb :History<CR>
 nnoremap <leader>sf :Files<CR>
-nnoremap <leader>bb :Buffers<CR>
 nnoremap <leader>sw :Windows<CR>
-nnoremap <leader>sl :BLines<CR>
+" nnoremap <leader>sl :BLines<CR>
+nnoremap <leader>sl :Lines<CR>
 nnoremap <leader>sm :Maps<CR>
 nnoremap <leader>ss :Snippets<CR>
+nnoremap <leader>st :Tags<CR>
 " Mapping selecting mappings
-" nmap <leader><tab> <plug>(fzf-maps-n)
-" xmap <leader><tab> <plug>(fzf-maps-x)
-" omap <leader><tab> <plug>(fzf-maps-o)
+" nmap <leader>s<tab> <plug>(fzf-maps-n) " seems duplicate of :Maps
+" xmap <leader>s<tab> <plug>(fzf-maps-x)
+" omap <leader>s<tab> <plug>(fzf-maps-o)
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -467,8 +475,11 @@ nmap <leader>q] <Plug>qf_qf_next
 nmap <leader>q[ <Plug>qf_qf_previous
 nmap <leader>ql] <Plug>qf_loc_next
 nmap <leader>ql[ <Plug>qf_loc_previous
-nmap <Leader>qt <Plug>qf_qf_stay_toggle
-nmap <Leader>qlt <Plug>qf_loc_stay_toggle
+" nmap <Leader>qt <Plug>qf_qf_toggle
+nmap <Leader>qt <Plug>qf_qf_toggle_stay
+nmap <Leader>qlt <Plug>qf_loc_toggle_stay
+" additional default mappings: <left/right> for older/newer lists, {/} for prev/next file
+let g:qf_nowrap = 0 " allow soft-wrapping
 " }}}
 " completion {{{
 " Some servers have issues with backup files, see coc.nvim#649
