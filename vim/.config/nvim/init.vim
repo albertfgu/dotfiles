@@ -118,6 +118,7 @@ Plug 'lambdalisue/fern.vim'
 " }}}
 " language tools {{{
 Plug 'lervag/vimtex'
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 " sheerun/vim-polyglot " language pack
 " for option is generally not needed as most plugins for specific file types usually don't have too much code in plugin directory. You might want to examine the output of vim --startuptime before applying the option.
 " - from vim-plug page
@@ -946,14 +947,18 @@ let g:tex_flavor='latex'
 nnoremap <leader>tc :setlocal conceallevel=<C-r>=&conceallevel == 0 ? '2' : '0'<cr><cr>
 
 
-let g:tex_subscripts = " "
+" let g:tex_subscripts = " "
 " let g:tex_conceal=""
-let g:tex_conceal="abdg"               " conceal bold and italic, no sub/superscripts: see tex_supersub
+" let g:tex_conceal="abdg"               " conceal bold and italic, no sub/superscripts: see tex_supersub
+let g:tex_conceal="abdgm"
 set conceallevel=2
 " hi Conceal guibg=bg guifg=fg
+" hi Conceal ctermbg=none fix background of conceal characters (now fixed in plugin?)
+let g:tex_superscripts= "[0-9a-zA-W.,:;+-<>/()=]"
+let g:tex_subscripts= "[0-9aehijklmnoprstuvx,+-/().]"
 let g:tex_comment_nospell = 1           " No spellcheck inside comments
-" Vimtex options go here
 
+" Vimtex options go here
 let g:vimtex_view_method = 'skim'
 " from: https://www.reddit.com/r/vim/comments/7c7wd9/vim_vimtex_zathura_on_macos/
 " let g:vimtex_view_zathura_hook_callback = 'ZathuraCallbackHook'
@@ -1161,7 +1166,8 @@ call vimtex#imaps#add_map({ 'lhs' : ';jl', 'rhs' : '\rightarrow' })
         " \ { 'lhs' : '/',  'rhs' : 'vimtex#imaps#style_math("slashed")', 'expr' : 1, 'leader' : '#'},
 " call vimtex#imaps#add_map( { 'lhs' : 'v',  'rhs' : 'vimtex#imaps#style_math("mathbf")',   'expr' : 1} ) # conflicts with varepsilon
         " \ { 'lhs' : 'f',  'rhs' : 'vimtex#imaps#style_math("mathfrak")', 'expr' : 1, 'leader' : '#'},
-call vimtex#imaps#add_map( { 'lhs' : 'b',  'rhs' : 'vimtex#imaps#style_math("mathbf")',   'expr' : 1, 'leader' : ';;'} )
+" call vimtex#imaps#add_map( { 'lhs' : 'b',  'rhs' : 'vimtex#imaps#style_math("mathbf")',   'expr' : 1, 'leader' : ';;'} )
+call vimtex#imaps#add_map( { 'lhs' : 'b',  'rhs' : 'vimtex#imaps#style_math("bm")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 'c', 'rhs' : 'vimtex#imaps#style_math("mathcal")',  'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 's',  'rhs' : 'vimtex#imaps#style_math("mathsf")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 'B', 'rhs' : 'vimtex#imaps#style_math("mathbb")',   'expr' : 1, 'leader' : ';;'} )
