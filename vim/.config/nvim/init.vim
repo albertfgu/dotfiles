@@ -112,6 +112,10 @@ Plug 'romainl/vim-qf'
 " file browser {{{
 " Plug 'justinmk/vim-dirvish'
 " tpope/vinegar
+Plug 'ptzz/lf.vim'
+Plug 'voldikss/vim-floaterm'
+Plug 'lambdalisue/fern.vim'
+" Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim'
 " }}}
 " language tools {{{
 Plug 'lervag/vimtex'
@@ -686,6 +690,19 @@ omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 " }}}
+" file browser {{{
+let g:lf_map_keys = 0
+" map <leader>f :Lf<CR>
+let g:lf_command_override = 'lf -command "set hidden"'
+
+" floaterm
+command! LF FloatermNew lf
+
+" fern
+command! LFern Fern . -reveal=%
+" nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
+
+" }}}
 " firenvim {{{
 let fc = g:firenvim_config['localSettings']
 " let fc['.*'] = { 'takeover': 'never' } " always, empty, nonempty, never, once
@@ -811,6 +828,8 @@ nnoremap <leader>b<space> <C-^>
 " nnoremap <silent> <leader>bD :Sayonara<CR>
 " nnoremap <leader>bd :bdelete<cr>
 nnoremap <leader>bd :Bdelete<cr>
+command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
+
 
 " quickfix
 " nnoremap <leader>qo :copen<CR>
