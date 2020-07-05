@@ -97,9 +97,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'romainl/vim-qf'
 " }}}
 " tags {{{
-" Plug 'ludovicchabant/vim-gutentags'
-" vim-tags
-" vim-autotag, vim-automatic-ctags
+Plug 'ludovicchabant/vim-gutentags'
+" alternatives: vim-tags, vim-autotag, vim-automatic-ctags
 " Plug 'majutsushi/tagbar'
 " Plug 'liuchengxu/vista.vim'
 " }}}
@@ -627,7 +626,26 @@ let g:ale_linters = {
 " tags {{{
 " nmap <leader>tt :TagbarToggle<CR>
 " let g:gutentags_ctags_tagfile = ".tags"
-" let g:gutentags_ctags_exclude = ["*.swp", "*.bak", "*.pyc", ".git"]
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ "*.pyc",
+      \ "*.bak", '*.tmp', '*.cache',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
+
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
 " Vista settings
 function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
@@ -782,8 +800,9 @@ nnoremap <down> gj
 inoremap <up> <C-o><up>
 inoremap <down> <C-o><down>
 " more mnemonic jump list
-nnoremap <A-[> <C-o>
-nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
+nnoremap <S-tab> <C-o> " opposite of tab for jumping backwards
+" nnoremap <A-[> <C-o>
+" nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
 " more sensible screen movement (REPLACED BY COMFORTABLE-MOTION)
 nnoremap <A-j> <C-e>
 nnoremap <A-k> <C-y>
