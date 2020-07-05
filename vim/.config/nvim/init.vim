@@ -7,31 +7,33 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Plug 'flazz/vim-colorschemes'
 " Plug 'atelierbram/Base2Tone-vim'
 " Plug 'atelierbram/vim-colors_atelier-schemes'
-Plug 'arcticicestudio/nord-vim'
 " Plug 'aonemd/kurio'
 "Plug 'fcpg/vim-fahrenheit'
 "Plug 'frankier/neovim-colors-solarized-truecolor-only'
-"Plug 'morhetz/gruvbox'
 "Plug 'kristijanhusak/vim-hybrid-material'
 "Plug 'rakr/vim-two-firewatch'
 "Plug 'romainl/Apprentice'
 "Plug 'rakr/vim-togglebg'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
+Plug 'dylanaraps/wal.vim'
 
-"Plug 'KeitaNakamura/tex-conceal.vim'
+" status bar
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
+
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'Yggdroot/indentLine'
 " gcmt/wildfire.vim  " seems to be subsumed by sandwich
-" Plug 'xtal8/traces.vim'
-" Plug 'machakann/vim-highlightedyank'
+" Plug 'xtal8/traces.vim' " This plugin highlights patterns and ranges for Ex commands in Command-line mode.
+" Plug 'machakann/vim-highlightedyank' " replaced by neovim options
 " romainl/vim-cool
 Plug 'myusuf3/numbers.vim'
 " Plug 'simnalamburt/vim-mundo'
 
 " neither of these rainbow parens seem to work with vimtex
-" Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
+Plug 'junegunn/rainbow_parentheses.vim' " doesn't seem to work with latex
 " Plug 'luochen1990/rainbow'
 " djdt/pyparens.nvim
 " bounceme/poppy.vim
@@ -146,7 +148,9 @@ call plug#end()
 " =================
 set termguicolors
 set background=dark
-colorscheme nord
+" colorscheme nord
+" colorscheme wal
+colorscheme gruvbox
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " }}}
 " leader {{{
