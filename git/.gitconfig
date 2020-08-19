@@ -2,7 +2,7 @@
     name  = Albert Gu
     email = albertfgu@gmail.com
 [core]
-    editor = nvim
+    editor = "nvim --noplugin"
 [color]
     ui = true
 [pager]

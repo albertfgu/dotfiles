@@ -13,17 +13,17 @@ source ~/utilities/powerlevel10k/powerlevel10k.zsh-theme # Doesn't work without 
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/dfs/scratch1/albertgu/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/dfs/scratch1/albertgu/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
+__conda_setup="$('/dfs/scratch1/albertgu/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/dfs/scratch1/albertgu/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
 # <<< conda initialize <<<
 # [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
 # . /dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh
@@ -61,7 +61,7 @@ export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-export PATH="/dfs/scratch1/albertgu/node-v12.14.0-linux-x64/bin:${PATH}"
+export PATH="/dfs/scratch1/albertgu/node-v12.18.3-linux-x64/bin:${PATH}"
 
 export WANDB_API_KEY="69d3c00c4a3b812d08dcff010d1cacea8b8fe26f"
 
