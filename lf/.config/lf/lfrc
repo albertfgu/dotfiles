@@ -31,10 +31,14 @@ map X !$f
 map o &mimeopen $f
 map O $mimeopen --ask $f
 
+### Custom bindings
 
 # rebind scrolling
 map <c-j> <c-d>
 map <c-k> <c-u>
+
+set hidden
+map <tab> <space> # more options for selecting, to behave like fuzzy selection
 
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
