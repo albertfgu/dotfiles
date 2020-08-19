@@ -78,8 +78,8 @@ Plug 'junegunn/fzf.vim'
 " snippet options: ultisnips, neosnippet {{{
 "Plug 'Shougo/neosnippet.vim'
 "Plug 'Shougo/neosnippet-snippets'
-Plug 'SirVer/ultisnips'
 " Plug 'honza/snippets'
+Plug 'SirVer/ultisnips', { 'for': ['tex'] } " enable per filetype as it seems to cause issues in other places
 " }}}
 " completion {{{
 " maralla/completor.vim
@@ -150,6 +150,169 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
 " }}}
 
+" Settings and Keybindings
+"============================================
+" leader {{{
+" ===============
+" nnoremap <space> <nop>
+let mapleader="\<space>"
+let maplocalleader=","
+set timeoutlen=10000
+" }}}
+" searching {{{
+" fix search direction
+" from: https://www.reddit.com/r/vim/comments/7l5pei/tips_and_tricks_for_the_intermediate_vimmer_aka/
+nnoremap <expr> n  'Nn'[v:searchforward] . 'zz'
+nnoremap <expr> N  'nN'[v:searchforward] . 'zz'
+" center after searching
+" nnoremap N Nzz
+" nnoremap n nzz
+" cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
+set grepprg=rg\ --vimgrep
+" }}}
+" movement {{{
+" --------------------------------
+" remap arrow keys to screen line navigation instead of file line
+nnoremap <up> gk
+nnoremap <down> gj
+inoremap <up> <C-o>gk
+inoremap <down> <C-o>gj
+" more mnemonic jump list
+nnoremap <S-tab> <C-o> " opposite of tab for jumping backwards
+" nnoremap <A-[> <C-o>
+" nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
+" more sensible screen movement (alternative: comfortable motion)
+nnoremap <A-j> <C-e>
+nnoremap <A-k> <C-y>
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+vnoremap <C-j> <C-d>
+vnoremap <C-k> <C-u>
+" nnoremap <C-A-j> <C-f>
+" nnoremap <C-A-k> <C-b>
+
+" }}}
+" windows, buffers {{{
+
+" remap window movement
+nnoremap <leader>w<space> <C-w>p
+nnoremap <leader>ww <C-w>p
+nnoremap <leader>wr <C-w>r
+nnoremap <leader>wR <C-w>R
+nnoremap <leader>wj <C-w>j
+nnoremap <leader>wk <C-w>k
+nnoremap <leader>wh <C-w>h
+nnoremap <leader>wl <C-w>l
+nnoremap <leader>wJ <C-w>J
+nnoremap <leader>wK <C-w>K
+nnoremap <leader>wH <C-w>H
+nnoremap <leader>wL <C-w>L
+nnoremap <leader>wd <C-w>c
+nnoremap <leader>wo <C-w>o
+nnoremap <leader>ws <C-w>s
+nnoremap <leader>wn <C-w>n
+nnoremap <leader>wv <C-w>v
+nnoremap <leader>w= <C-w>=
+
+" remap buffer movement
+" nnoremap <leader>bb :ls<CR> " replaced by fzf
+nnoremap <leader>b] :bnext<CR>
+nnoremap <leader>b[ :bprevious<CR>
+" nnoremap [b :bprevious<CR>
+" nnoremap ]b :bnext<CR>
+nnoremap <leader>b<space> <C-^>
+" nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+" nnoremap <silent> <leader>bd :Sayonara!<CR>
+" nnoremap <silent> <leader>bD :Sayonara<CR>
+" nnoremap <leader>bd :bdelete<cr>
+nnoremap <leader>bd :Bdelete<cr>
+command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
+
+
+" quickfix
+" nnoremap <leader>qo :copen<CR>
+" nnoremap <leader>qc :cclose<CR>
+" nnoremap <leader>q] :cnext<CR>
+" nnoremap <leader>q[ :cprev<CR>
+" }}}
+" terminal {{{
+" tnoremap <leader>wj <C-\><C-n><C-w>j
+" tnoremap <leader>wk <C-\><C-n><C-w>k
+" tnoremap <leader>wh <C-\><C-n><C-w>h
+" tnoremap <leader>wl <C-\><C-n><C-w>l
+" tnoremap <leader>ws <C-\><C-n><C-w>s:term<CR>
+" tnoremap <leader>wv <C-\><C-n><C-w>v:term<CR>
+inoremap <A-j> <C-w>j
+inoremap <A-k> <C-w>k
+inoremap <A-h> <C-w>h
+inoremap <A-l> <C-w>l
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-l> <C-\><C-n><C-w>l
+" }}}
+" toggles {{{
+"call togglebg#map("<F5>")
+" clear the highlighting of :set hlsearch 
+" My mnemonic: toggle highlight (eventually should re-highlight as well)
+if mapcheck('<leader>th', 'n') ==# ''
+    nnoremap <silent> <leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+" }}}
+" sessions and views {{{
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* silent loadview
+
+" Auto save and load views
+" set viewoptions-=options
+" set viewoptions=cursor,folds,slash,unix should be same thing
+" augroup autoview
+"     autocmd BufWritePost *
+"     \   if expand('%') != '' && &buftype !~ 'nofile'
+"     \|      mkview
+"     \|  endif
+"     autocmd BufRead *
+"     \   if expand('%') != '' && &buftype !~ 'nofile'
+"     \|      silent loadview
+"     \|  endif
+" augroup END
+" end sessions
+
+" source ~/.vim/restore_view.vim
+
+" set viminfo='100,f1 " marks for up to 100 files, global marks
+" }}}
+" file {{{
+nnoremap <leader>fs :w<CR>
+nnoremap <leader>fr :e<CR>
+nnoremap <leader>fS :bufdo update<CR>
+nnoremap <leader>fR :bufdo e<CR>
+"   editor - dotfile, reload
+nnoremap <leader>fed :e $MYVIMRC<CR>
+nnoremap <leader>feR :so $MYVIMRC<CR>
+" }}}
+" package {{{
+" update, reload/recache
+" nnoremap <leader>pu :call dein#update()<CR>
+" nnoremap <leader>pr :call dein#recache_runtimepath()<CR>
+" }}}
+" folds and scrolling {{{
+" nnoremap zg zz " z{t,g,b} do same thing
+" nnoremap z<cr> zz " z{t,g,b} do same thing
+nnoremap zh zc
+nnoremap zl zo
+" nnoremap zq H
+" nnoremap za M
+" nnoremap zz L
+" nnoremap zz za
+" https://stackoverflow.com/questions/21280457/stop-vim-from-dynamically-updating-folds
+" autocmd InsertLeave,WinEnter * let &l:foldmethod=g:oldfoldmethod
+" autocmd InsertEnter,WinLeave * let g:oldfoldmethod=&l:foldmethod | setlocal foldmethod=manual
+" }}}
 " colors {{{
 " =================
 set termguicolors
@@ -158,13 +321,6 @@ set background=dark
 " colorscheme wal
 colorscheme gruvbox
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-" }}}
-" leader {{{
-" ===============
-" nnoremap <space> <nop>
-let mapleader="\<space>"
-let maplocalleader=","
-set timeoutlen=10000
 " }}}
 " indentation {{{
 " set ts=4 " Don't need this so that hard tabs are preserved to default
@@ -194,12 +350,6 @@ nnoremap <leader>tn :set invnumber invrelativenumber<cr>
 " When scrolling is slow, some helpful debugging tips:
 " http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
 " e.g. :syntime on and :syntime report
-" }}}
-" folding {{{
-nnoremap zz za
-" https://stackoverflow.com/questions/21280457/stop-vim-from-dynamically-updating-folds
-" autocmd InsertLeave,WinEnter * let &l:foldmethod=g:oldfoldmethod
-" autocmd InsertEnter,WinLeave * let g:oldfoldmethod=&l:foldmethod | setlocal foldmethod=manual
 " }}}
 " sensible options {{{
 " =====================
@@ -250,9 +400,6 @@ set list                " Show problematic characters.
 set autoread
 set sessionoptions-=options
 
-" }}}
-" searching {{{
-set grepprg=rg\ --vimgrep
 " }}}
 
 " Plugin configuration
@@ -726,12 +873,15 @@ xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 let g:lf_map_keys = 0
 " map <leader>f :Lf<CR>
 let g:lf_command_override = 'lf -command "set hidden"'
+nmap <buffer> <tab> <Plug>(fern-action-mark-toggle)
 
 " floaterm
 command! LF FloatermNew lf
 
 " fern
-command! LFern Fern . -reveal=%
+" mnemonic: file drawer
+command! LFern Fern . -drawer -reveal=%
+nnoremap <leader>fd :LFern<cr> ! " toggle hidden immediately
 " nmap <buffer><silent> h <Plug>(fern-action-collapse-or-leave)
 
 " }}}
@@ -809,158 +959,6 @@ let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 let g:fastfold_fold_command_suffixes = ['x','X','a','A','o','O','c','C','r','R','m','M']
 " }}}
 
-" Keybindings
-"============================================
-" searching {{{
-" fix search direction
-" from: https://www.reddit.com/r/vim/comments/7l5pei/tips_and_tricks_for_the_intermediate_vimmer_aka/
-nnoremap <expr> n  'Nn'[v:searchforward] . 'zz'
-nnoremap <expr> N  'nN'[v:searchforward] . 'zz'
-" center after searching
-" nnoremap N Nzz
-" nnoremap n nzz
-" cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? '<CR>zz' : '<CR>'
-" }}}
-" movement {{{
-" --------------------------------
-" remap arrow keys to screen line navigation instead of file line
-nnoremap <up> gk
-nnoremap <down> gj
-inoremap <up> <C-o><up>
-inoremap <down> <C-o><down>
-" more mnemonic jump list
-nnoremap <S-tab> <C-o> " opposite of tab for jumping backwards
-" nnoremap <A-[> <C-o>
-" nnoremap <A-]> <C-i> " TODO: in help mode this is already bound to show TOC
-" more sensible screen movement (REPLACED BY COMFORTABLE-MOTION)
-nnoremap <A-j> <C-e>
-nnoremap <A-k> <C-y>
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
-vnoremap <C-j> <C-d>
-vnoremap <C-k> <C-u>
-" nnoremap <C-A-j> <C-f>
-" nnoremap <C-A-k> <C-b>
-
-" }}}
-" windows, buffers {{{
-
-" remap window movement
-nnoremap <leader>w<space> <C-w>w
-nnoremap <leader>wr <C-w>r
-nnoremap <leader>wR <C-w>R
-nnoremap <leader>wj <C-w>j
-nnoremap <leader>wk <C-w>k
-nnoremap <leader>wh <C-w>h
-nnoremap <leader>wl <C-w>l
-nnoremap <leader>wJ <C-w>J
-nnoremap <leader>wK <C-w>K
-nnoremap <leader>wH <C-w>H
-nnoremap <leader>wL <C-w>L
-nnoremap <leader>wd <C-w>c
-nnoremap <leader>wo <C-w>o
-nnoremap <leader>ws <C-w>s
-nnoremap <leader>wn <C-w>n
-nnoremap <leader>wv <C-w>v
-nnoremap <leader>w= <C-w>=
-
-" remap buffer movement
-" nnoremap <leader>bb :ls<CR> " replaced by fzf
-nnoremap <leader>b] :bnext<CR>
-nnoremap <leader>b[ :bprevious<CR>
-" nnoremap [b :bprevious<CR>
-" nnoremap ]b :bnext<CR>
-nnoremap <leader>b<space> <C-^>
-" nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-" nnoremap <silent> <leader>bd :Sayonara!<CR>
-" nnoremap <silent> <leader>bD :Sayonara<CR>
-" nnoremap <leader>bd :bdelete<cr>
-nnoremap <leader>bd :Bdelete<cr>
-command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-
-
-" quickfix
-" nnoremap <leader>qo :copen<CR>
-" nnoremap <leader>qc :cclose<CR>
-" nnoremap <leader>q] :cnext<CR>
-" nnoremap <leader>q[ :cprev<CR>
-" }}}
-
-" terminal {{{
-" tnoremap <leader>wj <C-\><C-n><C-w>j
-" tnoremap <leader>wk <C-\><C-n><C-w>k
-" tnoremap <leader>wh <C-\><C-n><C-w>h
-" tnoremap <leader>wl <C-\><C-n><C-w>l
-" tnoremap <leader>ws <C-\><C-n><C-w>s:term<CR>
-" tnoremap <leader>wv <C-\><C-n><C-w>v:term<CR>
-inoremap <A-j> <C-w>j
-inoremap <A-k> <C-w>k
-inoremap <A-h> <C-w>h
-inoremap <A-l> <C-w>l
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-h> <C-w>h
-nnoremap <A-l> <C-w>l
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-l> <C-\><C-n><C-w>l
-" }}}
-"
-" toggles {{{
-"call togglebg#map("<F5>")
-" clear the highlighting of :set hlsearch 
-" My mnemonic: toggle highlight (eventually should re-highlight as well)
-if mapcheck('<leader>th', 'n') ==# ''
-    nnoremap <silent> <leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
-" }}}
-" sessions and views {{{
-" autocmd BufWinLeave *.* mkview
-" autocmd BufWinEnter *.* silent loadview
-
-" Auto save and load views
-" set viewoptions-=options
-" set viewoptions=cursor,folds,slash,unix should be same thing
-" augroup autoview
-"     autocmd BufWritePost *
-"     \   if expand('%') != '' && &buftype !~ 'nofile'
-"     \|      mkview
-"     \|  endif
-"     autocmd BufRead *
-"     \   if expand('%') != '' && &buftype !~ 'nofile'
-"     \|      silent loadview
-"     \|  endif
-" augroup END
-" end sessions
-
-" source ~/.vim/restore_view.vim
-
-" set viminfo='100,f1 " marks for up to 100 files, global marks
-" }}}
-" file {{{
-nnoremap <leader>fs :w<CR>
-nnoremap <leader>fr :e<CR>
-nnoremap <leader>fS :bufdo w<CR>
-nnoremap <leader>fR :bufdo e<CR>
-"   editor - dotfile, reload
-nnoremap <leader>fed :e $MYVIMRC<CR>
-nnoremap <leader>fer :so $MYVIMRC<CR>
-" }}}
-" package {{{
-" update, reload/recache
-" nnoremap <leader>pu :call dein#update()<CR>
-" nnoremap <leader>pr :call dein#recache_runtimepath()<CR>
-" }}}
-" folds and scrolling {{{
-" nnoremap zg zz " z{t,g,b} do same thing
-nnoremap z<cr> zz " z{t,g,b} do same thing
-nnoremap zh zc
-nnoremap zl zo
-" nnoremap zq H
-" nnoremap za M
-" nnoremap zz L
-" }}}
 
 
 let g:tex_flavor='latex'
