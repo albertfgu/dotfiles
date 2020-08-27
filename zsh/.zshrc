@@ -64,7 +64,7 @@ zinit load wfxr/formarks
 
 # git
 zinit ice wait lucid
-zinit load 'wfxr/forgit'
+zinit load wfxr/forgit
 
 zinit ice wait"0" lucid as"program" pick"bin/git-dsf"
 zinit light zdharma/zsh-diff-so-fancy
@@ -337,6 +337,4 @@ alias opfd='open -a Finder ./'
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
-
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
