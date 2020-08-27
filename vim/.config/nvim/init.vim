@@ -554,7 +554,7 @@ let g:rainbow_conf = {
 	\}
 " }}}
 " peekaboo {{{
-let g:peekaboo_delay = 200
+let g:peekaboo_delay = 500
 " }}}
 " indent lines {{{
 let g:indentLine_char = '┊'
