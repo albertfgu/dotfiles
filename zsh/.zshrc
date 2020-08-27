@@ -8,34 +8,27 @@ fi
 # Plugin manager
 
 ### Added by Zinit's installer
-# if [[ ! -f "${ZINIT_HOME:-$HOME/.zinit}/bin/zinit.zsh" ]]; then
-#     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-#     command mkdir -p "${ZINIT_HOME:-$HOME/.zinit}" && command chmod g-rwX "${ZINIT_HOME:-$HOME/.zinit}"
-#     command git clone https://github.com/zdharma/zinit "${ZINIT_HOME:-$HOME/.zinit}/bin" && \
-#         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-#         print -P "%F{160}▓▒░ The clone has failed.%f%b"
-# fi
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
     command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-
-# source "${ZINIT_HOME:-$HOME/.zinit}/bin/zinit.zsh"
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-rust \
     zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
     zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
 
 
 ##################
@@ -149,39 +142,25 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # setopt         #
 ##################
 # from: http://joshsymonds.com/blog/2014/06/12/shell-awesomeness-with-prezto/
-# This makes cd=pushd
-setopt AUTO_PUSHD
-
-# This will use named dirs when possible
-setopt AUTO_NAME_DIRS
-
-# If we have a glob this will expand it
-setopt GLOB_COMPLETE
-setopt PUSHD_MINUS # swaps the meaning of cd +1 and cd -1
-
-# No more annoying pushd messages...
-# setopt PUSHD_SILENT
-
-# blank pushd goes to home
-setopt PUSHD_TO_HOME
-
-# this will ignore multiple directories for the stack.  Useful?  I dunno.
-setopt PUSHD_IGNORE_DUPS
-
-# 10 second wait if you do something that will delete everything.  I wish I'd had this before...
-setopt RM_STAR_WAIT
+setopt AUTO_PUSHD     # This makes cd=pushd
+setopt AUTO_NAME_DIRS # This will use named dirs when possible
+setopt GLOB_COMPLETE  # If we have a glob this will expand it
+setopt PUSHD_MINUS    # swaps the meaning of cd +1 and cd -1
+# setopt PUSHD_SILENT # No more annoying pushd messages...
+setopt PUSHD_TO_HOME # blank pushd goes to home
+setopt PUSHD_IGNORE_DUPS # this will ignore multiple directories for the stack.  Useful?  I dunno.
+setopt RM_STAR_WAIT   # 10 second wait if you do something that will delete everything
 
 ### History
+# some of this is covered by OMZ history plugin
 # alias h=history
 # export HISTFILE=~/.zsh_history
+
 # http://zsh.sourceforge.net/Doc/Release/Options.html#History
-# Appends every command to the history file once it is executed
-# setopt inc_append_history
-# Reloads the history whenever you use it
-# setopt share_history
 SAVEHIST=100000
 HISTSIZE=100000
-# setopt inc_append_history
+# setopt inc_append_history # Appends every command to the history file once it is executed
+# setopt share_history # Reloads the history whenever you use it
 setopt extended_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
@@ -189,8 +168,11 @@ setopt hist_reduce_blanks
 setopt no_hist_beep
 # setopt hist_no_store
 setopt hist_verify            # show command with history expansion to user before running it
+
+# Other options
 setopt completealiases        # complete aliases
 setopt nocorrect              # spelling correction for commands
+setopt check_jobs        # yell at me if I try to exit zsh with jobs running
 
 
 ##################
@@ -223,8 +205,6 @@ bindkey -M vicmd "q" push-line
 # it's like, space AND completion.  Gnarlbot.
 bindkey -M viins ' ' magic-space
 
-# Incremental search is elite!
-# (this might be overwritten by prezto; can't tell)
 bindkey -M vicmd "?" history-incremental-search-backward
 bindkey -M vicmd "/" history-incremental-search-forward
 # bindkey -M vicmd "?" history-incremental-pattern-search-backward

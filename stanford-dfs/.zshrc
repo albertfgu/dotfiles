@@ -1,4 +1,3 @@
-# source $AFS/.zshrc
 source ~/.zshrc.main # alias to main zshrc file
 
 ### AFS specific settings
@@ -25,50 +24,22 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-# [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
-# . /dfs/scratch1/albertgu/anaconda3/etc/profile.d/conda.sh
-# conda activate
 
-
-# eval $(ssh-agent)
-# ssh-add
-#
-# alias h=history
-# export HISTFILE=~/.zsh_history
-
-
-# export MKL_NUM_THREADS=1
-
-# alias nvim=/dfs/scratch1/albertgu/nvim.appimage
-# alias vim=nvim
-# export GIT_EDITOR='/dfs/scratch1/albertgu/nvim.appimage'
-# alias python=python3
-
-
-
-# julia stuff
+# julia
 # https://stackoverflow.com/questions/36398629/change-package-directory-in-julia
 # https://docs.julialang.org/en/stable/manual/packages/<Paste>
-export JULIA_PKGDIR=/dfs/scratch1/albertgu/julia_pkg
+# export JULIA_PKGDIR=/dfs/scratch1/albertgu/julia_pkg
 
-
+# CUDA
 export CUDA_HOME="/usr/local/cuda"
 export PATH="$CUDA_HOME/bin:${PATH}"
 export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 # export CUDA_CACHE_PATH=/dfs/scratch1/albertgu/.nv/ComputeCache
 # export XDG_CACHE_HOME=/dfs/scratch1/albertgu/.cache/jedi
 
+# node.js
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 export PATH="/dfs/scratch1/albertgu/node-v12.18.3-linux-x64/bin:${PATH}"
 
 export WANDB_API_KEY="69d3c00c4a3b812d08dcff010d1cacea8b8fe26f"
-
-# declare -A ZINIT  # initial Zinit's hash definition, if configuring before loading Zinit
-# export ZINIT[BIN_DIR]=/dfs/scratch1/albertgu/.zinit/bin
-# export ZINIT[HOME_DIR]=/dfs/scratch1/albertgu/.zinit
-# export ZINIT[PLUGINS_DIR]=/dfs/scratch1/albertgu/.zinit/plugins
-# export ZINIT[COMPLETIONS_DIR]=/dfs/scratch1/albertgu/.zinit/completions
-# export ZINIT_HOME=/dfs/scratch1/albertgu/.zinit
-# source ~/.zshrc.main
