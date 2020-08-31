@@ -104,8 +104,8 @@ Plug 'ludovicchabant/vim-gutentags'
 " }}}
 " sessions {{{
 " Plug 'thaerkh/vim-workspace'
-" Plug 'tpope/vim-obsession'
-" Plug 'dhruvasagar/vim-prosession'
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
 " Plug 'kopischke/vim-stay'
 " }}}
 " file browser {{{

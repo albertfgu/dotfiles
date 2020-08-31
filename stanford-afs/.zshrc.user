@@ -1,4 +1,4 @@
-# export HOME=/dfs/scratch1/albertgu
-# export AFS=/afs/cs.stanford.edu/u/albertgu
-# cd ~
-# source ~/.zshrc
+export HOME=/dfs/scratch1/albertgu
+export AFS=/afs/cs.stanford.edu/u/albertgu
+cd ~
+source ~/.zshrc

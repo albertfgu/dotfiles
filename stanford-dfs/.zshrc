@@ -6,6 +6,8 @@ alias python=python3
 alias pip='python -m pip'
 # export GIT_EDITOR='/dfs/scratch1/albertgu/nvim.appimage'
 
+ulimit -S -n 4096 # for ray 0.8.7
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 source ~/utilities/powerlevel10k/powerlevel10k.zsh-theme # Doesn't work without this for some reason

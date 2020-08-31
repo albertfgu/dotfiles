@@ -144,7 +144,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # from: http://joshsymonds.com/blog/2014/06/12/shell-awesomeness-with-prezto/
 setopt AUTO_PUSHD     # This makes cd=pushd
 setopt AUTO_NAME_DIRS # This will use named dirs when possible
-setopt GLOB_COMPLETE  # If we have a glob this will expand it
+# setopt GLOB_COMPLETE  # If we have a glob this will expand it
 setopt PUSHD_MINUS    # swaps the meaning of cd +1 and cd -1
 # setopt PUSHD_SILENT # No more annoying pushd messages...
 setopt PUSHD_TO_HOME # blank pushd goes to home
@@ -168,6 +168,13 @@ setopt hist_reduce_blanks
 setopt no_hist_beep
 # setopt hist_no_store
 setopt hist_verify            # show command with history expansion to user before running it
+
+
+# globbing
+setopt glob              # expand stuff to generate filenames.
+# setopt extended_glob     # treat #, ~, and ^ as globbing patterns
+# setopt nomatch           # zsh gets mad when I glob patterns that don't exist
+unsetopt equals          # Avoid = expansion so that if [ a == b ] works
 
 # Other options
 setopt completealiases        # complete aliases
@@ -200,7 +207,7 @@ KEYTIMEOUT=1
 
 
 # oh wow!  This is killer...  try it!
-bindkey -M vicmd "q" push-line
+bindkey -M vicmd "q" push-line # clears prompt temporarily for one command, then restore # also see push-line-or-edit for multiline commands
 
 # it's like, space AND completion.  Gnarlbot.
 bindkey -M viins ' ' magic-space
