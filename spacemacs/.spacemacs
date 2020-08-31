@@ -691,7 +691,7 @@ before packages are loaded."
     )
   ;; org-mode latex fragment configuration
   ;; (setq org-startup-with-latex-preview t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.1))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
   ;; (setq org-format-latex-options (plist-put org-format-latex-options :background auto)) ;; the auto option is inconsistent for some reason; doesn't work on startup, only after recompile
 
   (setq org-preview-latex-default-process 'dvisvgm) ;; dvisvgm instead of dvipng for high resolution latex fragments
