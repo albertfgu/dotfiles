@@ -700,6 +700,9 @@ before packages are loaded."
   ;;   :load-path "~/.emacs.d/private/emacs-webkit-katex-render"
   ;;   ;; :ensure t
   ;;   )
+  ;; Highlight latex text in org-mode
+  ;; http://pragmaticemacs.com/emacs/highlight-latex-text-in-org-mode/
+  (setq org-highlight-latex-and-related '(latex))  ;; need the parens around latex for some reason
 
   ;; snippets: smartparens, yas-snippet latex
   (add-hook 'org-mode-hook 'smartparens-mode)
@@ -708,9 +711,6 @@ before packages are loaded."
   (add-hook 'org-mode-hook
             (lambda () (yas-activate-extra-mode 'latex-mode)))
 
-  ;; Highlight latex text in org-mode
-  ;; http://pragmaticemacs.com/emacs/highlight-latex-text-in-org-mode/
-  (setq org-highlight-latex-and-related '(latex))  ;; need the parens around latex for some reason
 
   ;; use underline rather than highlight to not mess with latex previews background
   ;; (global-hl-line-mode 1) ;; seems to be t by default
@@ -787,14 +787,18 @@ before packages are loaded."
            :file-name "${citekey}"
            :head "#+TITLE: ${title} (${author-abbrev} ${date}) \n#+ROAM_KEY: ${ref}\n#+CREATED:  %U\n#+MODIFIED: %U\n- Authors :: ${author}" ; <--
            :unnarrowed t)))
+
+  ;;--------------------------
+  ;; Handling file properties for ‘CREATED’ & ‘MODIFIED’
+  ;;--------------------------
+  ;; https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321
+
+
   ;; time-stamp is a built-in emacs solution, but only supports the format Time-stamp: <>
   ;; (require 'time-stamp)
   ;; (setq time-stamp-pattern "5/#+MODIFIED: [%04y-%02m-%02d %a %02H:%02M]")
   ;; ;; (add-hook 'write-file-functions 'time-stamp)
   ;; (add-hook 'before-save-hook 'time-stamp)
-    ;;--------------------------
-  ;; Handling file properties for ‘CREATED’ & ‘MODIFIED’
-  ;;--------------------------
 
   (defun zp/org-find-time-file-property (property &optional anywhere)
     "Return the position of the time file PROPERTY if it exists.
