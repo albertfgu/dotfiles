@@ -89,10 +89,11 @@ values."
    dotspacemacs-additional-packages
    '(
      org-fragtog
-     org-roam-bibtex
      org-ref
      helm-bibtex
      deft
+     ;; org-roam-bibtex ;; included in my org-roam layer
+     ;; org-download ;; included with spacemacs org
      ;; posframe
      ;; webkit-katex-render
      )
@@ -670,123 +671,108 @@ before packages are loaded."
 
 
   ;;;;; org-mode ;;;;;
-  ;; https://gitlab.com/frstrikerman/spacemacs-orgmode-tutorial/blob/master/org-basics.org
-  ;; appearance customization
-  (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
-  ;; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
-  (add-hook 'org-mode-hook 'hl-todo-mode) ;; highlight custom TODO types ;; can also adjust =hl-todo-exclude-modes=?
-  ;; (setq org-hide-emphasis-markers t) ;; I really want one that exposes it if you're inside or at least on the same line
-  (customize-set-variable 'org-blank-before-new-entry  ;; disables org's magic decision making around new lines
-                          '((heading . nil)
-                            (plain-list-item . nil)))
-  (setq org-cycle-separator-lines 1) ;; maintains visible empty lines while toggling heading contents
-  (setq org-adapt-indentation nil) ;; testing this out - disables indentation to match previous heading
-  ;; TODO rebind org-return (Enter) to org-return-indent (C-j)
-
-  (use-package org
-    :config
-    (setq org-startup-indented t)
-    (setq org-startup-with-latex-preview t)
-    ;; (setq org-startup-with-inline-images t)
-    )
-  ;; org-mode latex fragment configuration
-  ;; (setq org-startup-with-latex-preview t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
-  ;; (setq org-format-latex-options (plist-put org-format-latex-options :background auto)) ;; the auto option is inconsistent for some reason; doesn't work on startup, only after recompile
-
-  (setq org-preview-latex-default-process 'dvisvgm) ;; dvisvgm instead of dvipng for high resolution latex fragments
-  (add-hook 'org-mode-hook 'org-fragtog-mode) ;; automatically toggle fragments
-  ;; (use-package webkit-katex-render
-  ;;   :load-path "~/.emacs.d/private/emacs-webkit-katex-render"
-  ;;   ;; :ensure t
+  ;; (use-package org
+  ;;   :config
+  ;;   (setq org-startup-indented t)
+  ;;   (setq org-startup-with-latex-preview t)
+  ;;   ;; (setq org-startup-with-inline-images t)
   ;;   )
-  ;; Highlight latex text in org-mode
-  ;; http://pragmaticemacs.com/emacs/highlight-latex-text-in-org-mode/
-  (setq org-highlight-latex-and-related '(latex))  ;; need the parens around latex for some reason
 
-  ;; snippets: smartparens, yas-snippet latex
-  (add-hook 'org-mode-hook 'smartparens-mode)
-  ;; (add-hook 'org-mode-hook 'spacemacs/toggle-smartparens)
-  ;; https://emacs.stackexchange.com/questions/38429/yasnippets-loading-two-major-modes-org-mode-and-latex
-  (add-hook 'org-mode-hook
-            (lambda () (yas-activate-extra-mode 'latex-mode)))
+  (with-eval-after-load 'org
+   (setq org-startup-indented t)
+   (setq org-startup-with-latex-preview t)
+   (setq org-startup-with-inline-images t)
+
+   ;; appearance customization
+   (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
+   ;; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+   (add-hook 'org-mode-hook 'hl-todo-mode) ;; highlight custom TODO types ;; can also adjust =hl-todo-exclude-modes=?
+   ;; (setq org-hide-emphasis-markers t) ;; I really want one that exposes it if you're inside or at least on the same line
+   (customize-set-variable 'org-blank-before-new-entry  ;; disables org's magic decision making around new lines
+                           '((heading . nil)
+                             (plain-list-item . nil)))
+   (setq org-cycle-separator-lines 1) ;; maintains visible empty lines while toggling heading contents
+   (setq org-adapt-indentation nil) ;; testing this out - disables indentation to match previous heading
+   ;; TODO rebind org-return (Enter) to org-return-indent (C-j)
+
+   ;; org-mode latex fragment configuration
+   ;; (setq org-startup-with-latex-preview t)
+   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
+   ;; (setq org-format-latex-options (plist-put org-format-latex-options :background auto)) ;; the auto option is inconsistent for some reason; doesn't work on startup, only after recompile
+
+   (setq org-preview-latex-default-process 'dvisvgm) ;; dvisvgm instead of dvipng for high resolution latex fragments
+   (add-hook 'org-mode-hook 'org-fragtog-mode) ;; automatically toggle fragments
+   ;; (use-package webkit-katex-render
+   ;;   :load-path "~/.emacs.d/private/emacs-webkit-katex-render"
+   ;;   ;; :ensure t
+   ;;   )
+   ;; Highlight latex text in org-mode
+   ;; http://pragmaticemacs.com/emacs/highlight-latex-text-in-org-mode/
+   (setq org-highlight-latex-and-related '(latex))  ;; need the parens around latex for some reason
+
+   ;; snippets: smartparens, yas-snippet latex
+   (add-hook 'org-mode-hook 'smartparens-mode)
+
+   ;; (add-hook 'org-mode-hook 'spacemacs/toggle-smartparens)
+   ;; https://emacs.stackexchange.com/questions/38429/yasnippets-loading-two-major-modes-org-mode-and-latex
+   (add-hook 'org-mode-hook
+             (lambda () (yas-activate-extra-mode 'latex-mode)))
 
 
-  ;; use underline rather than highlight to not mess with latex previews background
-  ;; (global-hl-line-mode 1) ;; seems to be t by default
-  (set-face-attribute hl-line-face nil :background nil :underline t)
-  ;; turn off hl-line in org-mode https://www.reddit.com/r/emacs/comments/gnyfbk/how_to_change_face_colors_depending_on_major_mode/
-  ;; this only turns off hl-line and doesn't display the underline for some reason
-  ;; (add-hook 'org-mode-hook
-  ;;           #'(lambda () (face-remap-add-relative hl-line-face :background nil :underline t))
-  ;;           )
+   ;; use underline rather than highlight to not mess with latex previews background
+   ;; (global-hl-line-mode 1) ;; seems to be t by default
+   (set-face-attribute hl-line-face nil :background nil :underline t)
+   ;; turn off hl-line in org-mode https://www.reddit.com/r/emacs/comments/gnyfbk/how_to_change_face_colors_depending_on_major_mode/
+   ;; this only turns off hl-line and doesn't display the underline for some reason
+   ;; (add-hook 'org-mode-hook
+   ;;           #'(lambda () (face-remap-add-relative hl-line-face :background nil :underline t))
+   ;;           )
 
-  ;; org-roam-bibtex
-  ;; note that init code is directly in private Spacemacs layer
-  (add-hook 'org-mode-hook 'org-roam-bibtex-mode)
+   ;; org-roam-bibtex
+   ;; note that init code is directly in private Spacemacs layer
+   ;; these are unnecessary due to the hook in org-roam/init-org-roam-bibtex in the org-roam layer
+   ;; (add-hook 'org-mode-hook 'org-roam-bibtex-mode)
+   ;; (add-hook 'after-init-hook #'org-roam-bibtex-mode)
 
-  ;; the valid preformat keywords, used in the capture template for orb-edit-notes, are specified in orb-preformat-keywords
 
-  (setq reftex-default-bibliography '("~/Dropbox/org/bibtex/ref.bib"))
 
-  ;; see org-ref for use of these variables
-  (setq org-ref-bibliography-notes "~/Dropbox/org/bibtex/org-ref-notes.org"
-        org-ref-notes-directory "~/Dropbox/org/bibtex/helm-bibtex-notes"
-        org-ref-default-bibliography '("~/Dropbox/org/bibtex/ref.bib")
-        org-ref-pdf-directory "~/Dropbox/org/bibtex/pdf/")
-  ;; helm-bibtex variables
-  (setq bibtex-completion-bibliography "~/Dropbox/org/bibtex/ref.bib"
-        bibtex-completion-library-path "~/Dropbox/org/bibtex/pdf"
-        bibtex-completion-notes-path "~/Dropbox/org/bibtex/helm-bibtex-notes")
+   ;; (setq org-todo-keywords '((sequence "TODO" "PROG" "DELG" "|" "DONE" "HOLD" "CNCL")))
 
-  ;; open pdf with system pdf viewer (works on mac)
-  (setq bibtex-completion-pdf-open-function
-        (lambda (fpath)
-          (start-process "open" "*open*" "open" fpath)))
+   ;; search: deft
+   (setq deft-default-extension "org"
+         ;; de-couples filename and note title:
+         deft-use-filename-as-title nil
+         deft-use-filter-string-for-filename t
+         ;; disable auto-save
+         ;; deft-auto-save-interval -1.0
+         ;; converts the filter string into a readable file-name using kebab-case:
+         deft-file-naming-rules
+         '((noslash . "-")
+           (nospace . "-")
+           (case-fn . downcase))
+         deft-recursive t
+         ;; deft-text-mode 'org-mode
+         ;; deft-extensions '("org")
+         deft-directory "~/Dropbox/org"
+         )
+   (spacemacs/set-leader-keys-for-major-mode 'org-mode
+     "rs" 'spacemacs/deft)
+   ;; (global-set-key (kbd "C-=")  'helm-org-in-buffer-headings)  ;; Outline search.
+   )
 
-  (setq org-todo-keywords '((sequence "TODO" "PROG" "DELG" "|" "DONE" "HOLD" "CNCL")))
+  ;; org-download
+  ;; https://zzamboni.org/post/how-to-insert-screenshots-in-org-documents-on-macos/
+  (setq
+    org-download-method 'directory
+    org-download-image-dir "images"
+    org-download-timestamp "%y-%m-%d-%H-%M-%S_"
+    org-image-actual-width nil
+    ;; org-image-actual-width 500
+    org-download-screenshot-method "/usr/local/bin/pngpaste %s"
+    )
+  (setq-default org-download-heading-lvl nil)
+  (evil-define-key '(normal insert) org-mode-map (kbd "H-V") 'org-download-screenshot)
 
-  ;; search: deft
-  (setq deft-default-extension "org"
-        ;; de-couples filename and note title:
-        deft-use-filename-as-title nil
-        deft-use-filter-string-for-filename t
-        ;; disable auto-save
-        ;; deft-auto-save-interval -1.0
-        ;; converts the filter string into a readable file-name using kebab-case:
-        deft-file-naming-rules
-        '((noslash . "-")
-          (nospace . "-")
-          (case-fn . downcase))
-        deft-recursive t
-        ;; deft-text-mode 'org-mode
-        ;; deft-extensions '("org")
-        deft-directory "~/Dropbox/org"
-        )
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rs" '(spacemacs/deft))
-  ;; (global-set-key (kbd "C-=")  'helm-org-in-buffer-headings)  ;; Outline search.
-
-  ;; capture templates
-  (setq org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point
-          "%?"
-          ;; :file-name "%<%Y%m%d%H%M%S>-${slug}"
-          :file-name "${slug}"
-          :head "#+TITLE: ${title}\n#+CREATED:  %U\n#+MODIFIED: %U\n#+ROAM_ALIAS:\n#+ROAM_TAGS:\n- related ::"
-          :unnarrowed t))
-  )
-  ;; (setq org-roam-dailies-capture-templates
-  ;;       '(("d" "daily" plain (function org-roam-capture--get-point)
-  ;;          ""
-  ;;          :immediate-finish t
-  ;;          :file-name "dailies/%<%Y-%m-%d>"
-  ;;          :head "#+TITLE: %<%Y-%m-%d>\n#+MODIFIED: %U\n*TODO")))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point) ""
-           :file-name "${citekey}"
-           :head "#+TITLE: ${title} (${author-abbrev} ${date}) \n#+ROAM_KEY: ${ref}\n#+CREATED:  %U\n#+MODIFIED: %U\n- Authors :: ${author}" ; <--
-           :unnarrowed t)))
 
   ;;--------------------------
   ;; Handling file properties for ‘CREATED’ & ‘MODIFIED’
@@ -1155,7 +1141,7 @@ This function is called at the very end of Spacemacs initialization."
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb")))
  '(objed-cursor-color "#DF8C8C")
- '(org-roam-directory "~/Dropbox/org/")
+ ;; '(org-roam-directory "~/Dropbox/org/")
  '(package-selected-packages
    (quote
     (origami deft yasnippet-snippets company-reftex org-roam-bibtex bibtex-completion biblio parsebib biblio-core org-pomodoro alert log4e zenburn-theme zen-and-art-theme yapfify xterm-color ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle shell-pop seti-theme reverse-theme reveal-in-osx-finder restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pbcopy paradox spinner osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present gntp org-plus-contrib org-mime org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gitflow magit-popup madhat2r-theme lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gandalf-theme fuzzy flyspell-correct-helm flyspell-correct flx-ido flx flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor transient evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu ess-smart-equals ess-R-data-view ctable ess julia-mode espresso-theme eshell-z eshell-prompt-extras esh-help dumb-jump dracula-theme django-theme diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-statistics company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup gruvbox-theme)))
