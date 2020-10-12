@@ -174,7 +174,7 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt glob              # expand stuff to generate filenames.
 # setopt extended_glob     # treat #, ~, and ^ as globbing patterns
 # setopt nomatch           # zsh gets mad when I glob patterns that don't exist
-unsetopt equals          # Avoid = expansion so that if [ a == b ] works
+# unsetopt equals          # Avoid = expansion so that if [ a == b ] works
 
 # Other options
 setopt completealiases        # complete aliases
@@ -241,9 +241,14 @@ bindkey '^h' backward-delete-char
 # ctrl-w removed word backwards
 bindkey '^w' backward-kill-word
 
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
 # https://github.com/zsh-users/zsh/blob/master/Functions/Zle/edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd ! edit-command-line
+# Emacs style
+# bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
 
 
 # bindkey -M viins '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)

@@ -105,7 +105,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " sessions {{{
 " Plug 'thaerkh/vim-workspace'
 Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
+" Plug 'dhruvasagar/vim-prosession'
 " Plug 'kopischke/vim-stay'
 " }}}
 " file browser {{{
@@ -405,50 +405,77 @@ set sessionoptions-=options
 " Plugin configuration
 "===========================================
 " statusline {{{
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ }
-" Below settings taken from vista README
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \ },
-"       \ }
+
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ],
+            \             [ 'obsession', 'cocstatus' ] ],
+            \   'right': [ [ 'lineinfo' ],
+            \              [ 'percent' ],
+            \              [ 'fileformat', 'fileencoding', 'filetype'] ]
+            \ },
+            \ 'component': {
             \ },
             \ 'component_function': {
-            \   'cocstatus': 'coc#status'
+            \   'cocstatus': 'coc#status',
+            \   'obsession': 'ObsessionStatus'
             \ },
-            \ }
+\ }
 
-" Use auocmd to force lightline update.
+" Use autocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+" autocmd User Obsession call lightline#update()
+" }}}
+" fzf {{{
+" default split is C-x
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+nnoremap <leader>ff :FZF<CR>
+nnoremap <leader>bb :Buffers<CR>
+nnoremap <leader>sb :History<CR>
+nnoremap <leader>sf :Files<CR>
+nnoremap <leader>sw :Windows<CR>
+" nnoremap <leader>sl :BLines<CR>
+nnoremap <leader>sl :Lines<CR>
+nnoremap <leader>sm :Maps<CR>
+nnoremap <leader>ss :Snippets<CR>
+nnoremap <leader>st :Tags<CR>
+" Mapping selecting mappings
+" nmap <leader>s<tab> <plug>(fzf-maps-n) " seems duplicate of :Maps
+" xmap <leader>s<tab> <plug>(fzf-maps-x)
+" omap <leader>s<tab> <plug>(fzf-maps-o)
+" }}}
+" sessions {{{
 
-" let g:airline_theme = 'gruvbox'
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#tab_nr_type = 2
-" let g:airline#extensions#tabline#buffer_nr_show = 1
+" https://dockyard.com/blog/2019/06/25/simple-vim-session-management-part-2
+let g:session_dir = '~/.vim/sessions'
+" exec 'nnoremap <Leader>ss :mks! ' . g:session_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+" exec 'nnoremap <Leader>ls :Obsession ' . g:session_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+" exec 'nnoremap <Leader>ll :so ' . g:session_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <leader>ls :Obsession ' . g:session_dir . '/*.vim<C-d><left><left><left><left><BS>'
+" exec 'nnoremap <leader>ll :so ' . g:session_dir. '/*.vim<C-d><left><left><left><left><BS>' " use the below fzf version instead
+nnoremap <leader>lt :Obsession<CR>
 
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-" nmap <leader>b1 <Plug>AirlineSelectTab1
-" nmap <leader>b2 <Plug>AirlineSelectTab2
-" nmap <leader>b3 <Plug>AirlineSelectTab3
-" nmap <leader>b4 <Plug>AirlineSelectTab4
-" nmap <leader>b5 <Plug>AirlineSelectTab5
-" nmap <leader>b6 <Plug>AirlineSelectTab6
-" nmap <leader>b7 <Plug>AirlineSelectTab7
-" nmap <leader>b8 <Plug>AirlineSelectTab8
-" nmap <leader>b9 <Plug>AirlineSelectTab9
-" nmap <leader>b- <Plug>AirlineSelectPrevTab
-" nmap <leader>b+ <Plug>AirlineSelectNextTab
+" TODO ideally the statusline would be controlled here by appending to the
+" lightline dictionaries/lists
+
+" try to set it up to work with fzf
+" https://github.com/dominickng/fzf-session.vim/blob/master/autoload/fzf_session.vim
+" " https://github.com/dhruvasagar/vim-prosession/wiki/Integration-with-fzf.vim
+function! ListSessions()
+    " use :r to remove the .vim filetype, but haven't figured out how to fzf
+    " add it back before calling sink
+    return map(split(globpath(g:session_dir, "*")), "fnamemodify(expand(v:val), ':t')")
+endfunction
+nnoremap <leader>ll :call fzf#run({'source': ListSessions(), 'sink': 'so', 'dir': g:session_dir, 'down': '30%'})<CR>
+" I couldn't figure out how to make it handle removing the directory and
+" extension correctly. Perhaps it's easier to hack the fzf-session plugin to
+" work with Obsession
+
 " }}}
 " vim-sneak {{{
 "" 2-character Sneak (default)
@@ -579,28 +606,6 @@ augroup END
 " undotree {{{
 set undofile " persistent undo
 nnoremap <leader>ut :MundoToggle<CR>
-" }}}
-
-" fzf {{{
-" default split is C-x
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split', 
-  \ 'ctrl-v': 'vsplit' }
-nnoremap <leader>ff :FZF<CR>
-nnoremap <leader>bb :Buffers<CR>
-nnoremap <leader>sb :History<CR>
-nnoremap <leader>sf :Files<CR>
-nnoremap <leader>sw :Windows<CR>
-" nnoremap <leader>sl :BLines<CR>
-nnoremap <leader>sl :Lines<CR>
-nnoremap <leader>sm :Maps<CR>
-nnoremap <leader>ss :Snippets<CR>
-nnoremap <leader>st :Tags<CR>
-" Mapping selecting mappings
-" nmap <leader>s<tab> <plug>(fzf-maps-n) " seems duplicate of :Maps
-" xmap <leader>s<tab> <plug>(fzf-maps-x)
-" omap <leader>s<tab> <plug>(fzf-maps-o)
 " }}}
 " snippets {{{
 " let g:UltiSnipsExpandTrigger="<tab>"
