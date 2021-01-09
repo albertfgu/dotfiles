@@ -12,17 +12,19 @@
       (spacemacs/declare-prefix "ar" "org-roam")
       (spacemacs/set-leader-keys
        "arl" 'org-roam
-       "ard" 'org-roam-dailies-today
+       "ard" 'org-roam-dailies-find-today
        "arf" 'org-roam-find-file
        "arg" 'org-roam-graph)
 
       (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
                                                 "rl" 'org-roam
-                                                "ry" 'org-roam-dailies-yesterday
-                                                "rd" 'org-roam-dailies-today
-                                                "rt" 'org-roam-dailies-tomorrow
-                                                "rc" 'org-roam-dailies-date
+                                                "rdd" 'org-roam-dailies-find-today
+                                                "rdy" 'org-roam-dailies-find-yesterday
+                                                "rdt" 'org-roam-dailies-find-tomorrow
+                                                "rdc" 'org-roam-dailies-date
+                                                "rdh" 'org-roam-dailies-find-previous-note
+                                                "rdl" 'org-roam-dailies-find-next-note
                                                 "rb" 'org-roam-switch-to-buffer
                                                 "rf" 'org-roam-find-file
                                                 "ri" 'org-roam-insert
@@ -38,6 +40,14 @@
               :head "#+TITLE: ${title}\n#+CREATED:  %U\n#+MODIFIED: %U\n#+ROAM_ALIAS:\n#+ROAM_TAGS:\n- related ::"
               :unnarrowed t))
            )
+  (setq org-roam-dailies-directory "dailies/")
+
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?"
+           :file-name "dailies/%<%Y-%m-%d>"
+           :head "#+TITLE: %<%Y-%m-%d>\n#+MODIFIED: %U\n* TODO")))
   ;; (setq org-roam-dailies-capture-templates
   ;;       '(("d" "daily" plain (function org-roam-capture--get-point)
   ;;          ""

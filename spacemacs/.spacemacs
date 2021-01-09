@@ -56,7 +56,8 @@ values."
      ;; markdown
      ;; neotree
      ;; treemacs
-     org
+     (org :variables
+          org-enable-roam-support t)
      osx
      ;; (python :variables python-sort-imports-on-save t)
      ;; ess
@@ -75,7 +76,7 @@ values."
      ;; pdf
      ;; docker
      themes-megapack
-     org-roam
+     ;; org-roam
      deft
      )
 
@@ -92,7 +93,7 @@ values."
      org-ref
      helm-bibtex
      deft
-     ;; org-roam-bibtex ;; included in my org-roam layer
+     org-roam-bibtex ;; included in my org-roam layer
      ;; org-download ;; included with spacemacs org
      ;; posframe
      ;; webkit-katex-render
@@ -728,12 +729,70 @@ before packages are loaded."
    ;;           #'(lambda () (face-remap-add-relative hl-line-face :background nil :underline t))
    ;;           )
 
+
+   ;; ORG-ROAM
+   (setq org-roam-directory "~/Dropbox/org")
+   (add-hook 'after-init-hook 'org-roam-mode)
+
+   (spacemacs/set-leader-keys
+     ;; "arl" 'org-roam
+     "aordd" 'org-roam-dailies-find-today
+     ;; "arf" 'org-roam-find-file
+     ;; "arg" 'org-roam-graph
+     )
+   (spacemacs/set-leader-keys-for-major-mode 'org-mode
+     "rdd" 'org-roam-dailies-find-today
+     "rdy" 'org-roam-dailies-find-yesterday
+     "rdt" 'org-roam-dailies-find-tomorrow
+     "rdc" 'org-roam-dailies-date
+     "rdh" 'org-roam-dailies-find-previous-note
+     "rdl" 'org-roam-dailies-find-next-note
+   )
+
+   (setq org-roam-capture-templates
+         '(("d" "default" plain #'org-roam-capture--get-point
+            "%?"
+            ;; :file-name "%<%Y%m%d%H%M%S>-${slug}"
+            :file-name "${slug}"
+            :head "#+TITLE: ${title}\n#+CREATED:  %U\n#+MODIFIED: %U\n#+ROAM_ALIAS:\n#+ROAM_TAGS:\n- related ::"
+            :unnarrowed t))
+         )
+   (setq org-roam-dailies-directory "dailies/")
+
+   (setq org-roam-dailies-capture-templates
+         '(("d" "default" entry
+            #'org-roam-capture--get-point
+            "* %?"
+            :file-name "dailies/%<%Y-%m-%d>"
+            :head "#+TITLE: %<%Y-%m-%d>\n#+MODIFIED: %U\n* TODO")))
+
    ;; org-roam-bibtex
    ;; note that init code is directly in private Spacemacs layer
    ;; these are unnecessary due to the hook in org-roam/init-org-roam-bibtex in the org-roam layer
-   ;; (add-hook 'org-mode-hook 'org-roam-bibtex-mode)
+   (add-hook 'org-mode-hook 'org-roam-bibtex-mode)
    ;; (add-hook 'after-init-hook #'org-roam-bibtex-mode)
+   (setq reftex-default-bibliography '("~/Dropbox/org/bibtex/ref.bib"))
 
+   ;; see org-ref for use of these variables
+   (setq org-ref-bibliography-notes "~/Dropbox/org/bibtex/org-ref-notes.org"
+         org-ref-notes-directory "~/Dropbox/org/bibtex/helm-bibtex-notes"
+         org-ref-default-bibliography '("~/Dropbox/org/bibtex/ref.bib")
+         org-ref-pdf-directory "~/Dropbox/org/bibtex/pdf/")
+   ;; helm-bibtex variables
+   (setq bibtex-completion-bibliography "~/Dropbox/org/bibtex/ref.bib"
+         bibtex-completion-library-path "~/Dropbox/org/bibtex/pdf"
+         bibtex-completion-notes-path "~/Dropbox/org/bibtex/helm-bibtex-notes")
+
+   ;; open pdf with system pdf viewer (works on mac)
+   (setq bibtex-completion-pdf-open-function
+         (lambda (fpath)
+           (start-process "open" "*open*" "open" fpath)))
+
+   (setq orb-templates
+         '(("r" "ref" plain (function org-roam-capture--get-point) ""
+            :file-name "${citekey}"
+            :head "#+TITLE: ${title} (${author-abbrev} ${date}) \n#+ROAM_KEY: ${ref}\n#+CREATED:  %U\n#+MODIFIED: %U\n- Authors :: ${author}" ; <--
+            :unnarrowed t)))
 
 
    ;; (setq org-todo-keywords '((sequence "TODO" "PROG" "DELG" "|" "DONE" "HOLD" "CNCL")))
@@ -1141,10 +1200,10 @@ This function is called at the very end of Spacemacs initialization."
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb")))
  '(objed-cursor-color "#DF8C8C")
- ;; '(org-roam-directory "~/Dropbox/org/")
  '(package-selected-packages
    (quote
     (origami deft yasnippet-snippets company-reftex org-roam-bibtex bibtex-completion biblio parsebib biblio-core org-pomodoro alert log4e zenburn-theme zen-and-art-theme yapfify xterm-color ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle shell-pop seti-theme reverse-theme reveal-in-osx-finder restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pbcopy paradox spinner osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present gntp org-plus-contrib org-mime org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gitflow magit-popup madhat2r-theme lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gandalf-theme fuzzy flyspell-correct-helm flyspell-correct flx-ido flx flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor transient evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu ess-smart-equals ess-R-data-view ctable ess julia-mode espresso-theme eshell-z eshell-prompt-extras esh-help dumb-jump dracula-theme django-theme diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-statistics company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup gruvbox-theme)))
+ '(paradox-github-token t)
  '(pdf-view-midnight-colors (quote ("#FDF4C1" . "#282828")))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
