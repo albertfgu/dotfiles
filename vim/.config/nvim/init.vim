@@ -493,8 +493,10 @@ nnoremap <leader>ll :call fzf#run({'source': ListSessions(), 'sink': 'so', 'dir'
 let g:clever_f_across_no_line = 1 " don't search across multiple lines
 let g:clever_f_fix_key_direction = 1 " f always forward, F always backward
 let g:clever_f_smart_case = 1
-map f<space> <Plug>(clever-f-repeat-forward)
-map F<space> <Plug>(clever-f-repeat-back)
+" map f<space> <Plug>(clever-f-repeat-forward)
+" map F<space> <Plug>(clever-f-repeat-back)
+map <CR> <Plug>(clever-f-repeat-forward)
+" map <S-CR> <Plug>(clever-f-repeat-back)
 " }}}
 " vim-sandwich {{{
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
