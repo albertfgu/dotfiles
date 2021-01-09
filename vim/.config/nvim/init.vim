@@ -1075,6 +1075,7 @@ augroup END
 let g:vimtex_indent_on_ampersands = 0
 
 " Disable overfull/underfull \hbox and all package warnings
+" TODO vimtex v1.4: The option g:vimtex_quickfix_latexlog is now deprecated in favour of the more versatile g:vimtex_quickfix_ignore_filters.
 let g:vimtex_quickfix_latexlog = {
       \ 'references' : 0,
       \ 'overfull' : 0,
