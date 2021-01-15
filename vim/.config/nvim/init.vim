@@ -113,7 +113,8 @@ Plug 'tpope/vim-obsession'
 " tpope/vinegar
 Plug 'ptzz/lf.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern.vim'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 " Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim'
 " }}}
 " language tools {{{
@@ -669,7 +670,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
