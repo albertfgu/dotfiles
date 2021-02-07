@@ -114,7 +114,9 @@ Plug 'tpope/vim-obsession'
 Plug 'ptzz/lf.vim'
 Plug 'voldikss/vim-floaterm'
 " Plug 'lambdalisue/fern.vim'
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+
 " Plug 'hrsh7th/fern-mapping-collapse-or-leave.vim'
 " }}}
 " language tools {{{
@@ -784,6 +786,16 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR><Paste>
 "                 \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
 "                 \ })
 " augroup END
+"
+" coc-python: find conda interpreter
+
+" Use the current conda environment. See https://github.com/neoclide/coc-python/issues/55
+if $CONDA_PREFIX == ""
+  let s:current_python_path=$CONDA_PYTHON_EXE
+else
+  let s:current_python_path=$CONDA_PREFIX.'/bin/python'
+endif
+call coc#config('python', {'pythonPath': s:current_python_path})
 " }}}
 " linting {{{
 nmap <silent> <leader>l] <Plug>(ale_next_wrap)

@@ -10,8 +10,8 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # Python3
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
+# alias python=/usr/local/bin/python3
+# alias pip=/usr/local/bin/pip3
 
 # Disable annoying autocorrect prompt for mosh
 alias mosh='nocorrect mosh'

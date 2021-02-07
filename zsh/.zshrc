@@ -261,7 +261,10 @@ bindkey '^x^e' edit-command-line
 ##################
 # FZF
 # note that this sets environment variables
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
 
 # fzf-git
 # source "${ZDOTDIR:-$HOME}/fzfgit-functions.sh"
