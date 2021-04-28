@@ -44,7 +44,7 @@ Plug 'rhysd/clever-f.vim'
 " Plug 'justinmk/vim-sneak' " https://vimawesome.com/plugin/vim-sneak
 " Plug 'yuttie/comfortable-motion.vim' " https://vimawesome.com/plugin/vim-sneak
 
-" Windows 
+" Windows
 " https://github.com/qpkorr/vim-bufkill
 " Plug 'psolyca/vim-bbye'
 Plug 'moll/vim-bbye'
@@ -260,7 +260,7 @@ tnoremap <A-l> <C-\><C-n><C-w>l
 " }}}
 " toggles {{{
 "call togglebg#map("<F5>")
-" clear the highlighting of :set hlsearch 
+" clear the highlighting of :set hlsearch
 " My mnemonic: toggle highlight (eventually should re-highlight as well)
 if mapcheck('<leader>th', 'n') ==# ''
     nnoremap <silent> <leader>th :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
@@ -839,7 +839,7 @@ set statusline+=%{NearestMethodOrFunction()}
 " By default vista.vim never run if you don't call it explicitly.
 "
 " If you want to show the nearest function in your statusline automatically,
-" you can add the following line to your vimrc 
+" you can add the following line to your vimrc
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 " How each level is indented and what to prepend.
@@ -909,7 +909,7 @@ nnoremap <leader>fd :LFern<cr> ! " toggle hidden immediately
 " }}}
 " firenvim {{{
 " always treat alt key as pressed when holding it. by default, it is ignored if pressed with non-alphanumeric characters
-let g:firenvim_config = { 
+let g:firenvim_config = {
     \ 'globalSettings': {
         \ 'alt': 'all',
     \  },
