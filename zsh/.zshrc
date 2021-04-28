@@ -38,12 +38,12 @@ zinit light-mode for \
 # TODO maybe only install some of these programs if not already installed by package manager
 
 # neovim
-zinit ice from"gh-r" as"program" mv"nvim* -> nvim" pick"nvim/bin/nvim"
-zinit light neovim/neovim
+# zinit ice from"gh-r" as"program" mv"nvim* -> nvim" pick"nvim/bin/nvim"
+# zinit light neovim/neovim
 
 # tmux
-zinit ice from"gh-r" as"program" mv"tmux* -> tmux"
-zinit light tmux/tmux
+# zinit ice from"gh-r" as"program" mv"tmux* -> tmux"
+# zinit light tmux/tmux
 
 # cd
 zinit ice wait"0a" lucid
@@ -81,7 +81,7 @@ zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
 zinit light BurntSushi/ripgrep
 
 # exa
-zinit ice wait"0" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit ice wait"0" lucid from"gh-r" as"program" mv"exa* -> exa" pick"bin/exa"
 zinit light ogham/exa
 zinit ice wait blockf atpull'zinit creinstall -q .'
 
