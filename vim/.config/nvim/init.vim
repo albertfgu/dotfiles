@@ -94,7 +94,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " }}}
 " quickfix, linting {{{
 " Plug 'w0rp/ale'
-Plug 'romainl/vim-qf'
+" Plug 'romainl/vim-qf'
 " }}}
 " tags {{{
 Plug 'ludovicchabant/vim-gutentags'
@@ -496,6 +496,8 @@ nnoremap <leader>ll :call fzf#run({'source': ListSessions(), 'sink': 'so', 'dir'
 let g:clever_f_across_no_line = 1 " don't search across multiple lines
 let g:clever_f_fix_key_direction = 1 " f always forward, F always backward
 let g:clever_f_smart_case = 1
+let g:clever_f_mark_cursor = 1
+let g:clever_f_timeout_ms = 10
 " map f<space> <Plug>(clever-f-repeat-forward)
 " map F<space> <Plug>(clever-f-repeat-back)
 map <CR> <Plug>(clever-f-repeat-forward)
@@ -1089,14 +1091,26 @@ let g:vimtex_indent_on_ampersands = 0
 
 " Disable overfull/underfull \hbox and all package warnings
 " TODO vimtex v1.4: The option g:vimtex_quickfix_latexlog is now deprecated in favour of the more versatile g:vimtex_quickfix_ignore_filters.
-let g:vimtex_quickfix_latexlog = {
-      \ 'references' : 0,
-      \ 'overfull' : 0,
-      \ 'underfull' : 0,
-      \ 'packages' : {
-      \   'default' : 0,
-      \ },
-      \}
+" let g:vimtex_quickfix_latexlog = {
+"       \ 'references' : 0,
+"       \ 'overfull' : 0,
+"       \ 'underfull' : 0,
+"       \ 'packages' : {
+"       \   'default' : 0,
+"       \ },
+"       \}
+let g:vimtex_quickfix_ignore_filters = [
+            \ 'Overfull',
+            \ 'Underfull',
+            \ 'Reference',
+            \ 'undefined references',
+            \]
+            " \ 'Marginpar on page',
+            " \ 'overfull',
+            " \ 'underfull',
+            " \ 'package',
+            " \ 'reference',
+
 
 let g:vimtex_quickfix_mode=2
 
@@ -1216,7 +1230,7 @@ call vimtex#imaps#add_map({ 'lhs' : ';jl', 'rhs' : '\rightarrow' })
 " call vimtex#imaps#add_map( { 'lhs' : 'b',  'rhs' : 'vimtex#imaps#style_math("mathbf")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 'b',  'rhs' : 'vimtex#imaps#style_math("bm")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 'c', 'rhs' : 'vimtex#imaps#style_math("mathcal")',  'expr' : 1, 'leader' : ';;'} )
-call vimtex#imaps#add_map( { 'lhs' : 's',  'rhs' : 'vimtex#imaps#style_math("mathsf")',   'expr' : 1, 'leader' : ';;'} )
+" call vimtex#imaps#add_map( { 'lhs' : 's',  'rhs' : 'vimtex#imaps#style_math("mathsf")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : 'B', 'rhs' : 'vimtex#imaps#style_math("mathbb")',   'expr' : 1, 'leader' : ';;'} )
 call vimtex#imaps#add_map( { 'lhs' : '-',  'rhs' : 'vimtex#imaps#style_math("overline")', 'expr' : 1} )
 call vimtex#imaps#add_map( { 'lhs' : '~',  'rhs' : 'vimtex#imaps#style_math("tilde")',    'expr' : 1} )

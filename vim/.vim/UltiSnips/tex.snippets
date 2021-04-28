@@ -147,49 +147,64 @@ endsnippet
 ### MATH SNIPPETS
 
 # define math mode {{{{
+# global !p
+# texMathZones = ['texMathZone' + x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS',
+# 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS',
+# 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z', 'AmsA', 'AmsB', 'AmsC',
+# 'AmsD', 'AmsE', 'AmsF', 'AmsG', 'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES',
+# 'AmsFS', 'AmsGS' ]]
+# 
+# texIgnoreMathZones = ['texMathText']
+# 
+# texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+# texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
+# 
+# ignore = texIgnoreMathZoneIds[0]
+# 
+# def math():
+# 	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+# 	try:
+# 		first = next(
+#             i for i in reversed(synstackids)
+#             if i in texIgnoreMathZoneIds or i in texMathZoneIds
+#         )
+# 		return first != ignore
+# 	except StopIteration:
+# 		return False
+# 
+# def not_math():
+# 	return not math()
+# endglobal
+
+# New math checks in latest vimtex
 global !p
-texMathZones = ['texMathZone' + x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS',
-'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS',
-'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z', 'AmsA', 'AmsB', 'AmsC',
-'AmsD', 'AmsE', 'AmsF', 'AmsG', 'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES',
-'AmsFS', 'AmsGS' ]]
-
-texIgnoreMathZones = ['texMathText']
-
-texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
-texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
-
-ignore = texIgnoreMathZoneIds[0]
-
 def math():
-	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
-	try:
-		first = next(
-            i for i in reversed(synstackids)
-            if i in texIgnoreMathZoneIds or i in texMathZoneIds
-        )
-		return first != ignore
-	except StopIteration:
-		return False
-
+    return vim.eval('vimtex#syntax#in_mathzone()') == '1'
 def not_math():
-	return not math()
+    return vim.eval('vimtex#syntax#in_mathzone()') == '0'
+
+def comment(): 
+    return vim.eval('vimtex#syntax#in_comment()') == '1'
+
+# usage:context "env('itemize')"
+def env(name):
+    [x,y] = vim.eval("vimtex#env#is_inside('" + name + "')") 
+    return x != '0' and y != '0'
 endglobal
 # }}}}
 # enter math modes {{{{
 
 # context "not math()"
-# snippet "^\$|(?<=[^\\])\$" "\( \)" rA
-# \($1\)
-# endsnippet
+snippet "^\$|(?<=[^\\])\$" "\( \)" rA
+\( ${1:${VISUAL}} \)
+endsnippet
 # context "not_math()"
-# snippet "\$" "$ $" riA
-# \$$1\$
+# snippet $ "inline math" A
+# $${1:${VISUAL}}$
 # endsnippet
 
 # context "not math()"
-# context "not_math()"
-snippet "\\\[" "\[ \]" brA
+snippet "\\\[" "display math" brA
 \begin{align*}
 	${1:${VISUAL}}
 \end{align*}
@@ -287,6 +302,26 @@ endsnippet
 # \dot{`!p snip.rv=match.group(1)`}
 # endsnippet
 # }}}}
+# misc {{{{
+# context "math()"
+# snippet "sq" "square root" iA
+
+# TODO change these to ddt or ppt?
+context "math()"
+snippet part "partial derivative" i
+\frac{\partial}{\partial $1}$0
+endsnippet
+
+context "math()"
+snippet partn "partial derivative" i
+\frac{\partial $1}{\partial $2}$0
+endsnippet
+
+context "math()"
+snippet sum "\sum" i
+\sum_{$1}^{$2} 
+endsnippet
+# }}}}
 # math delimiters {{{{
 context "math()"
 snippet "^\(\(|(?<=[^\\])\(\(" "\left( \right)" irA
@@ -333,22 +368,6 @@ snippet __ "_{}" iA
 _{$1}
 endsnippet
 # }}}}
-
-# TODO change these to ddt or ppt?
-context "math()"
-snippet part "partial derivative" i
-\frac{\partial}{\partial $1}$0
-endsnippet
-
-context "math()"
-snippet partn "partial derivative" i
-\frac{\partial $1}{\partial $2}$0
-endsnippet
-
-context "math()"
-snippet sum "\sum" i
-\sum_{$1}^{$2} 
-endsnippet
 
 
 # sympy {{{{
@@ -425,6 +444,26 @@ snippet figure "figure" b
 \end{minipage}
 \caption{ }
 \label{fig:}
+\end{figure}
+endsnippet
+
+snippet subfigure "subfigure" b
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/}
+    \caption{}
+  \end{subfigure}
+  \caption{
+    Function approximation comparison between different instantiations of the generalized tilted Laguerre family (\cref{sec:derivation-lagt}).
+  }
+  \label{fig:}
 \end{figure}
 endsnippet
 
