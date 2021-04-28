@@ -97,6 +97,7 @@ values."
      ;; org-download ;; included with spacemacs org
      ;; posframe
      ;; webkit-katex-render
+     org-web-tools
      )
 
    ;; A list of packages that cannot be updated.
@@ -1121,53 +1122,48 @@ This function is called at the very end of Spacemacs initialization."
  '(beacon-color "#f2777a")
  '(company-quickhelp-color-background "#b0b0b0")
  '(company-quickhelp-color-foreground "#232333")
- '(compilation-message-face (quote default))
+ '(compilation-message-face 'default)
  '(cua-global-mark-cursor-color "#93E0E3")
  '(cua-normal-cursor-color "#DCDCCC")
  '(cua-overwrite-cursor-color "#F0DFAF")
  '(cua-read-only-cursor-color "#7F9F7F")
- '(evil-emacs-state-cursor (quote ("#E57373" hbar)) t)
- '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
- '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
- '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
+ '(evil-emacs-state-cursor '("#E57373" hbar) t)
+ '(evil-insert-state-cursor '("#E57373" bar) t)
+ '(evil-normal-state-cursor '("#FFEE58" box) t)
+ '(evil-visual-state-cursor '("#C5E1A5" box) t)
  '(evil-want-Y-yank-to-eol t)
  '(fci-rule-character-color "#d9d9d9")
  '(fci-rule-color "#202325")
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(flymake-error-bitmap
-   (quote
-    (flymake-double-exclamation-mark modus-theme-fringe-red)))
- '(flymake-note-bitmap (quote (exclamation-mark modus-theme-fringe-cyan)))
- '(flymake-warning-bitmap (quote (exclamation-mark modus-theme-fringe-yellow)))
- '(frame-background-mode (quote dark))
- '(highlight-changes-colors (quote ("#DC8CC3" "#bbb0cb")))
+ '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
+ '(flymake-error-bitmap '(flymake-double-exclamation-mark modus-theme-fringe-red))
+ '(flymake-note-bitmap '(exclamation-mark modus-theme-fringe-cyan))
+ '(flymake-warning-bitmap '(exclamation-mark modus-theme-fringe-yellow))
+ '(frame-background-mode 'dark)
+ '(highlight-changes-colors '("#DC8CC3" "#bbb0cb"))
  '(highlight-indent-guides-auto-enabled nil)
+ '(highlight-parentheses-background-colors '("#2492db" "#95a5a6" nil))
+ '(highlight-parentheses-colors '("#93E0E3" "#F0DFAF" "#8CD0D3" "#bbb0cb" "#7F9F7F"))
  '(highlight-symbol-colors
-   (quote
-    ("#680f63eb5998" "#54db645064d0" "#6097535f5322" "#5c2859a95fa1" "#4ede55f24ea4" "#64dd5979525e" "#530060d16157")))
+   '("#680f63eb5998" "#54db645064d0" "#6097535f5322" "#5c2859a95fa1" "#4ede55f24ea4" "#64dd5979525e" "#530060d16157"))
  '(highlight-symbol-foreground-color "#FFFFEF")
  '(highlight-tail-colors
-   (quote
-    (("#4F4F4F" . 0)
+   '(("#4F4F4F" . 0)
      ("#488249" . 20)
      ("#5dacaf" . 30)
      ("#57a2a4" . 50)
      ("#b6a576" . 60)
      ("#ac7b5a" . 70)
      ("#aa5790" . 85)
-     ("#4F4F4F" . 100))))
+     ("#4F4F4F" . 100)))
  '(hl-bg-colors
-   (quote
-    ("#b6a576" "#ac7b5a" "#9f5c5c" "#aa5790" "#85749c" "#57a2a4" "#5dacaf" "#488249")))
+   '("#b6a576" "#ac7b5a" "#9f5c5c" "#aa5790" "#85749c" "#57a2a4" "#5dacaf" "#488249"))
  '(hl-fg-colors
-   (quote
-    ("#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F")))
- '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- '(hl-paren-colors (quote ("#93E0E3" "#F0DFAF" "#8CD0D3" "#bbb0cb" "#7F9F7F")))
+   '("#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F" "#3F3F3F"))
+ '(hl-paren-background-colors '("#2492db" "#95a5a6" nil))
+ '(hl-paren-colors '("#93E0E3" "#F0DFAF" "#8CD0D3" "#bbb0cb" "#7F9F7F"))
  '(hl-todo-highlight-punctuation ":")
  '(hl-todo-keyword-faces
-   (quote
-    (("TODO" . "#dc752f")
+   '(("TODO" . "#dc752f")
      ("NEXT" . "#dc752f")
      ("THEM" . "#2d9574")
      ("HOLD" . "#2d9574")
@@ -1185,11 +1181,11 @@ This function is called at the very end of Spacemacs initialization."
      ("TEMP" . "#b1951d")
      ("FIXME" . "#dc752f")
      ("XXX" . "#dc752f")
-     ("XXXX" . "#dc752f"))))
- '(ibuffer-deletion-face (quote dired-flagged))
- '(ibuffer-filter-group-name-face (quote dired-mark))
- '(ibuffer-marked-face (quote dired-marked))
- '(ibuffer-title-face (quote dired-header))
+     ("XXXX" . "#dc752f")))
+ '(ibuffer-deletion-face 'dired-flagged)
+ '(ibuffer-filter-group-name-face 'dired-mark)
+ '(ibuffer-marked-face 'dired-marked)
+ '(ibuffer-title-face 'dired-header)
  '(jdee-db-active-breakpoint-face-colors (cons "#0d0f11" "#7FC1CA"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d0f11" "#899BA6"))
@@ -1197,19 +1193,19 @@ This function is called at the very end of Spacemacs initialization."
  '(linum-format " %5i ")
  '(lsp-ui-doc-border "#FFFFEF")
  '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb")))
+   '("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb"))
  '(objed-cursor-color "#DF8C8C")
+ '(org-agenda-files
+   '("~/Dropbox/org/brock21_high_perfor_large_scale_image.org"))
  '(package-selected-packages
-   (quote
-    (origami deft yasnippet-snippets company-reftex org-roam-bibtex bibtex-completion biblio parsebib biblio-core org-pomodoro alert log4e zenburn-theme zen-and-art-theme yapfify xterm-color ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle shell-pop seti-theme reverse-theme reveal-in-osx-finder restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pbcopy paradox spinner osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present gntp org-plus-contrib org-mime org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gitflow magit-popup madhat2r-theme lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gandalf-theme fuzzy flyspell-correct-helm flyspell-correct flx-ido flx flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor transient evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu ess-smart-equals ess-R-data-view ctable ess julia-mode espresso-theme eshell-z eshell-prompt-extras esh-help dumb-jump dracula-theme django-theme diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-statistics company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup gruvbox-theme)))
+   '(origami deft yasnippet-snippets company-reftex org-roam-bibtex bibtex-completion biblio parsebib biblio-core org-pomodoro alert log4e zenburn-theme zen-and-art-theme yapfify xterm-color ws-butler winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle shell-pop seti-theme reverse-theme reveal-in-osx-finder restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pbcopy paradox spinner osx-trash osx-dictionary orgit organic-green-theme org-projectile org-category-capture org-present gntp org-plus-contrib org-mime org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme neotree naquadah-theme mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gitflow magit-popup madhat2r-theme lush-theme lorem-ipsum live-py-mode linum-relative link-hint light-soap-theme launchctl jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation heroku-theme hemisu-theme helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-gitignore request helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gandalf-theme fuzzy flyspell-correct-helm flyspell-correct flx-ido flx flatui-theme flatland-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor transient evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu ess-smart-equals ess-R-data-view ctable ess julia-mode espresso-theme eshell-z eshell-prompt-extras esh-help dumb-jump dracula-theme django-theme diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-statistics company-quickhelp pos-tip company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup gruvbox-theme))
  '(paradox-github-token t)
- '(pdf-view-midnight-colors (quote ("#FDF4C1" . "#282828")))
+ '(pdf-view-midnight-colors '("#FDF4C1" . "#282828"))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(rustic-ansi-faces
    ["#3c4c55" "#DF8C8C" "#A8CE93" "#DADA93" "#83AFE5" "#D18EC2" "#7FC1CA" "#c5d4dd"])
- '(safe-local-variable-values (quote ((eval progn (pp-buffer) (indent-buffer)))))
+ '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(smartrep-mode-line-active-bg (solarized-color-blend "#7F9F7F" "#4F4F4F" 0.2))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
@@ -1221,8 +1217,7 @@ This function is called at the very end of Spacemacs initialization."
  '(vc-annotate-background "#1f2124")
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#ff0000")
+   '((20 . "#ff0000")
      (40 . "#ff4a52")
      (60 . "#f6aa11")
      (80 . "#f1e94b")
@@ -1239,11 +1234,10 @@ This function is called at the very end of Spacemacs initialization."
      (300 . "#8996a8")
      (320 . "#afc4db")
      (340 . "#cfe2f2")
-     (360 . "#dc8cc3"))))
+     (360 . "#dc8cc3")))
  '(vc-annotate-very-old-color "#dc8cc3")
  '(weechat-color-list
-   (quote
-    (unspecified "#3F3F3F" "#4F4F4F" "#9f5c5c" "#CC9393" "#488249" "#7F9F7F" "#b6a576" "#F0DFAF" "#57a2a4" "#8CD0D3" "#aa5790" "#DC8CC3" "#5dacaf" "#93E0E3" "#DCDCCC" "#6F6F6F")))
+   '(unspecified "#3F3F3F" "#4F4F4F" "#9f5c5c" "#CC9393" "#488249" "#7F9F7F" "#b6a576" "#F0DFAF" "#57a2a4" "#8CD0D3" "#aa5790" "#DC8CC3" "#5dacaf" "#93E0E3" "#DCDCCC" "#6F6F6F"))
  '(window-divider-mode nil)
  '(xterm-color-names
    ["#4F4F4F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#fffff6"])
