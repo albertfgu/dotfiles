@@ -21,16 +21,31 @@ export PATH=/home/ubuntu/anaconda3/bin:$PATH
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
+# Mount EFS volume
+sudo mount -t efs fs-f5d212f1:/ /efs
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/ubuntu/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# __conda_setup="$('/home/ubuntu/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/ubuntu/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/ubuntu/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/ubuntu/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+__conda_setup="$('/efs/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/ubuntu/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/ubuntu/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/efs/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/efs/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/ubuntu/anaconda3/bin:$PATH"
+        export PATH="/efs/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -38,8 +53,8 @@ unset __conda_setup
 
 conda activate transformers
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/ubuntu/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ubuntu/google-cloud-sdk/path.zsh.inc'; fi
+# # The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/home/ubuntu/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ubuntu/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/ubuntu/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ubuntu/google-cloud-sdk/completion.zsh.inc'; fi
+# # The next line enables shell command completion for gcloud.
+# if [ -f '/home/ubuntu/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ubuntu/google-cloud-sdk/completion.zsh.inc'; fi

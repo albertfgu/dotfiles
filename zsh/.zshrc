@@ -69,8 +69,8 @@ zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=
 zinit light sharkdp/bat
 
 # fzf
-zinit ice lucid wait'0b' from"gh-r" as"program"
-zinit light junegunn/fzf-bin
+# zinit ice lucid wait'0b' from"gh-r" as"program" atload"~/.fzf/install"
+# zinit light junegunn/fzf-bin # this is outdated!
 
 # see https://www.reddit.com/r/zsh/comments/efi857/use_fzf_as_zshs_completion_selection_menu/
 # zinit ice wait"0" lucid
