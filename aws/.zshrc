@@ -53,6 +53,8 @@ unset __conda_setup
 
 conda activate transformers
 
+export WANDB_API_KEY="69d3c00c4a3b812d08dcff010d1cacea8b8fe26f"
+
 # # The next line updates PATH for the Google Cloud SDK.
 # if [ -f '/home/ubuntu/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ubuntu/google-cloud-sdk/path.zsh.inc'; fi
 
