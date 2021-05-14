@@ -65,7 +65,7 @@ zinit light zdharma/zsh-diff-so-fancy
 # jonas/tig
 
 ### terminal utils
-zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat='bat -p'"
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
 
 # fzf
