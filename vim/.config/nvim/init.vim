@@ -308,6 +308,11 @@ nnoremap <leader>feR :so $MYVIMRC<CR>
 " nnoremap z<cr> zz " z{t,g,b} do same thing
 nnoremap zh zc
 nnoremap zl zo
+nnoremap z[ [z " beginning/end of current fold
+nnoremap z] ]z
+nnoremap zn zr " opposite of zm to open all folds
+nnoremap zN zR
+" nnoremap zt zi " toggle folds
 " nnoremap zq H
 " nnoremap za M
 " nnoremap zz L
@@ -315,6 +320,9 @@ nnoremap zl zo
 " https://stackoverflow.com/questions/21280457/stop-vim-from-dynamically-updating-folds
 " autocmd InsertLeave,WinEnter * let &l:foldmethod=g:oldfoldmethod
 " autocmd InsertEnter,WinLeave * let g:oldfoldmethod=&l:foldmethod | setlocal foldmethod=manual
+
+" vim-coiled-snake
+nnoremap <leader><leader>zf :call coiledsnake#ResetFoldExpr() <bar> call coiledsnake#ResetFoldText() <bar> call coiledsnake#RefreshFolds() <cr>
 " }}}
 " colors {{{
 " =================
